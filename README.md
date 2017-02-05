@@ -14,6 +14,8 @@ See the [main page](https://rg3.github.io/youtube-dl/) for youtube-dl for more i
 
 		"NYoutubeDL": "0.0.1"
 
+* Manually [download](https://www.nuget.org/packages/NYoutubeDL/) nupkg from NuGet Gallery.
+
 ### Using the code
 See the [documentation](https://github.com/rg3/youtube-dl/blob/master/README.md#readme) for youtube-dl first to understand what it does and how it does it.
 
