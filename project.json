@@ -1,0 +1,16 @@
+﻿{
+  "version": "0.0.1",
+  "buildOptions": {
+    "debugType": "portable"
+  },
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "System.Diagnostics.Process": "4.3.0",
+    "System.Threading.ThreadPool": "4.3.0"
+  },
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  }
+}
