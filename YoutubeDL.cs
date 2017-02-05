@@ -454,6 +454,11 @@ namespace NYoutubeDL
         {
             string arguments = string.Empty;
 
+            if (string.IsNullOrWhiteSpace(this.Output))
+            {
+                throw new ArgumentException("Output can not be empty.");
+            }
+
             arguments += $"-o \"{this.Output}\" ";
 
             if (this.IgnoreConfig)
