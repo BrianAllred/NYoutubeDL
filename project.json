@@ -1,6 +1,6 @@
 ﻿{
   "name": "NYoutubeDL",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "authors": [ "Brian Allred" ],
   "owners": ["Brian Allred"],
   "description": "A simple youtube-dl library for C#.",

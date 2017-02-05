@@ -12,7 +12,7 @@ See the [main page](https://rg3.github.io/youtube-dl/) for youtube-dl for more i
 
 * For DotNet Core apps, edit your project.json dependencies
 
-		"NYoutubeDL": "0.0.2"
+		"NYoutubeDL": "0.0.3"
 
 * Manually [download](https://www.nuget.org/packages/NYoutubeDL/) nupkg from NuGet Gallery.
 
@@ -21,12 +21,16 @@ See the [documentation](https://github.com/rg3/youtube-dl/blob/master/README.md#
 
 1. Create a new YoutubeDL client:
 
-		var youtubeDl = YoutubeDL.Instance();
+		var youtubeDl = new YoutubeDL();
 
 2. Set some options:
 
-		// Required
+		// Required properties for downloads
 		youtubeDl.Output = "/path/to/downloads/video.mp4";
+        youtubeDl.VideoUrl = "http://www.somevideosite.com/videoUrl";
+
+        // Or update the binary (can't download and update simultaneously)
+        youtubeDl.Update = true;
 
 		// Optional, required if binary is not in $PATH
 		youtubeDl.YoutubeDlPath = "/path/to/youtube-dl";

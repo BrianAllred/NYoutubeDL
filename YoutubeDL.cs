@@ -431,180 +431,187 @@ namespace NYoutubeDL
         {
             string arguments = string.Empty;
 
-            if (string.IsNullOrWhiteSpace(this.Output))
-            {
-                throw new ArgumentException("Output can not be empty.");
-            }
-
-            arguments += $"-o \"{this.Output}\" ";
-
-            if (this.IgnoreConfig)
-            {
-                arguments += "--ignore-config ";
-            }
-
-            if (this.AbortOnError)
-            {
-                arguments += "--abort-on-error ";
-            }
-
-            if (this.FlatPlaylist)
-            {
-                arguments += "--flat-playlist ";
-            }
-
-            if (!string.IsNullOrWhiteSpace(this.ProxyUrl))
-            {
-                arguments += $"--proxy {this.ProxyUrl} ";
-            }
-
-            if (this.SocketTimeout != 0)
-            {
-                arguments += $"--socket-timeout {this.SocketTimeout} ";
-            }
-
-            if (!string.IsNullOrWhiteSpace(this.SourceAddress))
-            {
-                arguments += $"--source-address {this.SourceAddress} ";
-            }
-
-            // if Ipv4 > then - 4 > else if Ipv6 > then - 6 > else empty
-            arguments += this.Ipv4 ? "-4 " : (this.Ipv6 ? "-6 " : string.Empty);
-
-            if (this.RateLimit != 0)
-            {
-                arguments += $"-r {this.RateLimit}{this.RateLimitUnit} ";
-            }
-
-            if (this.Retries < 0)
-            {
-                arguments += "-R infinite ";
-            }
-            else
-            {
-                arguments += $"-R {this.Retries} ";
-            }
-
-            if (this.BufferSize > 0)
-            {
-                arguments += $"--buffer-size {this.BufferSize}{this.BufferSizeUnit} ";
-            }
-
-            if (this.PlaylistReverse)
-            {
-                arguments += "--playlist-reverse ";
-            }
-
-            if (!string.IsNullOrWhiteSpace(this.BatchFile))
-            {
-                arguments += $"-a {this.BatchFile} ";
-            }
-
-            if (this.RestrictFilenames)
-            {
-                arguments += "--restrict-filenames ";
-            }
-
-            if (this.NoOverwrites)
-            {
-                arguments += "-w ";
-            }
-
-            if (this.Continue)
-            {
-                arguments += "-c ";
-            }
-            else if (this.NoContinue)
-            {
-                arguments += "--no-continue ";
-            }
-
-            if (this.RecodeVideo)
-            {
-                arguments += $"--recode-video {this.RecodeVideoFormat} ";
-            }
-
-            if (!string.IsNullOrWhiteSpace(this.Username))
-            {
-                arguments += $"-u {this.Username} -p {this.Password} ";
-
-                if (!string.IsNullOrWhiteSpace(this.TwoFactor))
-                {
-                    arguments += $"-2 {this.TwoFactor} ";
-                }
-            }
-
-            if (this.NetRc)
-            {
-                arguments += "-n ";
-            }
-
-            if (!string.IsNullOrWhiteSpace(this.VideoPassword))
-            {
-                arguments += $"--video-password {this.VideoPassword} ";
-            }
-
-            if (this.ExtractAudio)
-            {
-                arguments += "-x ";
-            }
-
-            arguments += $"--audio-format {this.AudioFormat} ";
-            arguments += "--audio-quality ";
-            if (this.AudioQuality == 10)
-            {
-                arguments += $"{this.CustomAudioQuality}K ";
-            }
-
-            arguments += $"{this.AudioQuality} ";
-
-            if (this.KeepVideo)
-            {
-                arguments += "-k ";
-            }
-
-            if (this.NoPostOverwrites)
-            {
-                arguments += "--no-post-overwrites ";
-            }
-
-            if (this.EmbedSubs)
-            {
-                arguments += "--embed-subs ";
-            }
-
-            if (this.EmbedThumbnail)
-            {
-                arguments += "--embed-thumbnail ";
-            }
-
-            if (this.AddMetadata)
-            {
-                arguments += "--add-metadata ";
-            }
-
-            if (this.XAttrs)
-            {
-                arguments += "--xattrs ";
-            }
-
-            arguments += $"--fixup {this.Fixup} ";
-
-            if (!string.IsNullOrWhiteSpace(this.Cmd))
-            {
-                arguments += $"--exec {this.Cmd} ";
-            }
-
-            if (this.Verbose)
-            {
-                arguments += "--verbose ";
-            }
-
-            arguments += this.VideoUrl;
-
             if (this.Update)
             {
                 arguments = "-U";
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(this.Output))
+                {
+                    throw new ArgumentException("Output can not be empty.");
+                }
+
+                if (string.IsNullOrWhiteSpace(this.VideoUrl))
+                {
+                    throw new ArgumentException("VideoUrl can not be empty.");
+                }
+
+                arguments += $"-o \"{this.Output}\" ";
+
+                if (this.IgnoreConfig)
+                {
+                    arguments += "--ignore-config ";
+                }
+
+                if (this.AbortOnError)
+                {
+                    arguments += "--abort-on-error ";
+                }
+
+                if (this.FlatPlaylist)
+                {
+                    arguments += "--flat-playlist ";
+                }
+
+                if (!string.IsNullOrWhiteSpace(this.ProxyUrl))
+                {
+                    arguments += $"--proxy {this.ProxyUrl} ";
+                }
+
+                if (this.SocketTimeout != 0)
+                {
+                    arguments += $"--socket-timeout {this.SocketTimeout} ";
+                }
+
+                if (!string.IsNullOrWhiteSpace(this.SourceAddress))
+                {
+                    arguments += $"--source-address {this.SourceAddress} ";
+                }
+
+                // if Ipv4 > then - 4 > else if Ipv6 > then - 6 > else empty
+                arguments += this.Ipv4 ? "-4 " : (this.Ipv6 ? "-6 " : string.Empty);
+
+                if (this.RateLimit != 0)
+                {
+                    arguments += $"-r {this.RateLimit}{this.RateLimitUnit} ";
+                }
+
+                if (this.Retries < 0)
+                {
+                    arguments += "-R infinite ";
+                }
+                else
+                {
+                    arguments += $"-R {this.Retries} ";
+                }
+
+                if (this.BufferSize > 0)
+                {
+                    arguments += $"--buffer-size {this.BufferSize}{this.BufferSizeUnit} ";
+                }
+
+                if (this.PlaylistReverse)
+                {
+                    arguments += "--playlist-reverse ";
+                }
+
+                if (!string.IsNullOrWhiteSpace(this.BatchFile))
+                {
+                    arguments += $"-a {this.BatchFile} ";
+                }
+
+                if (this.RestrictFilenames)
+                {
+                    arguments += "--restrict-filenames ";
+                }
+
+                if (this.NoOverwrites)
+                {
+                    arguments += "-w ";
+                }
+
+                if (this.Continue)
+                {
+                    arguments += "-c ";
+                }
+                else if (this.NoContinue)
+                {
+                    arguments += "--no-continue ";
+                }
+
+                if (this.RecodeVideo)
+                {
+                    arguments += $"--recode-video {this.RecodeVideoFormat} ";
+                }
+
+                if (!string.IsNullOrWhiteSpace(this.Username))
+                {
+                    arguments += $"-u {this.Username} -p {this.Password} ";
+
+                    if (!string.IsNullOrWhiteSpace(this.TwoFactor))
+                    {
+                        arguments += $"-2 {this.TwoFactor} ";
+                    }
+                }
+
+                if (this.NetRc)
+                {
+                    arguments += "-n ";
+                }
+
+                if (!string.IsNullOrWhiteSpace(this.VideoPassword))
+                {
+                    arguments += $"--video-password {this.VideoPassword} ";
+                }
+
+                if (this.ExtractAudio)
+                {
+                    arguments += "-x ";
+                }
+
+                arguments += $"--audio-format {this.AudioFormat} ";
+                arguments += "--audio-quality ";
+                if (this.AudioQuality == 10)
+                {
+                    arguments += $"{this.CustomAudioQuality}K ";
+                }
+
+                arguments += $"{this.AudioQuality} ";
+
+                if (this.KeepVideo)
+                {
+                    arguments += "-k ";
+                }
+
+                if (this.NoPostOverwrites)
+                {
+                    arguments += "--no-post-overwrites ";
+                }
+
+                if (this.EmbedSubs)
+                {
+                    arguments += "--embed-subs ";
+                }
+
+                if (this.EmbedThumbnail)
+                {
+                    arguments += "--embed-thumbnail ";
+                }
+
+                if (this.AddMetadata)
+                {
+                    arguments += "--add-metadata ";
+                }
+
+                if (this.XAttrs)
+                {
+                    arguments += "--xattrs ";
+                }
+
+                arguments += $"--fixup {this.Fixup} ";
+
+                if (!string.IsNullOrWhiteSpace(this.Cmd))
+                {
+                    arguments += $"--exec {this.Cmd} ";
+                }
+
+                if (this.Verbose)
+                {
+                    arguments += "--verbose ";
+                }
+
+                arguments += this.VideoUrl;
             }
 
             this.processStartInfo = new ProcessStartInfo
@@ -624,7 +631,10 @@ namespace NYoutubeDL
 
             this.process = new Process {StartInfo = this.processStartInfo, EnableRaisingEvents = true};
 
-            this.process.Exited += (sender, args) => this.process.Dispose();
+            this.stdOutputTokenSource = new CancellationTokenSource();
+            this.stdErrorTokenSource = new CancellationTokenSource();
+
+            this.process.Exited += (sender, args) => this.KillProcess();
 
             this.process.Start();
 
@@ -633,9 +643,6 @@ namespace NYoutubeDL
             // Note that synchronous calls are needed in order to process the output line by line.
             // Asynchronous output reading results in batches of output lines coming in all at once.
             // The following two threads convert synchronous output reads into asynchronous events.
-
-            this.stdOutputTokenSource = new CancellationTokenSource();
-            this.stdErrorTokenSource = new CancellationTokenSource();
 
             ThreadPool.QueueUserWorkItem(this.StandardOutput, this.stdOutputTokenSource.Token);
             ThreadPool.QueueUserWorkItem(this.StandardError, this.stdErrorTokenSource.Token);
@@ -694,9 +701,14 @@ namespace NYoutubeDL
             this.stdErrorTokenSource.Cancel();
             this.stdErrorTokenSource.Dispose();
 
-            if (this.process != null && !this.process.HasExited)
+            if (this.process != null)
             {
-                this.process.Kill();
+                if (!this.process.HasExited)
+                {
+                    this.process.Kill();
+                }
+
+                this.process.Dispose();
             }
         }
     }
