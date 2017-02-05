@@ -695,20 +695,38 @@ namespace NYoutubeDL
         /// </summary>
         public void KillProcess()
         {
-            this.stdOutputTokenSource.Cancel();
-            this.stdOutputTokenSource.Dispose();
-
-            this.stdErrorTokenSource.Cancel();
-            this.stdErrorTokenSource.Dispose();
-
-            if (this.process != null)
+            try
             {
-                if (!this.process.HasExited)
-                {
-                    this.process.Kill();
-                }
+                this.stdOutputTokenSource.Cancel();
+                this.stdOutputTokenSource.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+            }
 
-                this.process.Dispose();
+            try
+            {
+                this.stdErrorTokenSource.Cancel();
+                this.stdErrorTokenSource.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+            }
+
+            try
+            {
+                if (this.process != null)
+                {
+                    if (!this.process.HasExited)
+                    {
+                        this.process.Kill();
+                    }
+
+                    this.process.Dispose();
+                }
+            }
+            catch (InvalidOperationException)
+            {
             }
         }
     }
