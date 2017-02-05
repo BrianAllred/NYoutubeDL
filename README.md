@@ -1,4 +1,6 @@
 # NYoutubeDL
+**CircleCI:** [![CircleCI](https://circleci.com/gh/BrianAllred/NYoutubeDL.svg?style=svg)](https://circleci.com/gh/BrianAllred/NYoutubeDL)
+
 A simple youtube-dl library for C#.
 
 See the [main page](https://rg3.github.io/youtube-dl/) for youtube-dl for more information.
