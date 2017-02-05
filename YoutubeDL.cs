@@ -1,31 +1,74 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
+﻿// Copyright 2017 Brian Allred
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+// DEALINGS IN THE SOFTWARE.
 
 namespace NYoutubeDL
 {
+    #region Using
+
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Threading;
+
+    #endregion
+
+    // ReSharper disable InconsistentNaming
+    // due to following youtube-dl
+    // naming conventions
+
+    /// <summary>
+    ///     C# interface for youtube-dl
+    /// </summary>
     public class YoutubeDL
     {
+        /// <summary>
+        ///     Singleton
+        /// </summary>
         private static readonly YoutubeDL youtubeDL = new YoutubeDL();
-        private readonly CancellationTokenSource stdOutputTokenSource = new CancellationTokenSource();
+
+        /// <summary>
+        ///     Cancellation token used to stop the thread processing youtube-dl's standard error output.
+        /// </summary>
         private readonly CancellationTokenSource stdErrorTokenSource = new CancellationTokenSource();
+
+        /// <summary>
+        ///     Cancellation token used to stop the thread processing youtube-dl's standard console output.
+        /// </summary>
+        private readonly CancellationTokenSource stdOutputTokenSource = new CancellationTokenSource();
+
+        /// <summary>
+        ///     The youtube-dl process
+        /// </summary>
         private Process process;
+
+        /// <summary>
+        ///     The process's information
+        /// </summary>
         private ProcessStartInfo processStartInfo;
 
+        /// <summary>
+        ///     Prevents a default instance of the <see cref="NYoutubeDL.YoutubeDL" /> class from being created.
+        /// </summary>
         private YoutubeDL()
         {
         }
-
-        // <summary>
-        ///     Occurs when standard output is received.
-        /// </summary>
-        public event EventHandler<string> StandardOutputEvent;
-
-        /// <summary>
-        ///     Occurs when standard error is received.
-        /// </summary>
-        public event EventHandler<string> StandardErrorEvent;
 
         /// <summary>
         ///     Audio Format Types
@@ -365,19 +408,29 @@ namespace NYoutubeDL
         public string Cmd { get; set; }
 
         /// <summary>
-        /// Whether to output verbosely
+        ///     Whether to output verbosely
         /// </summary>
         public bool Verbose { get; set; }
 
         /// <summary>
-        /// Whether we're updating the binary
+        ///     Whether we're updating the binary
         /// </summary>
         public bool Update { get; set; }
 
         /// <summary>
-        /// The path to the youtube-dl binary
+        ///     The path to the youtube-dl binary
         /// </summary>
         public string YoutubeDlPath { get; set; } = "youtube-dl";
+
+        /// <summary>
+        ///     Occurs when standard output is received.
+        /// </summary>
+        public event EventHandler<string> StandardOutputEvent;
+
+        /// <summary>
+        ///     Occurs when standard error is received.
+        /// </summary>
+        public event EventHandler<string> StandardErrorEvent;
 
         /// <summary>
         ///     Instance the singleton instance.
@@ -395,11 +448,11 @@ namespace NYoutubeDL
         ///     Also handle output from process.
         /// </summary>
         /// <returns>
-        /// Process created.
+        ///     Process created.
         /// </returns>
         public Process Download()
         {
-            var arguments = string.Empty;
+            string arguments = string.Empty;
 
             arguments += $"-o \"{this.Output}\" ";
 
