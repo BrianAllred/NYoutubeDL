@@ -39,21 +39,6 @@ namespace NYoutubeDL
     public class YoutubeDL
     {
         /// <summary>
-        ///     Singleton
-        /// </summary>
-        private static readonly YoutubeDL youtubeDL = new YoutubeDL();
-
-        /// <summary>
-        ///     Cancellation token used to stop the thread processing youtube-dl's standard error output.
-        /// </summary>
-        private readonly CancellationTokenSource stdErrorTokenSource = new CancellationTokenSource();
-
-        /// <summary>
-        ///     Cancellation token used to stop the thread processing youtube-dl's standard console output.
-        /// </summary>
-        private readonly CancellationTokenSource stdOutputTokenSource = new CancellationTokenSource();
-
-        /// <summary>
         ///     The youtube-dl process
         /// </summary>
         private Process process;
@@ -64,11 +49,14 @@ namespace NYoutubeDL
         private ProcessStartInfo processStartInfo;
 
         /// <summary>
-        ///     Prevents a default instance of the <see cref="NYoutubeDL.YoutubeDL" /> class from being created.
+        ///     Cancellation token used to stop the thread processing youtube-dl's standard error output.
         /// </summary>
-        private YoutubeDL()
-        {
-        }
+        private CancellationTokenSource stdErrorTokenSource;
+
+        /// <summary>
+        ///     Cancellation token used to stop the thread processing youtube-dl's standard console output.
+        /// </summary>
+        private CancellationTokenSource stdOutputTokenSource;
 
         /// <summary>
         ///     Audio Format Types
@@ -433,17 +421,6 @@ namespace NYoutubeDL
         public event EventHandler<string> StandardErrorEvent;
 
         /// <summary>
-        ///     Instance the singleton instance.
-        /// </summary>
-        /// <returns>
-        ///     The singleton instance.
-        /// </returns>
-        public static YoutubeDL Instance()
-        {
-            return youtubeDL;
-        }
-
-        /// <summary>
         ///     Convert class into parameters to pass to youtube-dl process, then create and run process.
         ///     Also handle output from process.
         /// </summary>
@@ -647,6 +624,8 @@ namespace NYoutubeDL
 
             this.process = new Process {StartInfo = this.processStartInfo, EnableRaisingEvents = true};
 
+            this.process.Exited += (sender, args) => this.process.Dispose();
+
             this.process.Start();
 
             this.RunCommand = this.processStartInfo.FileName + " " + this.processStartInfo.Arguments;
@@ -655,12 +634,21 @@ namespace NYoutubeDL
             // Asynchronous output reading results in batches of output lines coming in all at once.
             // The following two threads convert synchronous output reads into asynchronous events.
 
+            this.stdOutputTokenSource = new CancellationTokenSource();
+            this.stdErrorTokenSource = new CancellationTokenSource();
+
             ThreadPool.QueueUserWorkItem(this.StandardOutput, this.stdOutputTokenSource.Token);
             ThreadPool.QueueUserWorkItem(this.StandardError, this.stdErrorTokenSource.Token);
 
             return this.process;
         }
 
+        /// <summary>
+        ///     Fires the output event when output is received from process.
+        /// </summary>
+        /// <param name="tokenObj">
+        ///     Cancellation token
+        /// </param>
         private void StandardOutput(object tokenObj)
         {
             CancellationToken token = (CancellationToken) tokenObj;
@@ -675,6 +663,12 @@ namespace NYoutubeDL
             }
         }
 
+        /// <summary>
+        ///     Fires the error event when error output is received from process.
+        /// </summary>
+        /// <param name="tokenObj">
+        ///     Cancellation token
+        /// </param>
         private void StandardError(object tokenObj)
         {
             CancellationToken token = (CancellationToken) tokenObj;
@@ -695,8 +689,10 @@ namespace NYoutubeDL
         public void KillProcess()
         {
             this.stdOutputTokenSource.Cancel();
+            this.stdOutputTokenSource.Dispose();
 
             this.stdErrorTokenSource.Cancel();
+            this.stdErrorTokenSource.Dispose();
 
             if (this.process != null && !this.process.HasExited)
             {
