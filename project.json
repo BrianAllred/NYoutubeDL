@@ -1,6 +1,6 @@
 ﻿{
   "name": "NYoutubeDL",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "authors": [ "Brian Allred" ],
   "owners": ["Brian Allred"],
   "description": "A simple youtube-dl library for C#.",
@@ -13,7 +13,7 @@
     "debugType": "portable"
   },
   "dependencies": {
-    "NETStandard.Library": "1.6.0",
+    "NETStandard.Library": "1.6.1",
     "System.Diagnostics.Process": "4.3.0",
     "System.Threading.ThreadPool": "4.3.0"
   },

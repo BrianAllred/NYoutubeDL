@@ -12,7 +12,7 @@ See the [main page](https://rg3.github.io/youtube-dl/) for youtube-dl for more i
 
 * For DotNet Core apps, edit your project.json dependencies
 
-		"NYoutubeDL": "0.0.4"
+		"NYoutubeDL": "0.1.0"
 
 * Manually [download](https://www.nuget.org/packages/NYoutubeDL/) nupkg from NuGet Gallery.
 
@@ -23,14 +23,14 @@ See the [documentation](https://github.com/rg3/youtube-dl/blob/master/README.md#
 
 		var youtubeDl = new YoutubeDL();
 
-2. Set some options:
+2. Options are grouped according to the youtube-dl documentation:
 
-		// Required properties for downloads
-		youtubeDl.Output = "/path/to/downloads/video.mp4";
+		youtubeDl.Options.FileSystem.Output = "/path/to/downloads/video.mp4";
+        youtubeDl.Options.PostProcessing.ExtractAudio = true;
         youtubeDl.VideoUrl = "http://www.somevideosite.com/videoUrl";
 
-        // Or update the binary (can't download and update simultaneously)
-        youtubeDl.Update = true;
+        // Or update the binary
+        youtubeDl.Options.General.Update = true;
 
 		// Optional, required if binary is not in $PATH
 		youtubeDl.YoutubeDlPath = "/path/to/youtube-dl";
@@ -44,7 +44,10 @@ See the [documentation](https://github.com/rg3/youtube-dl/blob/master/README.md#
 
 		 // Just let it run
 		youtubeDl.Download();
+
+        // Or provide video url
+        youtubeDl.Download("http://videosite.com/videoUrl");
 		
-		// Or, start the download and monitor it using a process object
+		// Or start the download and monitor it using a process object
 		Process ydlDownloadProcess = youtubeDl.Download();
 
