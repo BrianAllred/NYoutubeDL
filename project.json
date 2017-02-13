@@ -1,25 +1,24 @@
 ﻿{
-  "name": "NYoutubeDL",
-  "version": "0.1.0",
-  "authors": [ "Brian Allred" ],
-  "owners": ["Brian Allred"],
-  "description": "A simple youtube-dl library for C#.",
-  "projectUrl": "http://github.com/brianallred/nyoutubedl",
-  "licenseUrl": "https://opensource.org/licenses/MIT",
-  "copyright": "Copyright Brian Allred 2017",
-  "requireLicenseAcceptance": false,
-  "tags": [ "youtube-dl" ],
-  "buildOptions": {
-    "debugType": "portable"
-  },
-  "dependencies": {
-    "NETStandard.Library": "1.6.1",
-    "System.Diagnostics.Process": "4.3.0",
-    "System.Threading.ThreadPool": "4.3.0"
-  },
-  "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50"
+    "name": "NYoutubeDL",
+    "version": "0.1.0",
+    "authors": ["Brian Allred"],
+    "owners": ["Brian Allred"],
+    "description": "A simple youtube-dl library for C#.",
+    "projectUrl": "http://github.com/brianallred/nyoutubedl",
+    "licenseUrl": "https://opensource.org/licenses/MIT",
+    "copyright": "Copyright Brian Allred 2017",
+    "requireLicenseAcceptance": false,
+    "tags": ["youtube-dl"],
+    "buildOptions": {
+        "debugType": "portable"
+    },
+    "dependencies": {
+        "NETStandard.Library": "1.6.1",
+        "System.Diagnostics.Process": "4.3.0",
+        "System.Threading.ThreadPool": "4.3.0"
+    },
+    "frameworks": {
+        "netstandard1.6": {},
+        "net46": {}
     }
-  }
 }
