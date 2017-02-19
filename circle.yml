@@ -9,10 +9,11 @@ dependencies:
         
 test:
     override:
+        - cd NYoutubeDL
         - dotnet restore
         - dotnet pack -c Release
         - echo "done"
         
 general:
     artifacts:
-        - "bin/Release"
+        - "NYoutubeDL/bin/Release"
