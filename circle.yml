@@ -6,13 +6,16 @@ dependencies:
         - echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
         - sudo apt-get update
         - sudo apt-get install dotnet-dev-1.0.0-preview2-1-003177 mono-complete
+        - sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+        - sudo chmod a+rx /usr/local/bin/youtube-dl
         
 test:
     override:
-        - dotnet restore:
-            pwd: NYoutubeDL
+        - dotnet restore
+        - dotnet test:
+            pwd: test/NYoutubeDL.Tests
         - dotnet pack -c Release:
-            pwd: NYoutubeDL
+            pwd: src/NYoutubeDL
         - echo "done"
         
 general:
