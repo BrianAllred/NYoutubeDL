@@ -9,9 +9,10 @@ dependencies:
         
 test:
     override:
-        - cd NYoutubeDL
-        - dotnet restore
-        - dotnet pack -c Release
+        - dotnet restore:
+            pwd: NYoutubeDL
+        - dotnet pack -c Release:
+            pwd: NYoutubeDL
         - echo "done"
         
 general:
