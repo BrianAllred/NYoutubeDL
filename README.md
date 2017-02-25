@@ -12,7 +12,7 @@ See the [main page](https://rg3.github.io/youtube-dl/) for youtube-dl for more i
 
 * For DotNet Core apps, edit your project.json dependencies
 
-		"NYoutubeDL": "0.2.0"
+		"NYoutubeDL": "0.3.0"
 
 * Manually [download](https://www.nuget.org/packages/NYoutubeDL/) nupkg from NuGet Gallery.
 
@@ -39,8 +39,12 @@ See the [documentation](https://github.com/rg3/youtube-dl/blob/master/README.md#
 
 		youtubeDl.StandardOutputEvent += (sender, output) => Console.WriteLine(output);
 		youtubeDl.StandardErrorEvent += (sender, errorOutput) => Console.WriteLine(errorOutput);
+		
+4. Subscribe to download information updates (optional, but recommended). This is useful for UI data binding:
 
-4. Start the download:
+		youtubeDl.Info.UpdateEvent += delegate { Console.WriteLine("Current download rate: " + youtubeDl.Info.DownloadRate); };
+
+5. Start the download:
 		
 		// Prepare the download (in case you need to validate the command before starting the download)
 		string commandToRun = youtubeDl.PrepareDownload();

@@ -1,6 +1,4 @@
 {
-  "name": "NYoutubeDL.Sample",
-  "version": "0.2.0",
   "buildOptions": {
     "debugType": "portable",
     "emitEntryPoint": true
@@ -20,5 +18,7 @@
       },
       "imports": "dnxcore50"
     }
-  }
+  },
+  "name": "NYoutubeDL.Sample",
+  "version": "0.3.0"
 }

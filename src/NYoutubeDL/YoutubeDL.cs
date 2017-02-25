@@ -40,6 +40,11 @@ namespace NYoutubeDL
     public class YoutubeDL
     {
         /// <summary>
+        ///     Whether this is an information gathering process
+        /// </summary>
+        private bool isInfoProcess;
+
+        /// <summary>
         ///     The youtube-dl process
         /// </summary>
         private Process process;
@@ -76,6 +81,11 @@ namespace NYoutubeDL
         {
             this.YoutubeDlPath = path;
         }
+
+        /// <summary>
+        ///     Information about the download
+        /// </summary>
+        public DownloadInfo Info { get; private set; } = new DownloadInfo();
 
         /// <summary>
         ///     The options to pass to youtube-dl
@@ -122,14 +132,20 @@ namespace NYoutubeDL
 
             this.process.Exited += (sender, args) => this.KillProcess();
 
-            this.process.Start();
-
             // Note that synchronous calls are needed in order to process the output line by line.
             // Asynchronous output reading results in batches of output lines coming in all at once.
             // The following two threads convert synchronous output reads into asynchronous events.
 
             ThreadPool.QueueUserWorkItem(this.StandardOutput, this.stdOutputTokenSource.Token);
             ThreadPool.QueueUserWorkItem(this.StandardError, this.stdErrorTokenSource.Token);
+
+            if (!this.isInfoProcess)
+            {
+                this.StandardOutputEvent += this.Info.ParseOutput;
+                this.StandardErrorEvent += this.Info.ParseError;
+            }
+
+            this.process.Start();
 
             return this.process;
         }
@@ -146,6 +162,40 @@ namespace NYoutubeDL
         {
             this.VideoUrl = videoUrl;
             return this.Download(true);
+        }
+
+        /// <summary>
+        ///     Get information about the video/playlist before downloading
+        /// </summary>
+        /// <returns>
+        ///     Object representing the information of the video/playlist
+        /// </returns>
+        public DownloadInfo GetDownloadInfo()
+        {
+            YoutubeDL infoYdl = new YoutubeDL(this.YoutubeDlPath) {VideoUrl = this.VideoUrl, isInfoProcess = true};
+            infoYdl.Options.VerbositySimulationOptions.DumpSingleJson = true;
+            infoYdl.Options.VerbositySimulationOptions.Simulate = true;
+            infoYdl.Options.GeneralOptions.FlatPlaylist = true;
+            infoYdl.StandardOutputEvent += this.Info.ParseOutput;
+            infoYdl.StandardErrorEvent += this.Info.ParseError;
+            infoYdl.Download(true).WaitForExit();
+
+            return this.Info;
+        }
+
+        /// <summary>
+        ///     Get information about the video/playlist before downloading
+        /// </summary>
+        /// <param name="url">
+        ///     Video/playlist to retrieve information about
+        /// </param>
+        /// <returns>
+        ///     Object representing the information of the video/playlist
+        /// </returns>
+        public DownloadInfo GetDownloadInfo(string url)
+        {
+            this.VideoUrl = url;
+            return this.GetDownloadInfo();
         }
 
         /// <summary>
@@ -214,6 +264,11 @@ namespace NYoutubeDL
                 throw new FileNotFoundException($"{this.processStartInfo.FileName} not found!");
             }
 
+            if (!this.isInfoProcess)
+            {
+                this.Info = this.GetDownloadInfo();
+            }
+
             this.RunCommand = this.processStartInfo.FileName + " " + this.processStartInfo.Arguments;
 
             return this.RunCommand;
@@ -229,12 +284,21 @@ namespace NYoutubeDL
         {
             CancellationToken token = (CancellationToken) tokenObj;
 
-            while (this.process != null && !this.process.HasExited && !token.IsCancellationRequested)
+            while (!token.IsCancellationRequested)
             {
-                string error;
-                if (!string.IsNullOrEmpty(error = this.process.StandardError.ReadLine()))
+                try
                 {
-                    this.StandardErrorEvent?.Invoke(this, error);
+                    if (this.process != null && !this.process.HasExited)
+                    {
+                        string error;
+                        if (!string.IsNullOrEmpty(error = this.process.StandardError.ReadLine()))
+                        {
+                            this.StandardErrorEvent?.Invoke(this, error);
+                        }
+                    }
+                }
+                catch (InvalidOperationException)
+                {
                 }
             }
         }
@@ -254,12 +318,21 @@ namespace NYoutubeDL
         {
             CancellationToken token = (CancellationToken) tokenObj;
 
-            while (this.process != null && !this.process.HasExited && !token.IsCancellationRequested)
+            while (!token.IsCancellationRequested)
             {
-                string output;
-                if (!string.IsNullOrEmpty(output = this.process.StandardOutput.ReadLine()))
+                try
                 {
-                    this.StandardOutputEvent?.Invoke(this, output);
+                    if (this.process != null && !this.process.HasExited)
+                    {
+                        string output;
+                        if (!string.IsNullOrEmpty(output = this.process.StandardOutput.ReadLine()))
+                        {
+                            this.StandardOutputEvent?.Invoke(this, output);
+                        }
+                    }
+                }
+                catch (InvalidOperationException)
+                {
                 }
             }
         }

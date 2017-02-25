@@ -1,16 +1,13 @@
 {
-  "name": "NYoutubeDL.Tests",
-  "version": "0.2.0",
   "buildOptions": {
     "debugType": "portable"
   },
   "dependencies": {
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
+    "NYoutubeDL": { "target": "project" },
     "System.Runtime.Serialization.Primitives": "4.3.0",
-    "xunit": "2.1.0",
-    "dotnet-test-xunit": "1.0.0-rc2-192208-24",
-    "NYoutubeDL": {"target": "project" }
+    "xunit": "2.2.0"
   },
-  "testRunner": "xunit",
   "frameworks": {
     "netcoreapp1.1": {
       "dependencies": {
@@ -24,5 +21,8 @@
         "portable-net451+win8"
       ]
     }
-  }
+  },
+  "name": "NYoutubeDL.Tests",
+  "testRunner": "xunit",
+  "version": "0.3.0"
 }
