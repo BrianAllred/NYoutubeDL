@@ -99,5 +99,21 @@ namespace NYoutubeDL.Helpers
             best,
             worst
         }
+
+        /// <summary>
+        ///     Download status enum
+        /// </summary>
+        public sealed class DownloadStatus : TypeSafeEnum
+        {
+            public static readonly DownloadStatus DONE = new DownloadStatus(5, "Done");
+            public static readonly DownloadStatus DOWNLOADING = new DownloadStatus(4, "Downloading");
+            public static readonly DownloadStatus ERROR = new DownloadStatus(2, "Error");
+            public static readonly DownloadStatus WAITING = new DownloadStatus(1, "Waiting");
+            public static readonly DownloadStatus WARNING = new DownloadStatus(3, "Warning");
+
+            private DownloadStatus(int value, string name) : base(value, name)
+            {
+            }
+        }
     }
 }

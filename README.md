@@ -8,11 +8,11 @@ See the [main page](https://rg3.github.io/youtube-dl/) for youtube-dl for more i
 ### Getting the package
 * In the Nuget package manager console, run
 
-		PM> Install-Package NYoutubeDL
+        PM> Install-Package NYoutubeDL
 
 * For DotNet Core apps, edit your project.json dependencies
 
-		"NYoutubeDL": "0.3.0"
+        "NYoutubeDL": "0.4.2"
 
 * Manually [download](https://www.nuget.org/packages/NYoutubeDL/) nupkg from NuGet Gallery.
 
@@ -21,40 +21,45 @@ See the [documentation](https://github.com/rg3/youtube-dl/blob/master/README.md#
 
 1. Create a new YoutubeDL client:
 
-		var youtubeDl = new YoutubeDL();
+        var youtubeDl = new YoutubeDL();
 
 2. Options are grouped according to the youtube-dl documentation:
 
-		youtubeDl.Options.FileSystem.Output = "/path/to/downloads/video.mp4";
+        youtubeDl.Options.FileSystem.Output = "/path/to/downloads/video.mp4";
         youtubeDl.Options.PostProcessing.ExtractAudio = true;
         youtubeDl.VideoUrl = "http://www.somevideosite.com/videoUrl";
 
         // Or update the binary
         youtubeDl.Options.General.Update = true;
 
-		// Optional, required if binary is not in $PATH
-		youtubeDl.YoutubeDlPath = "/path/to/youtube-dl";
+        // Optional, required if binary is not in $PATH
+        youtubeDl.YoutubeDlPath = "/path/to/youtube-dl";
 
-3. Subscribe to the console output (optional, but recommended):
+3. Options can also be saved and loaded. Only changed options will be saved.
 
-		youtubeDl.StandardOutputEvent += (sender, output) => Console.WriteLine(output);
-		youtubeDl.StandardErrorEvent += (sender, errorOutput) => Console.WriteLine(errorOutput);
-		
-4. Subscribe to download information updates (optional, but recommended). This is useful for UI data binding:
+        File.WriteAllText("options.config", youtubeDl.Options.Serialize());
+        youtubeDl.Options = Options.Deserialize(File.ReadAllText("options.config"));
 
-		youtubeDl.Info.UpdateEvent += delegate { Console.WriteLine("Current download rate: " + youtubeDl.Info.DownloadRate); };
+4. Subscribe to the console output (optional, but recommended):
 
-5. Start the download:
-		
-		// Prepare the download (in case you need to validate the command before starting the download)
-		string commandToRun = youtubeDl.PrepareDownload();
+        youtubeDl.StandardOutputEvent += (sender, output) => Console.WriteLine(output);
+        youtubeDl.StandardErrorEvent += (sender, errorOutput) => Console.WriteLine(errorOutput);
+        
+5. Subscribe to download information updates. Hard subscription is optional, the DownloadInfo class implements INotifyPropertyChanged.
 
-		 // Just let it run
-		youtubeDl.Download();
+        youtubeDl.Info.PropertyChanged += delegate { <your code here> };
+
+6. Start the download:
+        
+        // Prepare the download (in case you need to validate the command before starting the download)
+        string commandToRun = youtubeDl.PrepareDownload();
+
+         // Just let it run
+        youtubeDl.Download();
 
         // Or provide video url
         youtubeDl.Download("http://videosite.com/videoUrl");
-		
-		// Or start the download and monitor it using a process object
-		Process ydlDownloadProcess = youtubeDl.Download();
+        
+        // Or start the download and monitor it using a process object
+        Process ydlDownloadProcess = youtubeDl.Download();
 

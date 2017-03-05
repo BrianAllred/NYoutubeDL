@@ -31,27 +31,36 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class PostProcessing : OptionSection
     {
-        [Option] private readonly BoolOption addMetadata = new BoolOption("--add-metadata");
-        [Option] private readonly EnumOption<Enums.AudioFormat> audioFormat = new EnumOption<Enums.AudioFormat>("--audio-format");
-        [Option] private readonly IntOption audioQuality = new IntOption("--audio-quality");
-        [Option] private readonly StringOption command = new StringOption("--exec");
+        [Option] internal readonly BoolOption addMetadata = new BoolOption("--add-metadata");
 
-        [Option] private readonly EnumOption<Enums.SubtitleFormat> convertSubs =
+        [Option] internal readonly EnumOption<Enums.AudioFormat> audioFormat =
+            new EnumOption<Enums.AudioFormat>("--audio-format");
+
+        [Option] internal readonly StringOption audioQuality = new StringOption("--audio-quality");
+        [Option] internal readonly StringOption command = new StringOption("--exec");
+
+        [Option] internal readonly EnumOption<Enums.SubtitleFormat> convertSubs =
             new EnumOption<Enums.SubtitleFormat>("--convert-subs");
 
-        [Option] private readonly BoolOption embedSubs = new BoolOption("--embed-subs");
-        [Option] private readonly BoolOption embedThumbnail = new BoolOption("--embed-thumbnail");
-        [Option] private readonly BoolOption extractAudio = new BoolOption("-x");
-        [Option] private readonly StringOption ffmpegLocation = new StringOption("--ffmpeg-location");
-        [Option] private readonly EnumOption<Enums.FixupPolicy> fixupPolicy = new EnumOption<Enums.FixupPolicy>("--fixup");
-        [Option] private readonly BoolOption keepVideo = new BoolOption("-k");
-        [Option] private readonly StringOption metadataFromTitle = new StringOption("--metadata-from-title");
-        [Option] private readonly BoolOption noPostOverwrites = new BoolOption("--no-post-overwrites");
-        [Option] private readonly StringOption postProcessorArgs = new StringOption("--postprocessor-args");
-        [Option] private readonly BoolOption preferAvconv = new BoolOption("--prefer-avconv");
-        [Option] private readonly BoolOption preferFfmpeg = new BoolOption("--prefer-ffmpeg");
-        [Option] private readonly EnumOption<Enums.VideoFormat> recodeFormat = new EnumOption<Enums.VideoFormat>("--recode-video");
-        [Option] private readonly BoolOption xattrs = new BoolOption("--xattrs");
+        [Option] internal readonly BoolOption embedSubs = new BoolOption("--embed-subs");
+        [Option] internal readonly BoolOption embedThumbnail = new BoolOption("--embed-thumbnail");
+        [Option] internal readonly BoolOption extractAudio = new BoolOption("-x");
+        [Option] internal readonly StringOption ffmpegLocation = new StringOption("--ffmpeg-location");
+
+        [Option] internal readonly EnumOption<Enums.FixupPolicy> fixupPolicy =
+            new EnumOption<Enums.FixupPolicy>("--fixup");
+
+        [Option] internal readonly BoolOption keepVideo = new BoolOption("-k");
+        [Option] internal readonly StringOption metadataFromTitle = new StringOption("--metadata-from-title");
+        [Option] internal readonly BoolOption noPostOverwrites = new BoolOption("--no-post-overwrites");
+        [Option] internal readonly StringOption postProcessorArgs = new StringOption("--postprocessor-args");
+        [Option] internal readonly BoolOption preferAvconv = new BoolOption("--prefer-avconv");
+        [Option] internal readonly BoolOption preferFfmpeg = new BoolOption("--prefer-ffmpeg");
+
+        [Option] internal readonly EnumOption<Enums.VideoFormat> recodeFormat =
+            new EnumOption<Enums.VideoFormat>("--recode-video");
+
+        [Option] internal readonly BoolOption xattrs = new BoolOption("--xattrs");
 
         /// <summary>
         ///     --add-metadata
@@ -59,7 +68,7 @@ namespace NYoutubeDL.Options
         public bool AddMetadata
         {
             get { return this.addMetadata.Value ?? false; }
-            set { this.addMetadata.Value = value; }
+            set { this.SetField(ref this.addMetadata.Value, value); }
         }
 
         /// <summary>
@@ -73,16 +82,16 @@ namespace NYoutubeDL.Options
                     ? Enums.AudioFormat.best
                     : (Enums.AudioFormat) this.audioFormat.Value;
             }
-            set { this.audioFormat.Value = (int) value; }
+            set { this.SetField(ref this.audioFormat.Value, (int) value); }
         }
 
         /// <summary>
         ///     --audio-quality
         /// </summary>
-        public int AudioQuality
+        public string AudioQuality
         {
-            get { return this.audioQuality.Value ?? 5; }
-            set { this.audioFormat.Value = value; }
+            get { return this.audioQuality.Value ?? "5"; }
+            set { this.SetField(ref this.audioQuality.Value, value); }
         }
 
         /// <summary>
@@ -91,7 +100,7 @@ namespace NYoutubeDL.Options
         public string Command
         {
             get { return this.command.Value; }
-            set { this.command.Value = value; }
+            set { this.SetField(ref this.command.Value, value); }
         }
 
         /// <summary>
@@ -105,7 +114,7 @@ namespace NYoutubeDL.Options
                     ? Enums.SubtitleFormat.undefined
                     : (Enums.SubtitleFormat) this.convertSubs.Value;
             }
-            set { this.convertSubs.Value = (int) value; }
+            set { this.SetField(ref this.convertSubs.Value, (int) value); }
         }
 
         /// <summary>
@@ -114,7 +123,7 @@ namespace NYoutubeDL.Options
         public bool EmbedSubs
         {
             get { return this.embedSubs.Value ?? false; }
-            set { this.embedSubs.Value = value; }
+            set { this.SetField(ref this.embedSubs.Value, value); }
         }
 
         /// <summary>
@@ -123,7 +132,7 @@ namespace NYoutubeDL.Options
         public bool EmbedThumbnail
         {
             get { return this.embedThumbnail.Value ?? false; }
-            set { this.embedThumbnail.Value = value; }
+            set { this.SetField(ref this.embedThumbnail.Value, value); }
         }
 
         /// <summary>
@@ -132,7 +141,7 @@ namespace NYoutubeDL.Options
         public bool ExtractAudio
         {
             get { return this.extractAudio.Value ?? false; }
-            set { this.extractAudio.Value = value; }
+            set { this.SetField(ref this.extractAudio.Value, value); }
         }
 
         /// <summary>
@@ -141,7 +150,7 @@ namespace NYoutubeDL.Options
         public string FfmpegLocation
         {
             get { return this.ffmpegLocation.Value; }
-            set { this.ffmpegLocation.Value = value; }
+            set { this.SetField(ref this.ffmpegLocation.Value, value); }
         }
 
         /// <summary>
@@ -155,7 +164,7 @@ namespace NYoutubeDL.Options
                     ? Enums.FixupPolicy.detect_or_warn
                     : (Enums.FixupPolicy) this.fixupPolicy.Value;
             }
-            set { this.fixupPolicy.Value = (int) value; }
+            set { this.SetField(ref this.fixupPolicy.Value, (int) value); }
         }
 
         /// <summary>
@@ -164,7 +173,7 @@ namespace NYoutubeDL.Options
         public bool KeepVideo
         {
             get { return this.keepVideo.Value ?? false; }
-            set { this.keepVideo.Value = value; }
+            set { this.SetField(ref this.keepVideo.Value, value); }
         }
 
         /// <summary>
@@ -173,7 +182,7 @@ namespace NYoutubeDL.Options
         public string MetadataFromTitle
         {
             get { return this.metadataFromTitle.Value; }
-            set { this.metadataFromTitle.Value = value; }
+            set { this.SetField(ref this.metadataFromTitle.Value, value); }
         }
 
         /// <summary>
@@ -182,7 +191,7 @@ namespace NYoutubeDL.Options
         public bool NoPostOverwrites
         {
             get { return this.noPostOverwrites.Value ?? false; }
-            set { this.noPostOverwrites.Value = value; }
+            set { this.SetField(ref this.noPostOverwrites.Value, value); }
         }
 
         /// <summary>
@@ -191,7 +200,7 @@ namespace NYoutubeDL.Options
         public string PostProcessorArgs
         {
             get { return this.postProcessorArgs.Value; }
-            set { this.postProcessorArgs.Value = value; }
+            set { this.SetField(ref this.postProcessorArgs.Value, value); }
         }
 
         /// <summary>
@@ -200,7 +209,7 @@ namespace NYoutubeDL.Options
         public bool PreferAvconv
         {
             get { return this.preferAvconv.Value ?? false; }
-            set { this.preferAvconv.Value = value; }
+            set { this.SetField(ref this.preferAvconv.Value, value); }
         }
 
         /// <summary>
@@ -209,7 +218,7 @@ namespace NYoutubeDL.Options
         public bool PreferFfmpeg
         {
             get { return this.preferFfmpeg.Value ?? false; }
-            set { this.preferFfmpeg.Value = value; }
+            set { this.SetField(ref this.preferFfmpeg.Value, value); }
         }
 
         /// <summary>
@@ -223,7 +232,7 @@ namespace NYoutubeDL.Options
                     ? Enums.VideoFormat.undefined
                     : (Enums.VideoFormat) this.recodeFormat.Value;
             }
-            set { this.recodeFormat.Value = (int) value; }
+            set { this.SetField(ref this.recodeFormat.Value, (int) value); }
         }
 
         /// <summary>
@@ -233,7 +242,7 @@ namespace NYoutubeDL.Options
         public bool Xattrs
         {
             get { return this.xattrs.Value ?? false; }
-            set { this.xattrs.Value = value; }
+            set { this.SetField(ref this.xattrs.Value, value); }
         }
     }
 }

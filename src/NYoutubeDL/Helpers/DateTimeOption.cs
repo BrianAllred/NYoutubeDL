@@ -27,15 +27,11 @@ namespace NYoutubeDL.Helpers
     #endregion
 
     [Option]
-    internal class DateTimeOption
+    internal class DateTimeOption : BaseOption<DateTime?>
     {
-        internal DateTimeOption(string paramString)
+        internal DateTimeOption(string paramString) : base(paramString)
         {
-            this.ParamString = paramString;
         }
-
-        internal string ParamString { get; }
-        internal DateTime? Value { get; set; } = null;
 
         public override string ToString()
         {

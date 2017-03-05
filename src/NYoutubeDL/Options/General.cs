@@ -31,20 +31,20 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class General : OptionSection
     {
-        [Option] private readonly BoolOption abortOnError = new BoolOption("--abort-on-error");
-        [Option] private readonly StringOption configLocation = new StringOption("--config-location");
-        [Option] private readonly StringOption defaultSearch = new StringOption("--default-search");
-        [Option] private readonly BoolOption dumpUserAgent = new BoolOption("--dump-user-agent");
-        [Option] private readonly BoolOption extractorDescriptions = new BoolOption("--extractor-descriptions");
-        [Option] private readonly BoolOption flatPlaylist = new BoolOption("--flat-playlist");
-        [Option] private readonly BoolOption forceGenericExtractor = new BoolOption("--force-generic-extractor");
-        [Option] private readonly BoolOption ignoreConfig = new BoolOption("--ignore-config");
-        [Option] private readonly BoolOption ignoreErrors = new BoolOption("-i");
-        [Option] private readonly BoolOption listExtractors = new BoolOption("--list-extractors");
-        [Option] private readonly BoolOption markWatched = new BoolOption("--mark-watched");
-        [Option] private readonly BoolOption noColor = new BoolOption("--no-color");
-        [Option] private readonly BoolOption noMarkWatched = new BoolOption("--no-mark-watched");
-        [Option] private readonly BoolOption update = new BoolOption("-U");
+        [Option] internal readonly BoolOption abortOnError = new BoolOption("--abort-on-error");
+        [Option] internal readonly StringOption configLocation = new StringOption("--config-location");
+        [Option] internal readonly StringOption defaultSearch = new StringOption("--default-search");
+        [Option] internal readonly BoolOption dumpUserAgent = new BoolOption("--dump-user-agent");
+        [Option] internal readonly BoolOption extractorDescriptions = new BoolOption("--extractor-descriptions");
+        [Option] internal readonly BoolOption flatPlaylist = new BoolOption("--flat-playlist");
+        [Option] internal readonly BoolOption forceGenericExtractor = new BoolOption("--force-generic-extractor");
+        [Option] internal readonly BoolOption ignoreConfig = new BoolOption("--ignore-config");
+        [Option] internal readonly BoolOption ignoreErrors = new BoolOption("-i");
+        [Option] internal readonly BoolOption listExtractors = new BoolOption("--list-extractors");
+        [Option] internal readonly BoolOption markWatched = new BoolOption("--mark-watched");
+        [Option] internal readonly BoolOption noColor = new BoolOption("--no-color");
+        [Option] internal readonly BoolOption noMarkWatched = new BoolOption("--no-mark-watched");
+        [Option] internal readonly BoolOption update = new BoolOption("-U");
 
         /// <summary>
         ///     --abort-on-error
@@ -52,7 +52,7 @@ namespace NYoutubeDL.Options
         public bool AbortOnError
         {
             get { return this.abortOnError.Value ?? false; }
-            set { this.abortOnError.Value = value; }
+            set { this.SetField(ref this.abortOnError.Value, value); }
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace NYoutubeDL.Options
         public string ConfigLocation
         {
             get { return this.configLocation.Value; }
-            set { this.configLocation.Value = value; }
+            set { this.SetField(ref this.configLocation.Value, value); }
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace NYoutubeDL.Options
         public string DefaultSearch
         {
             get { return this.defaultSearch.Value; }
-            set { this.defaultSearch.Value = value; }
+            set { this.SetField(ref this.defaultSearch.Value, value); }
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace NYoutubeDL.Options
         public bool DumpUserAgent
         {
             get { return this.dumpUserAgent.Value ?? false; }
-            set { this.dumpUserAgent.Value = value; }
+            set { this.SetField(ref this.dumpUserAgent.Value, value); }
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace NYoutubeDL.Options
         public bool ExtractorDescriptions
         {
             get { return this.extractorDescriptions.Value ?? false; }
-            set { this.extractorDescriptions.Value = value; }
+            set { this.SetField(ref this.extractorDescriptions.Value, value); }
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace NYoutubeDL.Options
         public bool FlatPlaylist
         {
             get { return this.flatPlaylist.Value ?? false; }
-            set { this.flatPlaylist.Value = value; }
+            set { this.SetField(ref this.flatPlaylist.Value, value); }
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace NYoutubeDL.Options
         public bool ForceGenericExtractor
         {
             get { return this.forceGenericExtractor.Value ?? false; }
-            set { this.forceGenericExtractor.Value = value; }
+            set { this.SetField(ref this.forceGenericExtractor.Value, value); }
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace NYoutubeDL.Options
         public bool IgnoreConfig
         {
             get { return this.ignoreConfig.Value ?? false; }
-            set { this.ignoreConfig.Value = value; }
+            set { this.SetField(ref this.ignoreConfig.Value, value); }
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace NYoutubeDL.Options
         public bool IgnoreErrors
         {
             get { return this.ignoreErrors.Value ?? false; }
-            set { this.ignoreErrors.Value = value; }
+            set { this.SetField(ref this.ignoreErrors.Value, value); }
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace NYoutubeDL.Options
         public bool ListExtractors
         {
             get { return this.listExtractors.Value ?? false; }
-            set { this.listExtractors.Value = value; }
+            set { this.SetField(ref this.listExtractors.Value, value); }
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace NYoutubeDL.Options
         public bool MarkWatched
         {
             get { return this.markWatched.Value ?? false; }
-            set { this.markWatched.Value = value; }
+            set { this.SetField(ref this.markWatched.Value, value); }
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace NYoutubeDL.Options
         public bool NoColor
         {
             get { return this.noColor.Value ?? false; }
-            set { this.noColor.Value = value; }
+            set { this.SetField(ref this.noColor.Value, value); }
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace NYoutubeDL.Options
         public bool NoMarkWatched
         {
             get { return this.noMarkWatched.Value ?? false; }
-            set { this.noMarkWatched.Value = value; }
+            set { this.SetField(ref this.noMarkWatched.Value, value); }
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace NYoutubeDL.Options
         public bool Update
         {
             get { return this.update.Value ?? false; }
-            set { this.update.Value = value; }
+            set { this.SetField(ref this.update.Value, value); }
         }
     }
 }

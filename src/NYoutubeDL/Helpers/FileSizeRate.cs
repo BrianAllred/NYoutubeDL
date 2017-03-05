@@ -27,27 +27,52 @@ namespace NYoutubeDL.Helpers
 
     #endregion
 
+    /// <summary>
+    ///     Class holding information about file size or file rate
+    /// </summary>
     public class FileSizeRate
     {
-        private readonly double size;
-
-        private readonly Enums.ByteUnit unit;
-
-        public FileSizeRate(double size, Enums.ByteUnit unit)
+        /// <summary>
+        ///     Returns new instance of FileSizeRate
+        /// </summary>
+        /// <param name="sizeRate">
+        ///     File size (or speed)
+        /// </param>
+        /// <param name="unit">
+        ///     Unit of size/speed
+        /// </param>
+        public FileSizeRate(double sizeRate, Enums.ByteUnit unit)
         {
-            this.size = size;
-            this.unit = unit;
+            this.SizeRate = sizeRate;
+            this.Unit = unit;
         }
 
-        public FileSizeRate(string size)
+        /// <summary>
+        ///     Returns a new instance of FileSizeRate
+        /// </summary>
+        /// <param name="sizeRate">
+        ///     String representation of file size/rate (ie, "1024K", "5.2M")
+        /// </param>
+        public FileSizeRate(string sizeRate)
         {
-            this.size = double.Parse(size.Substring(0, size.Length - 1));
-            this.unit = (Enums.ByteUnit) Enum.Parse(typeof(Enums.ByteUnit), size[size.Length - 1].ToString(), true);
+            this.SizeRate = double.Parse(sizeRate.Substring(0, sizeRate.Length - 1));
+            this.Unit =
+                (Enums.ByteUnit) Enum.Parse(typeof(Enums.ByteUnit), sizeRate[sizeRate.Length - 1].ToString(), true);
         }
+
+        /// <summary>
+        ///     File size or speed
+        /// </summary>
+        public double SizeRate { get; set; }
+
+        /// <summary>
+        ///     Size or speed unit
+        /// </summary>
+        public Enums.ByteUnit Unit { get; set; }
 
         public override string ToString()
         {
-            return this.size.ToString(CultureInfo.InvariantCulture) + this.unit;
+            return this.SizeRate.ToString(CultureInfo.InvariantCulture) + this.Unit;
         }
     }
 }

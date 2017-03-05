@@ -27,15 +27,11 @@ namespace NYoutubeDL.Helpers
     #endregion
 
     [Option]
-    internal class EnumOption<T>
+    internal class EnumOption<T> : BaseOption<int?>
     {
-        internal EnumOption(string paramString)
+        internal EnumOption(string paramString) : base(paramString)
         {
-            this.ParamString = paramString;
         }
-
-        internal string ParamString { get; }
-        internal int? Value { get; set; } = null;
 
         public override string ToString()
         {

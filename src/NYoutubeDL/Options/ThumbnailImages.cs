@@ -31,9 +31,9 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class ThumbnailImages : OptionSection
     {
-        [Option] private readonly BoolOption listThumbnails = new BoolOption("--list-thumbnail");
-        [Option] private readonly BoolOption writeAllThumbnails = new BoolOption("--write-all-thumbnails");
-        [Option] private readonly BoolOption writeThumbnail = new BoolOption("--write-thumbnail");
+        [Option] internal readonly BoolOption listThumbnails = new BoolOption("--list-thumbnail");
+        [Option] internal readonly BoolOption writeAllThumbnails = new BoolOption("--write-all-thumbnails");
+        [Option] internal readonly BoolOption writeThumbnail = new BoolOption("--write-thumbnail");
 
         /// <summary>
         ///     --list-thumbnails
@@ -41,7 +41,7 @@ namespace NYoutubeDL.Options
         public bool ListThumbnails
         {
             get { return this.listThumbnails.Value ?? false; }
-            set { this.listThumbnails.Value = value; }
+            set { this.SetField(ref this.listThumbnails.Value, value); }
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace NYoutubeDL.Options
         public bool WriteAllThumbnails
         {
             get { return this.writeAllThumbnails.Value ?? false; }
-            set { this.writeAllThumbnails.Value = value; }
+            set { this.SetField(ref this.writeAllThumbnails.Value, value); }
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace NYoutubeDL.Options
         public bool WriteThumbnail
         {
             get { return this.writeThumbnail.Value ?? false; }
-            set { this.writeThumbnail.Value = value; }
+            set { this.SetField(ref this.writeThumbnail.Value, value); }
         }
     }
 }

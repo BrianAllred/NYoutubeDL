@@ -20,21 +20,20 @@
 
 namespace NYoutubeDL.Helpers
 {
-    [Option]
-    internal class DoubleOption : BaseOption<double?>
+    /// <summary>
+    ///     Abstract class that any Option type field inherits
+    /// </summary>
+    /// <typeparam name="T">
+    ///     Type of Value
+    /// </typeparam>
+    internal abstract class BaseOption<T>
     {
-        internal DoubleOption(string paramString) : base(paramString)
-        {
-        }
+        internal readonly string ParamString;
+        internal T Value = default(T);
 
-        public override string ToString()
+        internal BaseOption(string paramString)
         {
-            if (this.Value == null)
-            {
-                return string.Empty;
-            }
-
-            return this.ParamString + " " + this.Value;
+            this.ParamString = paramString;
         }
     }
 }

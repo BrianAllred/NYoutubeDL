@@ -23,6 +23,7 @@ namespace NYoutubeDL.Sample
     #region Using
 
     using System;
+    using System.ComponentModel;
     using Helpers;
 
     #endregion
@@ -37,7 +38,7 @@ namespace NYoutubeDL.Sample
             ydlClient.Options.DownloadOptions.Retries = -1;
             ydlClient.Options.VideoFormatOptions.Format = Enums.VideoFormat.best;
             ydlClient.Options.PostProcessingOptions.AudioFormat = Enums.AudioFormat.best;
-            ydlClient.Options.PostProcessingOptions.AudioQuality = 0;
+            ydlClient.Options.PostProcessingOptions.AudioQuality = "0";
 
             ydlClient.StandardErrorEvent += (sender, error) => Console.WriteLine(error);
             ydlClient.StandardOutputEvent += (sender, output) => Console.WriteLine(output);

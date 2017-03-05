@@ -31,30 +31,30 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class VerbositySimulation : OptionSection
     {
-        [Option] private readonly BoolOption callHome = new BoolOption("-C");
-        [Option] private readonly BoolOption consoleTitle = new BoolOption("--console-title");
-        [Option] private readonly BoolOption dumpJson = new BoolOption("-j");
-        [Option] private readonly BoolOption dumpPages = new BoolOption("--dump-pages");
-        [Option] private readonly BoolOption dumpSingleJson = new BoolOption("-J");
-        [Option] private readonly BoolOption getDescription = new BoolOption("--get-description");
-        [Option] private readonly BoolOption getDuration = new BoolOption("--get-duration");
-        [Option] private readonly BoolOption getFilename = new BoolOption("--get-filename");
-        [Option] private readonly BoolOption getFormat = new BoolOption("--get-format");
-        [Option] private readonly BoolOption getId = new BoolOption("--get-id");
-        [Option] private readonly BoolOption getThumbnail = new BoolOption("--get-thumbnail");
-        [Option] private readonly BoolOption getTitle = new BoolOption("-e");
-        [Option] private readonly BoolOption getUrl = new BoolOption("-g");
-        [Option] private readonly BoolOption newline = new BoolOption("--newline");
-        [Option] private readonly BoolOption noCallHome = new BoolOption("--no-call-home");
-        [Option] private readonly BoolOption noProgress = new BoolOption("--no-progress");
-        [Option] private readonly BoolOption noWarnings = new BoolOption("--no-warnings");
-        [Option] private readonly BoolOption printJson = new BoolOption("--print-jobs");
-        [Option] private readonly BoolOption printTraffic = new BoolOption("--print-traffic");
-        [Option] private readonly BoolOption quiet = new BoolOption("-q");
-        [Option] private readonly BoolOption simulate = new BoolOption("-s");
-        [Option] private readonly BoolOption skipDownload = new BoolOption("--skip-download");
-        [Option] private readonly BoolOption verbose = new BoolOption("-v");
-        [Option] private readonly BoolOption writePages = new BoolOption("--write-pages");
+        [Option] internal readonly BoolOption callHome = new BoolOption("-C");
+        [Option] internal readonly BoolOption consoleTitle = new BoolOption("--console-title");
+        [Option] internal readonly BoolOption dumpJson = new BoolOption("-j");
+        [Option] internal readonly BoolOption dumpPages = new BoolOption("--dump-pages");
+        [Option] internal readonly BoolOption dumpSingleJson = new BoolOption("-J");
+        [Option] internal readonly BoolOption getDescription = new BoolOption("--get-description");
+        [Option] internal readonly BoolOption getDuration = new BoolOption("--get-duration");
+        [Option] internal readonly BoolOption getFilename = new BoolOption("--get-filename");
+        [Option] internal readonly BoolOption getFormat = new BoolOption("--get-format");
+        [Option] internal readonly BoolOption getId = new BoolOption("--get-id");
+        [Option] internal readonly BoolOption getThumbnail = new BoolOption("--get-thumbnail");
+        [Option] internal readonly BoolOption getTitle = new BoolOption("-e");
+        [Option] internal readonly BoolOption getUrl = new BoolOption("-g");
+        [Option] internal readonly BoolOption newline = new BoolOption("--newline");
+        [Option] internal readonly BoolOption noCallHome = new BoolOption("--no-call-home");
+        [Option] internal readonly BoolOption noProgress = new BoolOption("--no-progress");
+        [Option] internal readonly BoolOption noWarnings = new BoolOption("--no-warnings");
+        [Option] internal readonly BoolOption printJson = new BoolOption("--print-jobs");
+        [Option] internal readonly BoolOption printTraffic = new BoolOption("--print-traffic");
+        [Option] internal readonly BoolOption quiet = new BoolOption("-q");
+        [Option] internal readonly BoolOption simulate = new BoolOption("-s");
+        [Option] internal readonly BoolOption skipDownload = new BoolOption("--skip-download");
+        [Option] internal readonly BoolOption verbose = new BoolOption("-v");
+        [Option] internal readonly BoolOption writePages = new BoolOption("--write-pages");
 
         /// <summary>
         ///     -C
@@ -62,7 +62,7 @@ namespace NYoutubeDL.Options
         public bool CallHome
         {
             get { return this.callHome.Value ?? false; }
-            set { this.callHome.Value = value; }
+            set { this.SetField(ref this.callHome.Value, value); }
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace NYoutubeDL.Options
         public bool ConsoleTitle
         {
             get { return this.consoleTitle.Value ?? false; }
-            set { this.consoleTitle.Value = value; }
+            set { this.SetField(ref this.consoleTitle.Value, value); }
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace NYoutubeDL.Options
         public bool DumpJson
         {
             get { return this.dumpJson.Value ?? false; }
-            set { this.dumpJson.Value = value; }
+            set { this.SetField(ref this.dumpJson.Value, value); }
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace NYoutubeDL.Options
         public bool DumpPages
         {
             get { return this.dumpPages.Value ?? false; }
-            set { this.dumpPages.Value = value; }
+            set { this.SetField(ref this.dumpPages.Value, value); }
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace NYoutubeDL.Options
         public bool DumpSingleJson
         {
             get { return this.dumpSingleJson.Value ?? false; }
-            set { this.dumpSingleJson.Value = value; }
+            set { this.SetField(ref this.dumpSingleJson.Value, value); }
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace NYoutubeDL.Options
         public bool GetDescription
         {
             get { return this.getDescription.Value ?? false; }
-            set { this.getDescription.Value = value; }
+            set { this.SetField(ref this.getDescription.Value, value); }
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace NYoutubeDL.Options
         public bool GetDuration
         {
             get { return this.getDuration.Value ?? false; }
-            set { this.getDuration.Value = value; }
+            set { this.SetField(ref this.getDuration.Value, value); }
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace NYoutubeDL.Options
         public bool GetFilename
         {
             get { return this.getFilename.Value ?? false; }
-            set { this.getFilename.Value = value; }
+            set { this.SetField(ref this.getFilename.Value, value); }
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace NYoutubeDL.Options
         public bool GetFormat
         {
             get { return this.getFormat.Value ?? false; }
-            set { this.getFormat.Value = value; }
+            set { this.SetField(ref this.getFormat.Value, value); }
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace NYoutubeDL.Options
         public bool GetId
         {
             get { return this.getId.Value ?? false; }
-            set { this.getId.Value = value; }
+            set { this.SetField(ref this.getId.Value, value); }
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace NYoutubeDL.Options
         public bool GetThumbnail
         {
             get { return this.getThumbnail.Value ?? false; }
-            set { this.getThumbnail.Value = value; }
+            set { this.SetField(ref this.getThumbnail.Value, value); }
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace NYoutubeDL.Options
         public bool GetTitle
         {
             get { return this.getTitle.Value ?? false; }
-            set { this.getTitle.Value = value; }
+            set { this.SetField(ref this.getTitle.Value, value); }
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace NYoutubeDL.Options
         public bool GetUrl
         {
             get { return this.getUrl.Value ?? false; }
-            set { this.getUrl.Value = value; }
+            set { this.SetField(ref this.getUrl.Value, value); }
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace NYoutubeDL.Options
         public bool Newline
         {
             get { return this.newline.Value ?? false; }
-            set { this.newline.Value = value; }
+            set { this.SetField(ref this.newline.Value, value); }
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace NYoutubeDL.Options
         public bool NoCallHome
         {
             get { return this.noCallHome.Value ?? false; }
-            set { this.noCallHome.Value = value; }
+            set { this.SetField(ref this.noCallHome.Value, value); }
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace NYoutubeDL.Options
         public bool NoProgress
         {
             get { return this.noProgress.Value ?? false; }
-            set { this.noProgress.Value = value; }
+            set { this.SetField(ref this.noProgress.Value, value); }
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace NYoutubeDL.Options
         public bool NoWarnings
         {
             get { return this.noWarnings.Value ?? false; }
-            set { this.noWarnings.Value = value; }
+            set { this.SetField(ref this.noWarnings.Value, value); }
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace NYoutubeDL.Options
         public bool PrintJson
         {
             get { return this.printJson.Value ?? false; }
-            set { this.printJson.Value = value; }
+            set { this.SetField(ref this.printJson.Value, value); }
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace NYoutubeDL.Options
         public bool PrintTraffic
         {
             get { return this.printTraffic.Value ?? false; }
-            set { this.printTraffic.Value = value; }
+            set { this.SetField(ref this.printTraffic.Value, value); }
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace NYoutubeDL.Options
         public bool Quiet
         {
             get { return this.quiet.Value ?? false; }
-            set { this.quiet.Value = value; }
+            set { this.SetField(ref this.quiet.Value, value); }
         }
 
         /// <summary>
@@ -242,7 +242,7 @@ namespace NYoutubeDL.Options
         public bool Simulate
         {
             get { return this.simulate.Value ?? false; }
-            set { this.simulate.Value = value; }
+            set { this.SetField(ref this.simulate.Value, value); }
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace NYoutubeDL.Options
         public bool SkipDownload
         {
             get { return this.skipDownload.Value ?? false; }
-            set { this.skipDownload.Value = value; }
+            set { this.SetField(ref this.skipDownload.Value, value); }
         }
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace NYoutubeDL.Options
         public bool Verbose
         {
             get { return this.verbose.Value ?? false; }
-            set { this.verbose.Value = value; }
+            set { this.SetField(ref this.verbose.Value, value); }
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace NYoutubeDL.Options
         public bool WritePages
         {
             get { return this.writePages.Value ?? false; }
-            set { this.writePages.Value = value; }
+            set { this.SetField(ref this.writePages.Value, value); }
         }
     }
 }

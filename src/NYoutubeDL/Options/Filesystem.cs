@@ -31,25 +31,25 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class Filesystem : OptionSection
     {
-        [Option] private readonly IntOption autoNumberSize = new IntOption("--autonumber-size");
-        [Option] private readonly IntOption autoNumberStart = new IntOption("--autonumber-start");
-        [Option] private readonly StringOption batchFile = new StringOption("-a");
-        [Option] private readonly StringOption cacheDir = new StringOption("--cache-dir");
-        [Option] private readonly BoolOption continueOpt = new BoolOption("-C");
-        [Option] private readonly StringOption cookies = new StringOption("--cookies");
-        [Option] private readonly BoolOption id = new BoolOption("--id");
-        [Option] private readonly StringOption loadInfoJson = new StringOption("--load-info-json");
-        [Option] private readonly BoolOption noCacheDir = new BoolOption("--no-cache-dir");
-        [Option] private readonly BoolOption noContinue = new BoolOption("--no-continue");
-        [Option] private readonly BoolOption noMtime = new BoolOption("--no-mtime");
-        [Option] private readonly BoolOption noOverwrites = new BoolOption("-w");
-        [Option] private readonly BoolOption noPart = new BoolOption("--no-part");
-        [Option] private readonly StringOption output = new StringOption("-o");
-        [Option] private readonly BoolOption restrictFilenames = new BoolOption("--restrict-filenames");
-        [Option] private readonly BoolOption rmCacheDir = new BoolOption("--rm-cache-dir");
-        [Option] private readonly BoolOption writeAnnotations = new BoolOption("--write-annotations");
-        [Option] private readonly BoolOption writeDescription = new BoolOption("--write-desription");
-        [Option] private readonly BoolOption writeInfoJson = new BoolOption("--write-info-json");
+        [Option] internal readonly IntOption autoNumberSize = new IntOption("--autonumber-size");
+        [Option] internal readonly IntOption autoNumberStart = new IntOption("--autonumber-start");
+        [Option] internal readonly StringOption batchFile = new StringOption("-a");
+        [Option] internal readonly StringOption cacheDir = new StringOption("--cache-dir");
+        [Option] internal readonly BoolOption continueOpt = new BoolOption("-C");
+        [Option] internal readonly StringOption cookies = new StringOption("--cookies");
+        [Option] internal readonly BoolOption id = new BoolOption("--id");
+        [Option] internal readonly StringOption loadInfoJson = new StringOption("--load-info-json");
+        [Option] internal readonly BoolOption noCacheDir = new BoolOption("--no-cache-dir");
+        [Option] internal readonly BoolOption noContinue = new BoolOption("--no-continue");
+        [Option] internal readonly BoolOption noMtime = new BoolOption("--no-mtime");
+        [Option] internal readonly BoolOption noOverwrites = new BoolOption("-w");
+        [Option] internal readonly BoolOption noPart = new BoolOption("--no-part");
+        [Option] internal readonly StringOption output = new StringOption("-o");
+        [Option] internal readonly BoolOption restrictFilenames = new BoolOption("--restrict-filenames");
+        [Option] internal readonly BoolOption rmCacheDir = new BoolOption("--rm-cache-dir");
+        [Option] internal readonly BoolOption writeAnnotations = new BoolOption("--write-annotations");
+        [Option] internal readonly BoolOption writeDescription = new BoolOption("--write-desription");
+        [Option] internal readonly BoolOption writeInfoJson = new BoolOption("--write-info-json");
 
         /// <summary>
         ///     --autonumber-size
@@ -57,7 +57,7 @@ namespace NYoutubeDL.Options
         public int AutoNumberSize
         {
             get { return this.autoNumberSize.Value ?? 5; }
-            set { this.autoNumberSize.Value = value; }
+            set { this.SetField(ref this.autoNumberSize.Value, value); }
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace NYoutubeDL.Options
         public int AutoNumberStart
         {
             get { return this.autoNumberStart.Value ?? 1; }
-            set { this.autoNumberStart.Value = value; }
+            set { this.SetField(ref this.autoNumberStart.Value, value); }
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace NYoutubeDL.Options
         public string BatchFile
         {
             get { return this.batchFile.Value; }
-            set { this.batchFile.Value = value; }
+            set { this.SetField(ref this.batchFile.Value, value); }
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace NYoutubeDL.Options
         public string CacheDir
         {
             get { return this.cacheDir.Value; }
-            set { this.cacheDir.Value = value; }
+            set { this.SetField(ref this.cacheDir.Value, value); }
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace NYoutubeDL.Options
         public bool Continue
         {
             get { return this.continueOpt.Value ?? false; }
-            set { this.continueOpt.Value = value; }
+            set { this.SetField(ref this.continueOpt.Value, value); }
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace NYoutubeDL.Options
         public string Cookies
         {
             get { return this.cookies.Value; }
-            set { this.cookies.Value = value; }
+            set { this.SetField(ref this.cookies.Value, value); }
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace NYoutubeDL.Options
         public bool Id
         {
             get { return this.id.Value ?? false; }
-            set { this.id.Value = value; }
+            set { this.SetField(ref this.id.Value, value); }
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace NYoutubeDL.Options
         public string LoadInfoJson
         {
             get { return this.loadInfoJson.Value; }
-            set { this.loadInfoJson.Value = value; }
+            set { this.SetField(ref this.loadInfoJson.Value, value); }
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace NYoutubeDL.Options
         public bool NoCacheDir
         {
             get { return this.noCacheDir.Value ?? false; }
-            set { this.noCacheDir.Value = value; }
+            set { this.SetField(ref this.noCacheDir.Value, value); }
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace NYoutubeDL.Options
         public bool NoContinue
         {
             get { return this.noContinue.Value ?? false; }
-            set { this.noContinue.Value = value; }
+            set { this.SetField(ref this.noContinue.Value, value); }
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace NYoutubeDL.Options
         public bool NoMtime
         {
             get { return this.noMtime.Value ?? false; }
-            set { this.noMtime.Value = value; }
+            set { this.SetField(ref this.noMtime.Value, value); }
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace NYoutubeDL.Options
         public bool NoOverwrites
         {
             get { return this.noOverwrites.Value ?? false; }
-            set { this.noOverwrites.Value = value; }
+            set { this.SetField(ref this.noOverwrites.Value, value); }
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace NYoutubeDL.Options
         public bool NoPart
         {
             get { return this.noPart.Value ?? false; }
-            set { this.noPart.Value = value; }
+            set { this.SetField(ref this.noPart.Value, value); }
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace NYoutubeDL.Options
         public string Output
         {
             get { return this.output.Value; }
-            set { this.output.Value = value; }
+            set { this.SetField(ref this.output.Value, value); }
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace NYoutubeDL.Options
         public bool RestrictFilenames
         {
             get { return this.restrictFilenames.Value ?? false; }
-            set { this.restrictFilenames.Value = value; }
+            set { this.SetField(ref this.restrictFilenames.Value, value); }
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace NYoutubeDL.Options
         public bool RmCacheDir
         {
             get { return this.rmCacheDir.Value ?? false; }
-            set { this.rmCacheDir.Value = value; }
+            set { this.SetField(ref this.rmCacheDir.Value, value); }
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace NYoutubeDL.Options
         public bool WriteAnnotations
         {
             get { return this.writeAnnotations.Value ?? false; }
-            set { this.writeAnnotations.Value = value; }
+            set { this.SetField(ref this.writeAnnotations.Value, value); }
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace NYoutubeDL.Options
         public bool WriteDescription
         {
             get { return this.writeDescription.Value ?? false; }
-            set { this.writeDescription.Value = value; }
+            set { this.SetField(ref this.writeDescription.Value, value); }
         }
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace NYoutubeDL.Options
         public bool WriteInfoJson
         {
             get { return this.writeInfoJson.Value ?? false; }
-            set { this.writeInfoJson.Value = value; }
+            set { this.SetField(ref this.writeInfoJson.Value, value); }
         }
     }
 }

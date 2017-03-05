@@ -18,23 +18,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-namespace NYoutubeDL.Helpers
+namespace NYoutubeDL.Models
 {
-    [Option]
-    internal class DoubleOption : BaseOption<double?>
+    /// <summary>
+    ///     Class holding information about a video
+    /// </summary>
+    public class VideoDownloadInfo : DownloadInfo
     {
-        internal DoubleOption(string paramString) : base(paramString)
+        public VideoDownloadInfo(VideoInfo info)
         {
+            this.Title = info.title;
+            this.Id = info.id;
         }
 
-        public override string ToString()
-        {
-            if (this.Value == null)
-            {
-                return string.Empty;
-            }
-
-            return this.ParamString + " " + this.Value;
-        }
+        /// <summary>
+        ///     The ID string of the video
+        /// </summary>
+        public string Id { get; private set; }
     }
 }

@@ -31,11 +31,11 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class Authentication : OptionSection
     {
-        [Option] private readonly BoolOption netRc = new BoolOption("-n");
-        [Option] private readonly StringOption password = new StringOption("-p");
-        [Option] private readonly StringOption twoFactor = new StringOption("-2");
-        [Option] private readonly StringOption username = new StringOption("-u");
-        [Option] private readonly StringOption videoPassword = new StringOption("--video-password");
+        [Option] internal readonly BoolOption netRc = new BoolOption("-n");
+        [Option] internal readonly StringOption password = new StringOption("-p");
+        [Option] internal readonly StringOption twoFactor = new StringOption("-2");
+        [Option] internal readonly StringOption username = new StringOption("-u");
+        [Option] internal readonly StringOption videoPassword = new StringOption("--video-password");
 
         /// <summary>
         ///     -n
@@ -43,7 +43,7 @@ namespace NYoutubeDL.Options
         public bool NetRc
         {
             get { return this.netRc.Value ?? false; }
-            set { this.netRc.Value = value; }
+            set { this.SetField(ref this.netRc.Value, value); }
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace NYoutubeDL.Options
         public string Password
         {
             get { return this.password.Value; }
-            set { this.password.Value = value; }
+            set { this.SetField(ref this.password.Value, value); }
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace NYoutubeDL.Options
         public string TwoFactor
         {
             get { return this.twoFactor.Value; }
-            set { this.twoFactor.Value = value; }
+            set { this.SetField(ref this.twoFactor.Value, value); }
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace NYoutubeDL.Options
         public string Username
         {
             get { return this.username.Value; }
-            set { this.username.Value = value; }
+            set { this.SetField(ref this.username.Value, value); }
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace NYoutubeDL.Options
         public string VideoPassword
         {
             get { return this.videoPassword.Value; }
-            set { this.videoPassword.Value = value; }
+            set { this.SetField(ref this.videoPassword.Value, value); }
         }
     }
 }

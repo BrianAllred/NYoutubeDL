@@ -23,27 +23,51 @@ namespace NYoutubeDL.Options
     #region Using
 
     using Helpers;
+    using Newtonsoft.Json;
 
     #endregion
 
     /// <summary>
     ///     Object containing all of the option sections
     /// </summary>
+    [JsonConverter(typeof(OptionsJsonConverter))]
     public class Options
     {
-        public AdobePass AdobePassOptions { get; } = new AdobePass();
-        public Authentication AuthenticationOptions { get; } = new Authentication();
-        public Download DownloadOptions { get; } = new Download();
-        public Filesystem FilesystemOptions { get; } = new Filesystem();
-        public General GeneralOptions { get; } = new General();
-        public Network NetworkOptions { get; } = new Network();
-        public PostProcessing PostProcessingOptions { get; } = new PostProcessing();
-        public Subtitle SubtitleOptions { get; } = new Subtitle();
-        public ThumbnailImages ThumbnailImagesOptions { get; } = new ThumbnailImages();
-        public VerbositySimulation VerbositySimulationOptions { get; } = new VerbositySimulation();
-        public VideoFormat VideoFormatOptions { get; } = new VideoFormat();
-        public VideoSelection VideoSelectionOptions { get; } = new VideoSelection();
-        public Workarounds WorkaroundsOptions { get; } = new Workarounds();
+        public AdobePass AdobePassOptions { get; private set; } = new AdobePass();
+        public Authentication AuthenticationOptions { get; private set; } = new Authentication();
+        public Download DownloadOptions { get; private set; } = new Download();
+        public Filesystem FilesystemOptions { get; private set; } = new Filesystem();
+        public General GeneralOptions { get; private set; } = new General();
+        public Network NetworkOptions { get; private set; } = new Network();
+        public PostProcessing PostProcessingOptions { get; private set; } = new PostProcessing();
+        public Subtitle SubtitleOptions { get; private set; } = new Subtitle();
+        public ThumbnailImages ThumbnailImagesOptions { get; private set; } = new ThumbnailImages();
+        public VerbositySimulation VerbositySimulationOptions { get; private set; } = new VerbositySimulation();
+        public VideoFormat VideoFormatOptions { get; private set; } = new VideoFormat();
+        public VideoSelection VideoSelectionOptions { get; private set; } = new VideoSelection();
+        public Workarounds WorkaroundsOptions { get; private set; } = new Workarounds();
+
+        public void Clear()
+        {
+            this.AdobePassOptions = new AdobePass();
+            this.AuthenticationOptions = new Authentication();
+            this.DownloadOptions = new Download();
+            this.FilesystemOptions = new Filesystem();
+            this.GeneralOptions = new General();
+            this.NetworkOptions = new Network();
+            this.PostProcessingOptions = new PostProcessing();
+            this.SubtitleOptions = new Subtitle();
+            this.ThumbnailImagesOptions = new ThumbnailImages();
+            this.VerbositySimulationOptions = new VerbositySimulation();
+            this.VideoFormatOptions = new VideoFormat();
+            this.VideoSelectionOptions = new VideoSelection();
+            this.WorkaroundsOptions = new Workarounds();
+        }
+
+        public static Options Deserialize(string json)
+        {
+            return JsonConvert.DeserializeObject<Options>(json);
+        }
 
         /// <summary>
         ///     Retrieves the options from each option section

@@ -31,10 +31,10 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class AdobePass : OptionSection
     {
-        [Option] private readonly BoolOption listMso = new BoolOption("--ap-list-mso");
-        [Option] private readonly StringOption mso = new StringOption("--ap-mso");
-        [Option] private readonly StringOption password = new StringOption("--ap-password");
-        [Option] private readonly StringOption username = new StringOption("--ap-username");
+        [Option] internal readonly BoolOption listMso = new BoolOption("--ap-list-mso");
+        [Option] internal readonly StringOption mso = new StringOption("--ap-mso");
+        [Option] internal readonly StringOption password = new StringOption("--ap-password");
+        [Option] internal readonly StringOption username = new StringOption("--ap-username");
 
         /// <summary>
         ///     --ap-list-mso
@@ -42,7 +42,7 @@ namespace NYoutubeDL.Options
         public bool ListMso
         {
             get { return this.listMso.Value ?? false; }
-            set { this.listMso.Value = value; }
+            set { this.SetField(ref this.listMso.Value, value); }
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace NYoutubeDL.Options
         public string Mso
         {
             get { return this.mso.Value; }
-            set { this.mso.Value = value; }
+            set { this.SetField(ref this.mso.Value, value); }
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace NYoutubeDL.Options
         public string Password
         {
             get { return this.password.Value; }
-            set { this.password.Value = value; }
+            set { this.SetField(ref this.password.Value, value); }
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace NYoutubeDL.Options
         public string Username
         {
             get { return this.username.Value; }
-            set { this.username.Value = value; }
+            set { this.SetField(ref this.username.Value, value); }
         }
     }
 }

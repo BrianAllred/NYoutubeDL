@@ -22,6 +22,7 @@ namespace NYoutubeDL.Options
 {
     #region Using
 
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -32,7 +33,7 @@ namespace NYoutubeDL.Options
     /// <summary>
     ///     Abstract parent class, inherited by objects that represent sections of options.
     /// </summary>
-    public abstract class OptionSection
+    public abstract class OptionSection : NotifyPropertyChangedEx
     {
         protected internal readonly List<string> CustomParameters = new List<string>();
 

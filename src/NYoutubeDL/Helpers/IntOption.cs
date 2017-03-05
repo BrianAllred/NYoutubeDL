@@ -21,18 +21,14 @@
 namespace NYoutubeDL.Helpers
 {
     [Option]
-    internal class IntOption
+    internal class IntOption : BaseOption<int?>
     {
         private readonly bool negativeIsInfinite;
 
-        internal IntOption(string paramString, bool negativeIsInfinite = false)
+        internal IntOption(string paramString, bool negativeIsInfinite = false) : base(paramString)
         {
-            this.ParamString = paramString;
             this.negativeIsInfinite = negativeIsInfinite;
         }
-
-        internal string ParamString { get; }
-        internal int? Value { get; set; } = null;
 
         public override string ToString()
         {

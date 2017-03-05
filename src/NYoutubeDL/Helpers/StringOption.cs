@@ -21,15 +21,11 @@
 namespace NYoutubeDL.Helpers
 {
     [Option]
-    internal class StringOption
+    internal class StringOption : BaseOption<string>
     {
-        internal StringOption(string paramString)
+        internal StringOption(string paramString) : base(paramString)
         {
-            this.ParamString = paramString;
         }
-
-        internal string ParamString { get; }
-        internal string Value { get; set; } = null;
 
         public override string ToString()
         {

@@ -26,6 +26,10 @@ namespace NYoutubeDL.Models
 
     #endregion
 
+    // ReSharper disable InconsistentNaming
+    // due to following youtube-dl
+    // naming conventions
+
     public class VideoInfo
     {
         public string _type { get; set; }

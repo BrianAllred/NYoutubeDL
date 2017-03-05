@@ -20,21 +20,20 @@
 
 namespace NYoutubeDL.Helpers
 {
-    [Option]
-    internal class DoubleOption : BaseOption<double?>
+    public class TypeSafeEnum
     {
-        internal DoubleOption(string paramString) : base(paramString)
+        protected readonly string Name;
+        protected readonly int Value;
+
+        protected TypeSafeEnum(int value, string name)
         {
+            this.Name = name;
+            this.Value = value;
         }
 
         public override string ToString()
         {
-            if (this.Value == null)
-            {
-                return string.Empty;
-            }
-
-            return this.ParamString + " " + this.Value;
+            return this.Name;
         }
     }
 }

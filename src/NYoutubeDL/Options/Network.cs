@@ -22,7 +22,6 @@ namespace NYoutubeDL.Options
 {
     #region Using
 
-    using System.Net;
     using Helpers;
 
     #endregion
@@ -32,12 +31,12 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class Network : OptionSection
     {
-        [Option] private readonly BoolOption forceIpv4 = new BoolOption("-4");
-        [Option] private readonly BoolOption forceIpv6 = new BoolOption("-6");
-        [Option] private readonly StringOption geoVerificationProxy = new StringOption("--geo-verification-proxy");
-        [Option] private readonly StringOption proxy = new StringOption("--proxy");
-        [Option] private readonly IntOption socketTimeout = new IntOption("--socket-timeout");
-        [Option] private readonly StringOption sourceAddress = new StringOption("--source-address");
+        [Option] internal readonly BoolOption forceIpv4 = new BoolOption("-4");
+        [Option] internal readonly BoolOption forceIpv6 = new BoolOption("-6");
+        [Option] internal readonly StringOption geoVerificationProxy = new StringOption("--geo-verification-proxy");
+        [Option] internal readonly StringOption proxy = new StringOption("--proxy");
+        [Option] internal readonly IntOption socketTimeout = new IntOption("--socket-timeout");
+        [Option] internal readonly StringOption sourceAddress = new StringOption("--source-address");
 
         /// <summary>
         ///     -4
@@ -45,7 +44,7 @@ namespace NYoutubeDL.Options
         public bool ForceIpv4
         {
             get { return this.forceIpv4.Value ?? false; }
-            set { this.forceIpv4.Value = value; }
+            set { this.SetField(ref this.forceIpv4.Value, value); }
         }
 
         /// <summary>
@@ -54,7 +53,7 @@ namespace NYoutubeDL.Options
         public bool ForceIpv6
         {
             get { return this.forceIpv6.Value ?? false; }
-            set { this.forceIpv6.Value = value; }
+            set { this.SetField(ref this.forceIpv6.Value, value); }
         }
 
         /// <summary>
@@ -63,7 +62,7 @@ namespace NYoutubeDL.Options
         public string GeoVerificationProxy
         {
             get { return this.geoVerificationProxy.Value; }
-            set { this.geoVerificationProxy.Value = value; }
+            set { this.SetField(ref this.geoVerificationProxy.Value, value); }
         }
 
         /// <summary>
@@ -72,7 +71,7 @@ namespace NYoutubeDL.Options
         public string Proxy
         {
             get { return this.proxy.Value; }
-            set { this.proxy.Value = value; }
+            set { this.SetField(ref this.proxy.Value, value); }
         }
 
         /// <summary>
@@ -81,21 +80,16 @@ namespace NYoutubeDL.Options
         public int SocketTimeout
         {
             get { return this.socketTimeout.Value ?? -1; }
-            set { this.socketTimeout.Value = value; }
+            set { this.SetField(ref this.socketTimeout.Value, value); }
         }
 
         /// <summary>
         ///     --source-address
         /// </summary>
-        public IPAddress SourceAddress
+        public string SourceAddress
         {
-            get
-            {
-                return string.IsNullOrWhiteSpace(this.sourceAddress.Value)
-                    ? IPAddress.Any
-                    : IPAddress.Parse(this.sourceAddress.Value);
-            }
-            set { this.sourceAddress.Value = value.ToString(); }
+            get { return this.sourceAddress.Value; }
+            set { this.SetField(ref this.sourceAddress.Value, value); }
         }
     }
 }

@@ -25,21 +25,41 @@ namespace NYoutubeDL.Helpers
     using System;
     using System.IO;
     using System.Runtime.InteropServices;
+    using Newtonsoft.Json;
+    using Options;
 
     #endregion
 
-    internal static class Extensions
+    public static class Extensions
     {
         internal static bool ExistsOnPath(this FileInfo fileInfo)
         {
             return !string.IsNullOrWhiteSpace(fileInfo.GetFullPath());
         }
 
+        /// <summary>
+        ///     Attempts to resolve the path of a given file info into a fully absolute path
+        /// </summary>
+        /// <param name="fileInfo">
+        ///     File with relative path
+        /// </param>
+        /// <returns>
+        ///     File's absolute path
+        /// </returns>
         internal static string GetFullPath(this FileInfo fileInfo)
         {
             if (File.Exists(fileInfo.Name))
             {
                 return Path.GetFullPath(fileInfo.Name);
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                string filePath = fileInfo.Name + ".exe";
+                if (File.Exists(filePath))
+                {
+                    return Path.GetFullPath(filePath);
+                }
             }
 
             string environmentVariable = Environment.GetEnvironmentVariable("PATH");
@@ -71,6 +91,11 @@ namespace NYoutubeDL.Helpers
         internal static string RemoveExtraWhitespace(this string str)
         {
             return string.Join(" ", str.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
+        }
+
+        public static string Serialize(this Options options)
+        {
+            return JsonConvert.SerializeObject(options, Formatting.Indented);
         }
     }
 }

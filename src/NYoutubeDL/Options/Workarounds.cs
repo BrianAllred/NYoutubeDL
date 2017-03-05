@@ -32,15 +32,15 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class Workarounds : OptionSection
     {
-        [Option] private readonly BoolOption biDiWorkaround = new BoolOption("--bidi-workaround");
-        [Option] private readonly StringOption encoding = new StringOption("--encoding");
+        [Option] internal readonly BoolOption biDiWorkaround = new BoolOption("--bidi-workaround");
+        [Option] internal readonly StringOption encoding = new StringOption("--encoding");
         private readonly List<string> headers = new List<string>();
-        [Option] private readonly IntOption maxSleepInternval = new IntOption("--max-sleep-interval");
-        [Option] private readonly BoolOption noCheckCertificate = new BoolOption("--no-check-certificate");
-        [Option] private readonly BoolOption preferInsecure = new BoolOption("--prefer-insecure");
-        [Option] private readonly StringOption referer = new StringOption("--referer");
-        [Option] private readonly IntOption sleepInterval = new IntOption("--sleep-interval");
-        [Option] private readonly StringOption userAgent = new StringOption("--user-agent");
+        [Option] internal readonly IntOption maxSleepInternval = new IntOption("--max-sleep-interval");
+        [Option] internal readonly BoolOption noCheckCertificate = new BoolOption("--no-check-certificate");
+        [Option] internal readonly BoolOption preferInsecure = new BoolOption("--prefer-insecure");
+        [Option] internal readonly StringOption referer = new StringOption("--referer");
+        [Option] internal readonly IntOption sleepInterval = new IntOption("--sleep-interval");
+        [Option] internal readonly StringOption userAgent = new StringOption("--user-agent");
 
         /// <summary>
         ///     --bidi-workaround
@@ -48,7 +48,7 @@ namespace NYoutubeDL.Options
         public bool BiDiWorkaround
         {
             get { return this.biDiWorkaround.Value ?? false; }
-            set { this.biDiWorkaround.Value = value; }
+            set { this.SetField(ref this.biDiWorkaround.Value, value); }
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace NYoutubeDL.Options
         public string Encoding
         {
             get { return this.encoding.Value; }
-            set { this.encoding.Value = value; }
+            set { this.SetField(ref this.encoding.Value, value); }
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace NYoutubeDL.Options
         public int MaxSleepInterval
         {
             get { return this.maxSleepInternval.Value ?? -1; }
-            set { this.maxSleepInternval.Value = value; }
+            set { this.SetField(ref this.maxSleepInternval.Value, value); }
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace NYoutubeDL.Options
         public bool NoCheckCertificate
         {
             get { return this.noCheckCertificate.Value ?? false; }
-            set { this.noCheckCertificate.Value = value; }
+            set { this.SetField(ref this.noCheckCertificate.Value, value); }
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace NYoutubeDL.Options
         public bool PreferInsecure
         {
             get { return this.preferInsecure.Value ?? false; }
-            set { this.preferInsecure.Value = value; }
+            set { this.SetField(ref this.preferInsecure.Value, value); }
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace NYoutubeDL.Options
         public string Referer
         {
             get { return this.referer.Value; }
-            set { this.referer.Value = value; }
+            set { this.SetField(ref this.referer.Value, value); }
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace NYoutubeDL.Options
         public int SleepInterval
         {
             get { return this.sleepInterval.Value ?? -1; }
-            set { this.sleepInterval.Value = value; }
+            set { this.SetField(ref this.sleepInterval.Value, value); }
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace NYoutubeDL.Options
         public string UserAgent
         {
             get { return this.userAgent.Value; }
-            set { this.userAgent.Value = value; }
+            set { this.SetField(ref this.userAgent.Value, value); }
         }
 
         /// <summary>

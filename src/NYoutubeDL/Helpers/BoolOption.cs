@@ -21,15 +21,11 @@
 namespace NYoutubeDL.Helpers
 {
     [Option]
-    internal class BoolOption
+    internal class BoolOption : BaseOption<bool?>
     {
-        internal BoolOption(string paramString)
+        internal BoolOption(string paramString) : base(paramString)
         {
-            this.ParamString = paramString;
         }
-
-        internal string ParamString { get; }
-        internal bool? Value { get; set; } = null;
 
         public override string ToString()
         {

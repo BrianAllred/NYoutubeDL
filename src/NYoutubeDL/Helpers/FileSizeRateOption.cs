@@ -21,15 +21,11 @@
 namespace NYoutubeDL.Helpers
 {
     [Option]
-    internal class FileSizeRateOption
+    internal class FileSizeRateOption : BaseOption<FileSizeRate>
     {
-        internal FileSizeRateOption(string paramString)
+        internal FileSizeRateOption(string paramString) : base(paramString)
         {
-            this.ParamString = paramString;
         }
-
-        internal string ParamString { get; }
-        internal FileSizeRate Value { get; set; } = null;
 
         public override string ToString()
         {

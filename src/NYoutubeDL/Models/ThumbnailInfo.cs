@@ -20,6 +20,10 @@
 
 namespace NYoutubeDL.Models
 {
+    // ReSharper disable InconsistentNaming
+    // due to following youtube-dl
+    // naming conventions
+
     public class ThumbnailInfo
     {
         public string id { get; set; }

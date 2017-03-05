@@ -23,10 +23,12 @@ namespace NYoutubeDL
     #region Using
 
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Threading;
     using Helpers;
+    using Models;
 
     #endregion
 
@@ -85,12 +87,31 @@ namespace NYoutubeDL
         /// <summary>
         ///     Information about the download
         /// </summary>
-        public DownloadInfo Info { get; private set; } = new DownloadInfo();
+        public DownloadInfo Info { get; private set; }
 
         /// <summary>
         ///     The options to pass to youtube-dl
         /// </summary>
-        public Options.Options Options { get; } = new Options.Options();
+        public Options.Options Options { get; set; } = new Options.Options();
+
+        /// <summary>
+        ///     Returns whether the download process is actively running
+        /// </summary>
+        public bool ProcessRunning
+        {
+            get
+            {
+                try
+                {
+                    return !this.process.HasExited;
+                }
+                catch (Exception)
+                {
+                }
+
+                return false;
+            }
+        }
 
         /// <summary>
         ///     Gets the complete command that was run by Download().
@@ -172,13 +193,26 @@ namespace NYoutubeDL
         /// </returns>
         public DownloadInfo GetDownloadInfo()
         {
+            if (string.IsNullOrEmpty(this.VideoUrl))
+            {
+                return null;
+            }
+
+            List<DownloadInfo> infos = new List<DownloadInfo>();
+
             YoutubeDL infoYdl = new YoutubeDL(this.YoutubeDlPath) {VideoUrl = this.VideoUrl, isInfoProcess = true};
             infoYdl.Options.VerbositySimulationOptions.DumpSingleJson = true;
             infoYdl.Options.VerbositySimulationOptions.Simulate = true;
             infoYdl.Options.GeneralOptions.FlatPlaylist = true;
-            infoYdl.StandardOutputEvent += this.Info.ParseOutput;
-            infoYdl.StandardErrorEvent += this.Info.ParseError;
+            infoYdl.StandardOutputEvent += (sender, output) => { infos.Add(DownloadInfo.CreateDownloadInfo(output)); };
             infoYdl.Download(true).WaitForExit();
+
+            while (infoYdl.ProcessRunning || infos.Count == 0)
+            {
+                Thread.Sleep(1);
+            }
+
+            this.Info = infos.Count > 1 ? new MultiDownloadInfo(infos) : infos[0];
 
             return this.Info;
         }
@@ -258,6 +292,11 @@ namespace NYoutubeDL
                 RedirectStandardOutput = true,
                 UseShellExecute = false
             };
+
+            if (string.IsNullOrEmpty(this.processStartInfo.FileName))
+            {
+                throw new FileNotFoundException("youtube-dl not found on path!");
+            }
 
             if (!File.Exists(this.processStartInfo.FileName))
             {

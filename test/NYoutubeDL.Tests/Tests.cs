@@ -23,8 +23,8 @@ namespace NYoutubeDL.Tests
     #region Using
 
     using System;
-    using System.Threading;
     using Helpers;
+    using Models;
     using Xunit;
 
     #endregion
@@ -109,43 +109,37 @@ namespace NYoutubeDL.Tests
         }
 
         [Fact]
-        public void TestIsPlaylist()
+        public void TestIsMultiDownload()
         {
-            bool wait = true;
             YoutubeDL ydlClient = new YoutubeDL();
-            ydlClient.Info.UpdateEvent += delegate
-            {
-                Assert.True(ydlClient.Info.IsPlaylistDownload);
-                wait = false;
-            };
 
-            ydlClient.GetDownloadInfo(@"https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-");
+            ydlClient.GetDownloadInfo(
+                @"https://www.youtube.com/watch?v=dQw4w9WgXcQ https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-");
 
-            int count = 0;
-            while (wait && count++ < 30)
-            {
-                Thread.Sleep(1000);
-            }
+            MultiDownloadInfo info = ydlClient.Info as MultiDownloadInfo;
+            Assert.True(info != null);
         }
 
         [Fact]
-        public void TestIsNotPlaylist()
+        public void TestIsPlaylistDownload()
         {
-            bool wait = true;
             YoutubeDL ydlClient = new YoutubeDL();
-            ydlClient.Info.UpdateEvent += delegate
-            {
-                Assert.False(ydlClient.Info.IsPlaylistDownload);
-                wait = false;
-            };
+
+            ydlClient.GetDownloadInfo(@"https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-");
+
+            PlaylistDownloadInfo info = ydlClient.Info as PlaylistDownloadInfo;
+            Assert.True(info != null);
+        }
+
+        [Fact]
+        public void TestIsVideoDownload()
+        {
+            YoutubeDL ydlClient = new YoutubeDL();
 
             ydlClient.GetDownloadInfo(@"https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 
-            int count = 0;
-            while (wait && count++ < 30)
-            {
-                Thread.Sleep(1000);
-            }
+            VideoDownloadInfo info = ydlClient.Info as VideoDownloadInfo;
+            Assert.True(info != null);
         }
 
         [Fact]

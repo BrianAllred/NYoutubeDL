@@ -32,25 +32,25 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class VideoSelection : OptionSection
     {
-        [Option] private readonly IntOption ageLimit = new IntOption("--age-limit");
-        [Option] private readonly DateTimeOption date = new DateTimeOption("--date");
-        [Option] private readonly DateTimeOption dateAfter = new DateTimeOption("--dateafter");
-        [Option] private readonly DateTimeOption dateBefore = new DateTimeOption("--datebefore");
-        [Option] private readonly StringOption downloadArchive = new StringOption("--download-archive");
-        [Option] private readonly BoolOption includeAds = new BoolOption("--include-ads");
-        [Option] private readonly StringOption matchFilter = new StringOption("--match-filter");
-        [Option] private readonly StringOption matchTitle = new StringOption("--match-title");
-        [Option] private readonly IntOption maxDownloads = new IntOption("--max-downloads");
-        [Option] private readonly FileSizeRateOption maxFileSize = new FileSizeRateOption("--max-filesize");
-        [Option] private readonly IntOption maxViews = new IntOption("--max-views");
-        [Option] private readonly FileSizeRateOption minFileSize = new FileSizeRateOption("--min-filesize");
-        [Option] private readonly IntOption minViews = new IntOption("--min-views");
-        [Option] private readonly BoolOption noPlaylist = new BoolOption("--no-playlist");
-        [Option] private readonly IntOption playlistEnd = new IntOption("--playlist-end");
-        [Option] private readonly StringOption playlistItems = new StringOption("--playlist-items");
-        [Option] private readonly IntOption playlistStart = new IntOption("--playlist-start");
-        [Option] private readonly StringOption rejectTitle = new StringOption("--reject-title");
-        [Option] private readonly BoolOption yesPlaylist = new BoolOption("--yes-playlist");
+        [Option] internal readonly IntOption ageLimit = new IntOption("--age-limit");
+        [Option] internal readonly DateTimeOption date = new DateTimeOption("--date");
+        [Option] internal readonly DateTimeOption dateAfter = new DateTimeOption("--dateafter");
+        [Option] internal readonly DateTimeOption dateBefore = new DateTimeOption("--datebefore");
+        [Option] internal readonly StringOption downloadArchive = new StringOption("--download-archive");
+        [Option] internal readonly BoolOption includeAds = new BoolOption("--include-ads");
+        [Option] internal readonly StringOption matchFilter = new StringOption("--match-filter");
+        [Option] internal readonly StringOption matchTitle = new StringOption("--match-title");
+        [Option] internal readonly IntOption maxDownloads = new IntOption("--max-downloads");
+        [Option] internal readonly FileSizeRateOption maxFileSize = new FileSizeRateOption("--max-filesize");
+        [Option] internal readonly IntOption maxViews = new IntOption("--max-views");
+        [Option] internal readonly FileSizeRateOption minFileSize = new FileSizeRateOption("--min-filesize");
+        [Option] internal readonly IntOption minViews = new IntOption("--min-views");
+        [Option] internal readonly BoolOption noPlaylist = new BoolOption("--no-playlist");
+        [Option] internal readonly IntOption playlistEnd = new IntOption("--playlist-end");
+        [Option] internal readonly StringOption playlistItems = new StringOption("--playlist-items");
+        [Option] internal readonly IntOption playlistStart = new IntOption("--playlist-start");
+        [Option] internal readonly StringOption rejectTitle = new StringOption("--reject-title");
+        [Option] internal readonly BoolOption yesPlaylist = new BoolOption("--yes-playlist");
 
         /// <summary>
         ///     --age-limit
@@ -58,7 +58,7 @@ namespace NYoutubeDL.Options
         public int AgeLimit
         {
             get { return this.ageLimit.Value ?? -1; }
-            set { this.ageLimit.Value = value; }
+            set { this.SetField(ref this.ageLimit.Value, value); }
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace NYoutubeDL.Options
         public DateTime Date
         {
             get { return this.date.Value ?? new DateTime(); }
-            set { this.date.Value = value; }
+            set { this.SetField(ref this.date.Value, value); }
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace NYoutubeDL.Options
         public DateTime DateAfter
         {
             get { return this.dateAfter.Value ?? new DateTime(); }
-            set { this.dateAfter.Value = value; }
+            set { this.SetField(ref this.dateAfter.Value, value); }
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace NYoutubeDL.Options
         public DateTime DateBefore
         {
             get { return this.dateBefore.Value ?? new DateTime(); }
-            set { this.dateBefore.Value = value; }
+            set { this.SetField(ref this.dateBefore.Value, value); }
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace NYoutubeDL.Options
         public string DownloadArchive
         {
             get { return this.downloadArchive.Value; }
-            set { this.downloadArchive.Value = value; }
+            set { this.SetField(ref this.downloadArchive.Value, value); }
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace NYoutubeDL.Options
         public bool IncludeAds
         {
             get { return this.includeAds.Value ?? false; }
-            set { this.includeAds.Value = value; }
+            set { this.SetField(ref this.includeAds.Value, value); }
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace NYoutubeDL.Options
         public string MatchFilter
         {
             get { return this.matchFilter.Value; }
-            set { this.matchFilter.Value = value; }
+            set { this.SetField(ref this.matchFilter.Value, value); }
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace NYoutubeDL.Options
         public string MatchTitle
         {
             get { return this.matchTitle.Value; }
-            set { this.matchTitle.Value = value; }
+            set { this.SetField(ref this.matchTitle.Value, value); }
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace NYoutubeDL.Options
         public int MaxDownloads
         {
             get { return this.maxDownloads.Value ?? -1; }
-            set { this.maxDownloads.Value = value; }
+            set { this.SetField(ref this.maxDownloads.Value, value); }
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace NYoutubeDL.Options
         public FileSizeRate MaxFileSize
         {
             get { return this.maxFileSize.Value; }
-            set { this.maxFileSize.Value = value; }
+            set { this.SetField(ref this.maxFileSize.Value, value); }
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace NYoutubeDL.Options
         public int MaxViews
         {
             get { return this.maxViews.Value ?? -1; }
-            set { this.maxViews.Value = value; }
+            set { this.SetField(ref this.maxViews.Value, value); }
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace NYoutubeDL.Options
         public FileSizeRate MinFileSize
         {
             get { return this.minFileSize.Value; }
-            set { this.minFileSize.Value = value; }
+            set { this.SetField(ref this.minFileSize.Value, value); }
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace NYoutubeDL.Options
         public int MinViews
         {
             get { return this.minViews.Value ?? -1; }
-            set { this.minViews.Value = value; }
+            set { this.SetField(ref this.minViews.Value, value); }
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace NYoutubeDL.Options
         public bool NoPlaylist
         {
             get { return this.noPlaylist.Value ?? false; }
-            set { this.noPlaylist.Value = value; }
+            set { this.SetField(ref this.noPlaylist.Value, value); }
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace NYoutubeDL.Options
         public int PlaylistEnd
         {
             get { return this.playlistEnd.Value ?? -1; }
-            set { this.playlistEnd.Value = value; }
+            set { this.SetField(ref this.playlistEnd.Value, value); }
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace NYoutubeDL.Options
         public string PlaylistItems
         {
             get { return this.playlistItems.Value; }
-            set { this.playlistItems.Value = value; }
+            set { this.SetField(ref this.playlistItems.Value, value); }
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace NYoutubeDL.Options
         public int PlaylistStart
         {
             get { return this.playlistStart.Value ?? 1; }
-            set { this.playlistStart.Value = value; }
+            set { this.SetField(ref this.playlistStart.Value, value); }
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace NYoutubeDL.Options
         public string RejectTitle
         {
             get { return this.rejectTitle.Value; }
-            set { this.rejectTitle.Value = value; }
+            set { this.SetField(ref this.rejectTitle.Value, value); }
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace NYoutubeDL.Options
         public bool YesPlaylist
         {
             get { return this.yesPlaylist.Value ?? false; }
-            set { this.yesPlaylist.Value = value; }
+            set { this.SetField(ref this.yesPlaylist.Value, value); }
         }
     }
 }
