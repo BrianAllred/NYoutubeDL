@@ -116,6 +116,8 @@ namespace NYoutubeDL.Helpers
                             continue;
                         }
 
+                        // If it's not one of the above classes, then it's an EnumOption,
+                        // which, at the end of the day, is just an int.
                         fieldValue.Value = (int) childPair.Value;
                         fieldInfo.SetValue(property, fieldValue);
                     }

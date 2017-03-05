@@ -160,7 +160,7 @@ namespace NYoutubeDL
             ThreadPool.QueueUserWorkItem(this.StandardOutput, this.stdOutputTokenSource.Token);
             ThreadPool.QueueUserWorkItem(this.StandardError, this.stdErrorTokenSource.Token);
 
-            if (!this.isInfoProcess)
+            if (!this.isInfoProcess && this.Info != null)
             {
                 this.StandardOutputEvent += this.Info.ParseOutput;
                 this.StandardErrorEvent += this.Info.ParseError;
