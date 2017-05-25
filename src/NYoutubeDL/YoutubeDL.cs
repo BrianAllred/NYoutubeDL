@@ -236,7 +236,7 @@ namespace NYoutubeDL
         public DownloadInfo GetDownloadInfo(string url)
         {
             this.VideoUrl = url;
-            return this.GetDownloadInfo() ?? new DownloadInfo();
+            return this.GetDownloadInfo();
         }
 
         /// <summary>
