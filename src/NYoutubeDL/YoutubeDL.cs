@@ -206,7 +206,7 @@ namespace NYoutubeDL
             infoYdl.Options.VerbositySimulationOptions.Simulate = true;
             infoYdl.Options.GeneralOptions.FlatPlaylist = true;
             infoYdl.StandardOutputEvent += (sender, output) => { infos.Add(DownloadInfo.CreateDownloadInfo(output)); };
-            infoYdl.StandardErrorEvent += (sender, errorOutput) => { encounteredError = true; };
+            infoYdl.StandardErrorEvent += (sender, errorOutput) => { if (errorOutput.StartsWith("ERROR:")) { encounteredError = true; } };
             infoYdl.Download(true).WaitForExit();
 
             while (infoYdl.ProcessRunning || infos.Count == 0)
