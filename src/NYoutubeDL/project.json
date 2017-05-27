@@ -22,5 +22,5 @@
   "projectUrl": "http://github.com/brianallred/nyoutubedl",
   "requireLicenseAcceptance": false,
   "tags": [ "youtube-dl" ],
-  "version": "0.4.3"
+  "version": "0.4.4"
 }
