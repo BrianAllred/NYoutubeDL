@@ -33,6 +33,7 @@ namespace NYoutubeDL.Helpers
 
     #endregion
 
+    /// <inheritdoc />
     /// <summary>
     ///     Custom Json converter for the Options class
     /// </summary>
@@ -61,65 +62,44 @@ namespace NYoutubeDL.Helpers
                     {
                         // Why on earth does GetRuntimeField(childPair.Key) return null here, but THIS works!?
                         FieldInfo fieldInfo =
-                            propertyInfo.PropertyType.GetRuntimeFields()
-                                .First(field => field.Name.Equals(childPair.Key));
+                            propertyInfo.PropertyType.GetRuntimeFields().
+                                First(field => field.Name.Equals(childPair.Key));
 
                         dynamic fieldValue = fieldInfo.GetValue(property);
 
-                        // C#7 needs to get here (switch on types)
-
-                        BoolOption boolField = fieldValue as BoolOption;
-                        if (boolField != null)
+                        switch (fieldValue)
                         {
-                            boolField.Value = (bool) childPair.Value;
-                            fieldInfo.SetValue(property, boolField);
-                            continue;
+                            case BoolOption boolField:
+                                boolField.Value = (bool) childPair.Value;
+                                fieldInfo.SetValue(property, boolField);
+                                break;
+                            case DateTimeOption datetimeField:
+                                datetimeField.Value = DateTime.Parse((string)childPair.Value);
+                                fieldInfo.SetValue(property, datetimeField);
+                                break;
+                            case DoubleOption doubleField:
+                                doubleField.Value = (double) childPair.Value;
+                                fieldInfo.SetValue(property, doubleField);
+                                break;
+                            case FileSizeRateOption fileSizeRateField:
+                                fileSizeRateField.Value = new FileSizeRate((string)childPair.Value);
+                                fieldInfo.SetValue(property, fileSizeRateField);
+                                break;
+                            case IntOption intField:
+                                intField.Value = (int)childPair.Value;
+                                fieldInfo.SetValue(property, intField);
+                                break;
+                            case StringOption stringField:
+                                stringField.Value = (string)childPair.Value;
+                                fieldInfo.SetValue(property, stringField);
+                                break;
+                            default:
+                                // If it's not one of the above classes, then it's an EnumOption,
+                                // which, at the end of the day, is just an int.
+                                fieldValue.Value = (int)childPair.Value;
+                                fieldInfo.SetValue(property, fieldValue);
+                                break;
                         }
-
-                        DateTimeOption datetimeField = fieldValue as DateTimeOption;
-                        if (datetimeField != null)
-                        {
-                            datetimeField.Value = DateTime.Parse((string) childPair.Value);
-                            fieldInfo.SetValue(property, datetimeField);
-                            continue;
-                        }
-
-                        DoubleOption doubleField = fieldValue as DoubleOption;
-                        if (doubleField != null)
-                        {
-                            doubleField.Value = (double) childPair.Value;
-                            fieldInfo.SetValue(property, doubleField);
-                            continue;
-                        }
-
-                        FileSizeRateOption fileSizeRateField = fieldValue as FileSizeRateOption;
-                        if (fileSizeRateField != null)
-                        {
-                            fileSizeRateField.Value = new FileSizeRate((string) childPair.Value);
-                            fieldInfo.SetValue(property, fileSizeRateField);
-                            continue;
-                        }
-
-                        IntOption intField = fieldValue as IntOption;
-                        if (intField != null)
-                        {
-                            intField.Value = (int) childPair.Value;
-                            fieldInfo.SetValue(property, intField);
-                            continue;
-                        }
-
-                        StringOption stringField = fieldValue as StringOption;
-                        if (stringField != null)
-                        {
-                            stringField.Value = (string) childPair.Value;
-                            fieldInfo.SetValue(property, stringField);
-                            continue;
-                        }
-
-                        // If it's not one of the above classes, then it's an EnumOption,
-                        // which, at the end of the day, is just an int.
-                        fieldValue.Value = (int) childPair.Value;
-                        fieldInfo.SetValue(property, fieldValue);
                     }
                 }
             }
@@ -148,17 +128,8 @@ namespace NYoutubeDL.Helpers
                             dynamic fieldVal = fieldInfo.GetValue(propVal);
                             if (fieldVal.Value != null)
                             {
-                                object val;
-
                                 FileSizeRate fileSizeRate = fieldVal.Value as FileSizeRate;
-                                if (fileSizeRate != null)
-                                {
-                                    val = fileSizeRate.ToString();
-                                }
-                                else
-                                {
-                                    val = fieldVal.Value;
-                                }
+                                object val = fileSizeRate != null ? fileSizeRate.ToString() : fieldVal.Value;
 
                                 childObject.Add(new JProperty(fieldInfo.Name, val));
                             }

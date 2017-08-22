@@ -33,6 +33,7 @@ namespace NYoutubeDL.Models
     public class PlaylistDownloadInfo : DownloadInfo
     {
         private VideoDownloadInfo currentVideo;
+
         private int videoIndex = 1;
 
         public PlaylistDownloadInfo(PlaylistInfo info)
@@ -49,8 +50,8 @@ namespace NYoutubeDL.Models
         /// </summary>
         public VideoDownloadInfo CurrentVideo
         {
-            get { return this.currentVideo; }
-            set { this.SetField(ref this.currentVideo, value); }
+            get => this.currentVideo;
+            set => this.SetField(ref this.currentVideo, value);
         }
 
         /// <summary>
@@ -58,8 +59,8 @@ namespace NYoutubeDL.Models
         /// </summary>
         public int VideoIndex
         {
-            get { return this.videoIndex; }
-            set { this.SetField(ref this.videoIndex, value); }
+            get => this.videoIndex;
+            set => this.SetField(ref this.videoIndex, value);
         }
 
         /// <summary>

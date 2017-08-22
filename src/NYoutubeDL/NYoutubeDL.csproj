@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.4.5</Version>
+    <Authors>Brian Allred</Authors>
+    <Company />
+    <Product />
+    <Description>A simple youtube-dl library for C#.</Description>
+    <Copyright>Copyright Brian Allred 2017</Copyright>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>http://github.com/brianallred/nyoutubedl</PackageProjectUrl>
+    <PackageTags>youtube-dl</PackageTags>
+    <NeutralLanguage></NeutralLanguage>
+    <AssemblyVersion>0.4.5.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+</Project>

@@ -18,36 +18,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-namespace NYoutubeDL.Sample
+namespace NYoutubeDL.Models
 {
-    #region Using
-
-    using System;
-    using System.IO;
-    using Helpers;
-    using Options;
-
-    #endregion
-
-    public class Program
+    public class ThumbnailDownloadInfo
     {
-        public static void Main(string[] args)
+        public ThumbnailDownloadInfo(ThumbnailInfo info)
         {
-            YoutubeDL ydlClient = new YoutubeDL();
-
-            ydlClient.Options.DownloadOptions.FragmentRetries = -1;
-            ydlClient.Options.DownloadOptions.Retries = -1;
-            ydlClient.Options.VideoFormatOptions.Format = Enums.VideoFormat.best;
-            ydlClient.Options.PostProcessingOptions.AudioFormat = Enums.AudioFormat.best;
-            ydlClient.Options.PostProcessingOptions.AudioQuality = "0";
-
-            string options = ydlClient.Options.Serialize();
-            ydlClient.Options = Options.Deserialize(options);
-
-            ydlClient.StandardErrorEvent += (sender, error) => Console.WriteLine(error);
-            ydlClient.StandardOutputEvent += (sender, output) => Console.WriteLine(output);
-
-            ydlClient.Download("https://www.youtube.com/watch?v=dQw4w9WgXcQ").WaitForExit();
+            this.Id = info.id;
+            this.Url = info.url;
         }
+
+        public string Id { get; }
+
+        public string Url { get; }
     }
 }

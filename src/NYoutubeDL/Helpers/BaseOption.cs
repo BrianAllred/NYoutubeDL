@@ -29,6 +29,7 @@ namespace NYoutubeDL.Helpers
     internal abstract class BaseOption<T>
     {
         internal readonly string ParamString;
+
         internal T Value = default(T);
 
         internal BaseOption(string paramString)

@@ -90,12 +90,7 @@ namespace NYoutubeDL.Helpers
 
         internal static string RemoveExtraWhitespace(this string str)
         {
-            return string.Join(" ", str.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
-        }
-
-        public static string Serialize(this Options options)
-        {
-            return JsonConvert.SerializeObject(options, Formatting.Indented);
+            return string.Join(" ", str.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
         }
     }
 }

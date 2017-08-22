@@ -33,8 +33,11 @@ namespace NYoutubeDL.Models
     public class MultiDownloadInfo : DownloadInfo
     {
         private const string Webpage = "Downloading webpage";
+
         private const string YoutubePlaylist = "youtube:playlist";
+
         private readonly Dictionary<string, DownloadInfo> videos = new Dictionary<string, DownloadInfo>();
+
         private DownloadInfo currentVideo;
 
         public MultiDownloadInfo(IEnumerable<DownloadInfo> infos)

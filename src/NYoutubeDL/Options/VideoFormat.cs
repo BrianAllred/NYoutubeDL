@@ -32,14 +32,18 @@ namespace NYoutubeDL.Options
     public class VideoFormat : OptionSection
     {
         [Option] internal readonly BoolOption allFormats = new BoolOption("--all-formats");
+
         [Option] internal readonly EnumOption<Enums.VideoFormat> format = new EnumOption<Enums.VideoFormat>("-f");
+
         [Option] internal readonly StringOption formatAdvanced = new StringOption("-f");
+
         [Option] internal readonly BoolOption listFormats = new BoolOption("-F");
 
         [Option] internal readonly EnumOption<Enums.VideoFormat> mergeOutputFormat =
             new EnumOption<Enums.VideoFormat>("--merge-output-format");
 
         [Option] internal readonly BoolOption preferFreeFormats = new BoolOption("--prefer-free-formats");
+
         [Option] internal readonly BoolOption youtubeSkipDashManifest = new BoolOption("--youtube-skip-dash-manifest");
 
         /// <summary>
@@ -47,8 +51,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool AllFormats
         {
-            get { return this.allFormats.Value ?? false; }
-            set { this.SetField(ref this.allFormats.Value, value); }
+            get => this.allFormats.Value ?? false;
+            set => this.SetField(ref this.allFormats.Value, value);
         }
 
         /// <summary>
@@ -58,11 +62,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public Enums.VideoFormat Format
         {
-            get
-            {
-                return this.format.Value == null ? Enums.VideoFormat.undefined : (Enums.VideoFormat) this.format.Value;
-            }
-            set { this.SetField(ref this.format.Value, (int) value); }
+            get => this.format.Value == null ? Enums.VideoFormat.undefined : (Enums.VideoFormat) this.format.Value;
+            set => this.SetField(ref this.format.Value, (int) value);
         }
 
         /// <summary>
@@ -72,8 +73,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public string FormatAdvanced
         {
-            get { return this.formatAdvanced.Value; }
-            set { this.SetField(ref this.formatAdvanced.Value, value); }
+            get => this.formatAdvanced.Value;
+            set => this.SetField(ref this.formatAdvanced.Value, value);
         }
 
         /// <summary>
@@ -81,8 +82,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool ListFormats
         {
-            get { return this.listFormats.Value ?? false; }
-            set { this.SetField(ref this.listFormats.Value, value); }
+            get => this.listFormats.Value ?? false;
+            set => this.SetField(ref this.listFormats.Value, value);
         }
 
         /// <summary>
@@ -90,13 +91,10 @@ namespace NYoutubeDL.Options
         /// </summary>
         public Enums.VideoFormat MergeOutputFormat
         {
-            get
-            {
-                return this.mergeOutputFormat.Value == null
-                    ? Enums.VideoFormat.undefined
-                    : (Enums.VideoFormat) this.mergeOutputFormat.Value;
-            }
-            set { this.SetField(ref this.mergeOutputFormat.Value, (int) value); }
+            get => this.mergeOutputFormat.Value == null
+                ? Enums.VideoFormat.undefined
+                : (Enums.VideoFormat) this.mergeOutputFormat.Value;
+            set => this.SetField(ref this.mergeOutputFormat.Value, (int) value);
         }
 
         /// <summary>
@@ -104,8 +102,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool PreferFreeFormats
         {
-            get { return this.preferFreeFormats.Value ?? false; }
-            set { this.SetField(ref this.preferFreeFormats.Value, value); }
+            get => this.preferFreeFormats.Value ?? false;
+            set => this.SetField(ref this.preferFreeFormats.Value, value);
         }
 
         /// <summary>
@@ -113,8 +111,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool YoutubeSkipDashManifest
         {
-            get { return this.youtubeSkipDashManifest.Value ?? false; }
-            set { this.SetField(ref this.youtubeSkipDashManifest.Value, value); }
+            get => this.youtubeSkipDashManifest.Value ?? false;
+            set => this.SetField(ref this.youtubeSkipDashManifest.Value, value);
         }
 
         public override string ToCliParameters()

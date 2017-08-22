@@ -33,12 +33,19 @@ namespace NYoutubeDL.Models
     public class PlaylistInfo
     {
         public string _type { get; set; }
+
         public List<VideoInfo> entries { get; set; }
+
         public string extractor { get; set; }
+
         public string extractor_key { get; set; }
+
         public string id { get; set; }
+
         public string title { get; set; }
+
         public string webpage_url { get; set; }
+
         public string webpage_url_basename { get; set; }
     }
 }

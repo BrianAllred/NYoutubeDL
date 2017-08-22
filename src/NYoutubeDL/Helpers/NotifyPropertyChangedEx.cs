@@ -28,6 +28,7 @@ namespace NYoutubeDL.Helpers
 
     #endregion
 
+    
     /// <summary>
     ///     Abstract class that extends the functionality of a traditional NotifyPropertyChanged implementation
     /// </summary>

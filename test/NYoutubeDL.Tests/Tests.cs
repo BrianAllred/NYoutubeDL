@@ -25,6 +25,7 @@ namespace NYoutubeDL.Tests
     using System;
     using Helpers;
     using Models;
+    using Options;
     using Xunit;
 
     #endregion
@@ -117,7 +118,7 @@ namespace NYoutubeDL.Tests
                 @"https://www.youtube.com/watch?v=dQw4w9WgXcQ https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-");
 
             MultiDownloadInfo info = ydlClient.Info as MultiDownloadInfo;
-            Assert.True(info != null);
+            Assert.NotEqual(info, null);
         }
 
         [Fact]
@@ -128,7 +129,7 @@ namespace NYoutubeDL.Tests
             ydlClient.GetDownloadInfo(@"https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-");
 
             PlaylistDownloadInfo info = ydlClient.Info as PlaylistDownloadInfo;
-            Assert.True(info != null);
+            Assert.NotEqual(info, null);
         }
 
         [Fact]
@@ -139,7 +140,7 @@ namespace NYoutubeDL.Tests
             ydlClient.GetDownloadInfo(@"https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 
             VideoDownloadInfo info = ydlClient.Info as VideoDownloadInfo;
-            Assert.True(info != null);
+            Assert.NotEqual(info, null);
         }
 
         [Fact]
@@ -151,6 +152,40 @@ namespace NYoutubeDL.Tests
             ydlClient.Options.AuthenticationOptions.Username = "testUser";
 
             Assert.True(ydlClient.PrepareDownload().Contains(usernameStringOption));
+        }
+
+        [Fact]
+        public void TestOptionSerializer()
+        {
+            YoutubeDL ydlClient = new YoutubeDL();
+            const string optionsString =
+                "{\r\n  \"DownloadOptions\": {\r\n    \"fragmentRetries\": -1,\r\n    \"retries\": -1\r\n  },\r\n  \"PostProcessingOptions\": {\r\n    \"audioFormat\": 0,\r\n    \"audioQuality\": \"0\"\r\n  },\r\n  \"VideoFormatOptions\": {\r\n    \"format\": 7\r\n  }\r\n}";
+
+            ydlClient.Options.DownloadOptions.FragmentRetries = -1;
+            ydlClient.Options.DownloadOptions.Retries = -1;
+            ydlClient.Options.VideoFormatOptions.Format = Enums.VideoFormat.best;
+            ydlClient.Options.PostProcessingOptions.AudioFormat = Enums.AudioFormat.best;
+            ydlClient.Options.PostProcessingOptions.AudioQuality = "0";
+
+            string options = ydlClient.Options.Serialize();
+
+            Assert.Equal(options, optionsString);
+        }
+
+        [Fact]
+        public void TestOptionDeserializer()
+        {
+            YoutubeDL ydlClient = new YoutubeDL();
+            const string optionsString =
+                "{\r\n  \"DownloadOptions\": {\r\n    \"fragmentRetries\": -1,\r\n    \"retries\": -1\r\n  },\r\n  \"PostProcessingOptions\": {\r\n    \"audioFormat\": 0,\r\n    \"audioQuality\": \"0\"\r\n  },\r\n  \"VideoFormatOptions\": {\r\n    \"format\": 7\r\n  }\r\n}";
+
+            ydlClient.Options  = Options.Deserialize(optionsString);
+
+            Assert.Equal(ydlClient.Options.DownloadOptions.FragmentRetries, -1);
+            Assert.Equal(ydlClient.Options.DownloadOptions.Retries, -1);
+            Assert.Equal(ydlClient.Options.VideoFormatOptions.Format, Enums.VideoFormat.best);
+            Assert.Equal(ydlClient.Options.PostProcessingOptions.AudioFormat, Enums.AudioFormat.best);
+            Assert.Equal(ydlClient.Options.PostProcessingOptions.AudioQuality, "0");
         }
     }
 }

@@ -146,7 +146,7 @@ namespace NYoutubeDL
                 this.PrepareDownload();
             }
 
-            this.process = new Process {StartInfo = this.processStartInfo, EnableRaisingEvents = true};
+            this.process = new Process { StartInfo = this.processStartInfo, EnableRaisingEvents = true };
 
             this.stdOutputTokenSource = new CancellationTokenSource();
             this.stdErrorTokenSource = new CancellationTokenSource();
@@ -201,12 +201,18 @@ namespace NYoutubeDL
             List<DownloadInfo> infos = new List<DownloadInfo>();
             bool encounteredError = false;
 
-            YoutubeDL infoYdl = new YoutubeDL(this.YoutubeDlPath) {VideoUrl = this.VideoUrl, isInfoProcess = true};
+            YoutubeDL infoYdl = new YoutubeDL(this.YoutubeDlPath) { VideoUrl = this.VideoUrl, isInfoProcess = true };
             infoYdl.Options.VerbositySimulationOptions.DumpSingleJson = true;
             infoYdl.Options.VerbositySimulationOptions.Simulate = true;
             infoYdl.Options.GeneralOptions.FlatPlaylist = true;
             infoYdl.StandardOutputEvent += (sender, output) => { infos.Add(DownloadInfo.CreateDownloadInfo(output)); };
-            infoYdl.StandardErrorEvent += (sender, errorOutput) => { if (errorOutput.StartsWith("ERROR:")) { encounteredError = true; } };
+            infoYdl.StandardErrorEvent += (sender, errorOutput) =>
+            {
+                if (errorOutput.StartsWith("ERROR:"))
+                {
+                    encounteredError = true;
+                }
+            };
             infoYdl.Download(true).WaitForExit();
 
             while (infoYdl.ProcessRunning || infos.Count == 0)

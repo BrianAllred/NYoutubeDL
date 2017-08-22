@@ -27,6 +27,7 @@ namespace NYoutubeDL.Models
     public class ThumbnailInfo
     {
         public string id { get; set; }
+
         public string url { get; set; }
     }
 }

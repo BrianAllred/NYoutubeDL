@@ -31,23 +31,36 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class Download : OptionSection
     {
-        [Option] internal readonly BoolOption abortOnUnvailableFragment = new BoolOption("--abort-on-unavailable-fragment");
+        [Option] internal readonly BoolOption abortOnUnvailableFragment =
+            new BoolOption("--abort-on-unavailable-fragment");
+
         [Option] internal readonly FileSizeRateOption bufferSize = new FileSizeRateOption("--buffer-size");
 
         [Option] internal readonly EnumOption<Enums.ExternalDownloader> externalDownloader =
             new EnumOption<Enums.ExternalDownloader>("--external-downloader");
 
         [Option] internal readonly StringOption externalDownloaderArgs = new StringOption("--external-downloader-args");
+
         [Option] internal readonly IntOption fragmentRetries = new IntOption("--fragment-retries", true);
+
         [Option] internal readonly BoolOption hlsPreferFfmpeg = new BoolOption("--hls-prefer-ffmpeg");
+
         [Option] internal readonly BoolOption hlsPreferNative = new BoolOption("--hls-prefer-native");
+
         [Option] internal readonly BoolOption hlsUseMpegts = new BoolOption("--hls-use-mpegts");
+
         [Option] internal readonly FileSizeRateOption limitRate = new FileSizeRateOption("-r");
+
         [Option] internal readonly BoolOption noResizeBuffer = new BoolOption("--no-resize-buffer");
+
         [Option] internal readonly BoolOption playlistRandom = new BoolOption("--playlist-random");
+
         [Option] internal readonly BoolOption playlistReverse = new BoolOption("--playlist-reverse");
+
         [Option] internal readonly IntOption retries = new IntOption("-R", true);
+
         [Option] internal readonly BoolOption skipUnavailableFragments = new BoolOption("--skip-unavailable-fragments");
+
         [Option] internal readonly BoolOption xattrSetFilesize = new BoolOption("--xattr-set-filesize");
 
         /// <summary>
@@ -55,8 +68,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool AbortOnUnavailableFragment
         {
-            get { return this.abortOnUnvailableFragment.Value ?? false; }
-            set { this.SetField(ref this.abortOnUnvailableFragment.Value, value); }
+            get => this.abortOnUnvailableFragment.Value ?? false;
+            set => this.SetField(ref this.abortOnUnvailableFragment.Value, value);
         }
 
         /// <summary>
@@ -64,8 +77,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public FileSizeRate BufferSize
         {
-            get { return this.bufferSize.Value; }
-            set { this.SetField(ref this.bufferSize.Value, value); }
+            get => this.bufferSize.Value;
+            set => this.SetField(ref this.bufferSize.Value, value);
         }
 
         /// <summary>
@@ -73,13 +86,10 @@ namespace NYoutubeDL.Options
         /// </summary>
         public Enums.ExternalDownloader ExternalDownloader
         {
-            get
-            {
-                return this.externalDownloader.Value == null
-                    ? Enums.ExternalDownloader.undefined
-                    : (Enums.ExternalDownloader) this.externalDownloader.Value;
-            }
-            set { this.SetField(ref this.externalDownloader.Value, (int) value); }
+            get => this.externalDownloader.Value == null
+                ? Enums.ExternalDownloader.undefined
+                : (Enums.ExternalDownloader) this.externalDownloader.Value;
+            set => this.SetField(ref this.externalDownloader.Value, (int) value);
         }
 
         /// <summary>
@@ -87,8 +97,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public string ExternalDownloaderArgs
         {
-            get { return this.externalDownloaderArgs.Value; }
-            set { this.SetField(ref this.externalDownloaderArgs.Value, value); }
+            get => this.externalDownloaderArgs.Value;
+            set => this.SetField(ref this.externalDownloaderArgs.Value, value);
         }
 
         /// <summary>
@@ -96,8 +106,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public int FragmentRetries
         {
-            get { return this.fragmentRetries.Value ?? 10; }
-            set { this.SetField(ref this.fragmentRetries.Value, value); }
+            get => this.fragmentRetries.Value ?? 10;
+            set => this.SetField(ref this.fragmentRetries.Value, value);
         }
 
         /// <summary>
@@ -105,8 +115,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool HlsPreferFfmpeg
         {
-            get { return this.hlsPreferFfmpeg.Value ?? false; }
-            set { this.SetField(ref this.hlsPreferFfmpeg.Value, value); }
+            get => this.hlsPreferFfmpeg.Value ?? false;
+            set => this.SetField(ref this.hlsPreferFfmpeg.Value, value);
         }
 
         /// <summary>
@@ -114,8 +124,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool HlsPreferNative
         {
-            get { return this.hlsPreferNative.Value ?? false; }
-            set { this.SetField(ref this.hlsPreferNative.Value, value); }
+            get => this.hlsPreferNative.Value ?? false;
+            set => this.SetField(ref this.hlsPreferNative.Value, value);
         }
 
         /// <summary>
@@ -123,8 +133,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool HlsUseMpegts
         {
-            get { return this.hlsUseMpegts.Value ?? false; }
-            set { this.SetField(ref this.hlsUseMpegts.Value, value); }
+            get => this.hlsUseMpegts.Value ?? false;
+            set => this.SetField(ref this.hlsUseMpegts.Value, value);
         }
 
         /// <summary>
@@ -132,8 +142,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public FileSizeRate LimitRate
         {
-            get { return this.limitRate.Value; }
-            set { this.SetField(ref this.limitRate.Value, value); }
+            get => this.limitRate.Value;
+            set => this.SetField(ref this.limitRate.Value, value);
         }
 
         /// <summary>
@@ -141,8 +151,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool NoResizeBuffer
         {
-            get { return this.noResizeBuffer.Value ?? false; }
-            set { this.SetField(ref this.noResizeBuffer.Value, value); }
+            get => this.noResizeBuffer.Value ?? false;
+            set => this.SetField(ref this.noResizeBuffer.Value, value);
         }
 
         /// <summary>
@@ -150,8 +160,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool PlaylistRandom
         {
-            get { return this.playlistRandom.Value ?? false; }
-            set { this.SetField(ref this.playlistRandom.Value, value); }
+            get => this.playlistRandom.Value ?? false;
+            set => this.SetField(ref this.playlistRandom.Value, value);
         }
 
         /// <summary>
@@ -159,8 +169,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool PlaylistReverse
         {
-            get { return this.playlistReverse.Value ?? false; }
-            set { this.SetField(ref this.playlistReverse.Value, value); }
+            get => this.playlistReverse.Value ?? false;
+            set => this.SetField(ref this.playlistReverse.Value, value);
         }
 
         /// <summary>
@@ -168,8 +178,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public int Retries
         {
-            get { return this.retries.Value ?? 10; }
-            set { this.SetField(ref this.retries.Value, value); }
+            get => this.retries.Value ?? 10;
+            set => this.SetField(ref this.retries.Value, value);
         }
 
         /// <summary>
@@ -177,8 +187,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool SkipUnavailableFragments
         {
-            get { return this.skipUnavailableFragments.Value ?? false; }
-            set { this.SetField(ref this.skipUnavailableFragments.Value, value); }
+            get => this.skipUnavailableFragments.Value ?? false;
+            set => this.SetField(ref this.skipUnavailableFragments.Value, value);
         }
 
         /// <summary>
@@ -186,8 +196,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool XattrSetFilesize
         {
-            get { return this.xattrSetFilesize.Value ?? false; }
-            set { this.SetField(ref this.xattrSetFilesize.Value, value); }
+            get => this.xattrSetFilesize.Value ?? false;
+            set => this.SetField(ref this.xattrSetFilesize.Value, value);
         }
     }
 }

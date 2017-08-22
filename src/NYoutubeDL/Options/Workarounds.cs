@@ -33,13 +33,21 @@ namespace NYoutubeDL.Options
     public class Workarounds : OptionSection
     {
         [Option] internal readonly BoolOption biDiWorkaround = new BoolOption("--bidi-workaround");
+
         [Option] internal readonly StringOption encoding = new StringOption("--encoding");
+
         private readonly List<string> headers = new List<string>();
+
         [Option] internal readonly IntOption maxSleepInternval = new IntOption("--max-sleep-interval");
+
         [Option] internal readonly BoolOption noCheckCertificate = new BoolOption("--no-check-certificate");
+
         [Option] internal readonly BoolOption preferInsecure = new BoolOption("--prefer-insecure");
+
         [Option] internal readonly StringOption referer = new StringOption("--referer");
+
         [Option] internal readonly IntOption sleepInterval = new IntOption("--sleep-interval");
+
         [Option] internal readonly StringOption userAgent = new StringOption("--user-agent");
 
         /// <summary>
@@ -47,8 +55,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool BiDiWorkaround
         {
-            get { return this.biDiWorkaround.Value ?? false; }
-            set { this.SetField(ref this.biDiWorkaround.Value, value); }
+            get => this.biDiWorkaround.Value ?? false;
+            set => this.SetField(ref this.biDiWorkaround.Value, value);
         }
 
         /// <summary>
@@ -56,8 +64,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public string Encoding
         {
-            get { return this.encoding.Value; }
-            set { this.SetField(ref this.encoding.Value, value); }
+            get => this.encoding.Value;
+            set => this.SetField(ref this.encoding.Value, value);
         }
 
         /// <summary>
@@ -65,8 +73,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public int MaxSleepInterval
         {
-            get { return this.maxSleepInternval.Value ?? -1; }
-            set { this.SetField(ref this.maxSleepInternval.Value, value); }
+            get => this.maxSleepInternval.Value ?? -1;
+            set => this.SetField(ref this.maxSleepInternval.Value, value);
         }
 
         /// <summary>
@@ -74,8 +82,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool NoCheckCertificate
         {
-            get { return this.noCheckCertificate.Value ?? false; }
-            set { this.SetField(ref this.noCheckCertificate.Value, value); }
+            get => this.noCheckCertificate.Value ?? false;
+            set => this.SetField(ref this.noCheckCertificate.Value, value);
         }
 
         /// <summary>
@@ -83,8 +91,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool PreferInsecure
         {
-            get { return this.preferInsecure.Value ?? false; }
-            set { this.SetField(ref this.preferInsecure.Value, value); }
+            get => this.preferInsecure.Value ?? false;
+            set => this.SetField(ref this.preferInsecure.Value, value);
         }
 
         /// <summary>
@@ -92,8 +100,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public string Referer
         {
-            get { return this.referer.Value; }
-            set { this.SetField(ref this.referer.Value, value); }
+            get => this.referer.Value;
+            set => this.SetField(ref this.referer.Value, value);
         }
 
         /// <summary>
@@ -101,8 +109,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public int SleepInterval
         {
-            get { return this.sleepInterval.Value ?? -1; }
-            set { this.SetField(ref this.sleepInterval.Value, value); }
+            get => this.sleepInterval.Value ?? -1;
+            set => this.SetField(ref this.sleepInterval.Value, value);
         }
 
         /// <summary>
@@ -110,8 +118,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public string UserAgent
         {
-            get { return this.userAgent.Value; }
-            set { this.SetField(ref this.userAgent.Value, value); }
+            get => this.userAgent.Value;
+            set => this.SetField(ref this.userAgent.Value, value);
         }
 
         /// <summary>

@@ -32,10 +32,15 @@ namespace NYoutubeDL.Options
     public class Network : OptionSection
     {
         [Option] internal readonly BoolOption forceIpv4 = new BoolOption("-4");
+
         [Option] internal readonly BoolOption forceIpv6 = new BoolOption("-6");
+
         [Option] internal readonly StringOption geoVerificationProxy = new StringOption("--geo-verification-proxy");
+
         [Option] internal readonly StringOption proxy = new StringOption("--proxy");
+
         [Option] internal readonly IntOption socketTimeout = new IntOption("--socket-timeout");
+
         [Option] internal readonly StringOption sourceAddress = new StringOption("--source-address");
 
         /// <summary>
@@ -43,8 +48,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool ForceIpv4
         {
-            get { return this.forceIpv4.Value ?? false; }
-            set { this.SetField(ref this.forceIpv4.Value, value); }
+            get => this.forceIpv4.Value ?? false;
+            set => this.SetField(ref this.forceIpv4.Value, value);
         }
 
         /// <summary>
@@ -52,8 +57,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool ForceIpv6
         {
-            get { return this.forceIpv6.Value ?? false; }
-            set { this.SetField(ref this.forceIpv6.Value, value); }
+            get => this.forceIpv6.Value ?? false;
+            set => this.SetField(ref this.forceIpv6.Value, value);
         }
 
         /// <summary>
@@ -61,8 +66,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public string GeoVerificationProxy
         {
-            get { return this.geoVerificationProxy.Value; }
-            set { this.SetField(ref this.geoVerificationProxy.Value, value); }
+            get => this.geoVerificationProxy.Value;
+            set => this.SetField(ref this.geoVerificationProxy.Value, value);
         }
 
         /// <summary>
@@ -70,8 +75,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public string Proxy
         {
-            get { return this.proxy.Value; }
-            set { this.SetField(ref this.proxy.Value, value); }
+            get => this.proxy.Value;
+            set => this.SetField(ref this.proxy.Value, value);
         }
 
         /// <summary>
@@ -79,8 +84,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public int SocketTimeout
         {
-            get { return this.socketTimeout.Value ?? -1; }
-            set { this.SetField(ref this.socketTimeout.Value, value); }
+            get => this.socketTimeout.Value ?? -1;
+            set => this.SetField(ref this.socketTimeout.Value, value);
         }
 
         /// <summary>
@@ -88,8 +93,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public string SourceAddress
         {
-            get { return this.sourceAddress.Value; }
-            set { this.SetField(ref this.sourceAddress.Value, value); }
+            get => this.sourceAddress.Value;
+            set => this.SetField(ref this.sourceAddress.Value, value);
         }
     }
 }

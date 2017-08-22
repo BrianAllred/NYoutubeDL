@@ -23,6 +23,7 @@ namespace NYoutubeDL.Helpers
     public class TypeSafeEnum
     {
         protected readonly string Name;
+
         protected readonly int Value;
 
         protected TypeSafeEnum(int value, string name)

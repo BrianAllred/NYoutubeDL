@@ -35,25 +35,36 @@ namespace NYoutubeDL.Models
     public class DownloadInfo : NotifyPropertyChangedEx
     {
         protected const string ALREADY = "already";
+
         protected const string DOWNLOADRATESTRING = "iB/s";
+
         protected const string DOWNLOADSIZESTRING = "iB";
+
         protected const string ETASTRING = "ETA";
+
         protected const string OFSTRING = "of";
+
         protected const string VIDEOSTRING = "video";
-        protected string downloadRate;
-        protected string eta;
-        protected string status = Enums.DownloadStatus.WAITING.ToString();
-        protected string title;
-        protected int videoProgress;
-        protected string videoSize;
+
+        private string downloadRate;
+
+        private string eta;
+
+        private string status = Enums.DownloadStatus.WAITING.ToString();
+
+        private string title;
+
+        private int videoProgress;
+
+        private string videoSize;
 
         /// <summary>
         ///     The current download rate
         /// </summary>
         public string DownloadRate
         {
-            get { return this.downloadRate; }
-            set { this.SetField(ref this.downloadRate, value); }
+            get => this.downloadRate;
+            set => this.SetField(ref this.downloadRate, value);
         }
 
         /// <summary>
@@ -66,8 +77,8 @@ namespace NYoutubeDL.Models
         /// </summary>
         public string Eta
         {
-            get { return this.eta; }
-            set { this.SetField(ref this.eta, value); }
+            get => this.eta;
+            set => this.SetField(ref this.eta, value);
         }
 
         /// <summary>
@@ -75,7 +86,7 @@ namespace NYoutubeDL.Models
         /// </summary>
         public string Status
         {
-            get { return this.status; }
+            get => this.status;
             set
             {
                 if (!this.status.Equals(Enums.DownloadStatus.ERROR.ToString()) &&
@@ -96,8 +107,8 @@ namespace NYoutubeDL.Models
         /// </summary>
         public string Title
         {
-            get { return this.title; }
-            set { this.SetField(ref this.title, value); }
+            get => this.title;
+            set => this.SetField(ref this.title, value);
         }
 
         /// <summary>
@@ -105,7 +116,7 @@ namespace NYoutubeDL.Models
         /// </summary>
         public int VideoProgress
         {
-            get { return this.videoProgress; }
+            get => this.videoProgress;
             set
             {
                 this.SetField(ref this.videoProgress, value);
@@ -130,8 +141,8 @@ namespace NYoutubeDL.Models
         /// </summary>
         public string VideoSize
         {
-            get { return this.videoSize; }
-            set { this.SetField(ref this.videoSize, value); }
+            get => this.videoSize;
+            set => this.SetField(ref this.videoSize, value);
         }
 
         /// <summary>

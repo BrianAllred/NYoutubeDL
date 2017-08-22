@@ -34,17 +34,29 @@ namespace NYoutubeDL.Options
     public class Options
     {
         public AdobePass AdobePassOptions { get; private set; } = new AdobePass();
+
         public Authentication AuthenticationOptions { get; private set; } = new Authentication();
+
         public Download DownloadOptions { get; private set; } = new Download();
+
         public Filesystem FilesystemOptions { get; private set; } = new Filesystem();
+
         public General GeneralOptions { get; private set; } = new General();
+
         public Network NetworkOptions { get; private set; } = new Network();
+
         public PostProcessing PostProcessingOptions { get; private set; } = new PostProcessing();
+
         public Subtitle SubtitleOptions { get; private set; } = new Subtitle();
+
         public ThumbnailImages ThumbnailImagesOptions { get; private set; } = new ThumbnailImages();
+
         public VerbositySimulation VerbositySimulationOptions { get; private set; } = new VerbositySimulation();
+
         public VideoFormat VideoFormatOptions { get; private set; } = new VideoFormat();
+
         public VideoSelection VideoSelectionOptions { get; private set; } = new VideoSelection();
+
         public Workarounds WorkaroundsOptions { get; private set; } = new Workarounds();
 
         public void Clear()
@@ -67,6 +79,11 @@ namespace NYoutubeDL.Options
         public static Options Deserialize(string json)
         {
             return JsonConvert.DeserializeObject<Options>(json);
+        }
+        
+        public string Serialize()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>

@@ -32,12 +32,19 @@ namespace NYoutubeDL.Helpers
         public enum AudioFormat
         {
             best,
+
             threegp,
+
             aac,
+
             vorbis,
+
             mp3,
+
             m4a,
+
             opus,
+
             wav
         }
 
@@ -47,7 +54,9 @@ namespace NYoutubeDL.Helpers
         public enum ByteUnit
         {
             B,
+
             K,
+
             M
         }
 
@@ -57,12 +66,19 @@ namespace NYoutubeDL.Helpers
         public enum ExternalDownloader
         {
             undefined,
+
             aria2c,
+
             avconv,
+
             axel,
+
             curl,
+
             ffmpeg,
+
             httpie,
+
             wget
         }
 
@@ -72,15 +88,20 @@ namespace NYoutubeDL.Helpers
         public enum FixupPolicy
         {
             nothing,
+
             warn,
+
             detect_or_warn
         }
 
         public enum SubtitleFormat
         {
             undefined,
+
             srt,
+
             ass,
+
             vtt
         }
 
@@ -90,13 +111,21 @@ namespace NYoutubeDL.Helpers
         public enum VideoFormat
         {
             undefined,
+
             mp4,
+
             flv,
+
             ogg,
+
             webm,
+
             mkv,
+
             avi,
+
             best,
+
             worst
         }
 
@@ -106,9 +135,13 @@ namespace NYoutubeDL.Helpers
         public sealed class DownloadStatus : TypeSafeEnum
         {
             public static readonly DownloadStatus DONE = new DownloadStatus(5, "Done");
+
             public static readonly DownloadStatus DOWNLOADING = new DownloadStatus(4, "Downloading");
+
             public static readonly DownloadStatus ERROR = new DownloadStatus(2, "Error");
+
             public static readonly DownloadStatus WAITING = new DownloadStatus(1, "Waiting");
+
             public static readonly DownloadStatus WARNING = new DownloadStatus(3, "Warning");
 
             private DownloadStatus(int value, string name) : base(value, name)
