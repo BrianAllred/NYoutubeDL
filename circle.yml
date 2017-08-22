@@ -1,16 +1,14 @@
 version: 2
 jobs:
   build:
+    docker:
+      - image: microsoft/dotnet:2.0-sdk
     steps:
       - run:
           name: Install dependencies
           command: |
-            sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
-            sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
-            sudo apt-get update
-            sudo apt-get install dotnet-sdk-2.0.0
-            sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-            sudo chmod a+rx /usr/local/bin/youtube-dl
+            curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+            chmod a+rx /usr/local/bin/youtube-dl
       - checkout
       - run:
           name: Restore package dependencies
@@ -25,6 +23,7 @@ jobs:
           name: Package release
           working_directory: src/NYoutubeDL
           command: |
+            dotnet build -c Release
             dotnet pack -c Release
       - store_artifacts:
           path: src/NYoutubeDL/bin/Release
