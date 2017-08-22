@@ -23,6 +23,7 @@ namespace NYoutubeDL.Tests
     #region Using
 
     using System;
+    using System.Text.RegularExpressions;
     using Helpers;
     using Models;
     using Options;
@@ -159,7 +160,7 @@ namespace NYoutubeDL.Tests
         {
             YoutubeDL ydlClient = new YoutubeDL();
             const string optionsString =
-                "{\r\n  \"DownloadOptions\": {\r\n    \"fragmentRetries\": -1,\r\n    \"retries\": -1\r\n  },\r\n  \"PostProcessingOptions\": {\r\n    \"audioFormat\": 0,\r\n    \"audioQuality\": \"0\"\r\n  },\r\n  \"VideoFormatOptions\": {\r\n    \"format\": 7\r\n  }\r\n}";
+                "{\"DownloadOptions\": {\"fragmentRetries\": -1,\"retries\": -1},\"PostProcessingOptions\": {\"audioFormat\": 0,\"audioQuality\": \"0\"},\"VideoFormatOptions\": {\"format\": 7}}";
 
             ydlClient.Options.DownloadOptions.FragmentRetries = -1;
             ydlClient.Options.DownloadOptions.Retries = -1;
@@ -169,7 +170,7 @@ namespace NYoutubeDL.Tests
 
             string options = ydlClient.Options.Serialize();
 
-            Assert.Equal(options, optionsString);
+            Assert.Equal(Regex.Replace(options, @"\s+", ""), Regex.Replace(optionsString, @"\s+", ""));
         }
 
         [Fact]
@@ -177,7 +178,7 @@ namespace NYoutubeDL.Tests
         {
             YoutubeDL ydlClient = new YoutubeDL();
             const string optionsString =
-                "{\r\n  \"DownloadOptions\": {\r\n    \"fragmentRetries\": -1,\r\n    \"retries\": -1\r\n  },\r\n  \"PostProcessingOptions\": {\r\n    \"audioFormat\": 0,\r\n    \"audioQuality\": \"0\"\r\n  },\r\n  \"VideoFormatOptions\": {\r\n    \"format\": 7\r\n  }\r\n}";
+                "{\"DownloadOptions\": {\"fragmentRetries\": -1,\"retries\": -1},\"PostProcessingOptions\": {\"audioFormat\": 0,\"audioQuality\": \"0\"},\"VideoFormatOptions\": {\"format\": 7}}";
 
             ydlClient.Options  = Options.Deserialize(optionsString);
 
