@@ -203,33 +203,40 @@ namespace NYoutubeDL.Models
 
         internal virtual void ParseOutput(object sender, string output)
         {
-            if (output.Contains("%"))
+            try
             {
-                int progressIndex = output.LastIndexOf(' ', output.IndexOf('%')) + 1;
-                string progressString = output.Substring(progressIndex, output.IndexOf('%') - progressIndex);
-                this.VideoProgress = (int) Math.Round(double.Parse(progressString));
+                if (output.Contains("%"))
+                {
+                    int progressIndex = output.LastIndexOf(' ', output.IndexOf('%')) + 1;
+                    string progressString = output.Substring(progressIndex, output.IndexOf('%') - progressIndex);
+                    this.VideoProgress = (int) Math.Round(double.Parse(progressString));
 
-                int sizeIndex = output.LastIndexOf(' ', output.IndexOf(DOWNLOADSIZESTRING)) + 1;
-                string sizeString = output.Substring(sizeIndex, output.IndexOf(DOWNLOADSIZESTRING) - sizeIndex + 2);
-                this.VideoSize = sizeString;
+                    int sizeIndex = output.LastIndexOf(' ', output.IndexOf(DOWNLOADSIZESTRING)) + 1;
+                    string sizeString = output.Substring(sizeIndex, output.IndexOf(DOWNLOADSIZESTRING) - sizeIndex + 2);
+                    this.VideoSize = sizeString;
+                }
+
+                if (output.Contains(DOWNLOADRATESTRING))
+                {
+                    int rateIndex = output.LastIndexOf(' ', output.LastIndexOf(DOWNLOADRATESTRING)) + 1;
+                    string rateString =
+                        output.Substring(rateIndex, output.LastIndexOf(DOWNLOADRATESTRING) - rateIndex + 4);
+                    this.DownloadRate = rateString;
+                }
+
+                if (output.Contains(ETASTRING))
+                {
+                    this.Eta = output.Substring(output.LastIndexOf(' ') + 1);
+                }
+
+                if (output.Contains(ALREADY))
+                {
+                    this.Status = Enums.DownloadStatus.DONE.ToString();
+                    this.VideoProgress = 100;
+                }
             }
-
-            if (output.Contains(DOWNLOADRATESTRING))
+            catch (Exception)
             {
-                int rateIndex = output.LastIndexOf(' ', output.LastIndexOf(DOWNLOADRATESTRING)) + 1;
-                string rateString = output.Substring(rateIndex, output.LastIndexOf(DOWNLOADRATESTRING) - rateIndex + 4);
-                this.DownloadRate = rateString;
-            }
-
-            if (output.Contains(ETASTRING))
-            {
-                this.Eta = output.Substring(output.LastIndexOf(' ') + 1);
-            }
-
-            if (output.Contains(ALREADY))
-            {
-                this.Status = Enums.DownloadStatus.DONE.ToString();
-                this.VideoProgress = 100;
             }
         }
     }
