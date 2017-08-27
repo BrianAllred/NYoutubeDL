@@ -82,27 +82,27 @@ namespace NYoutubeDL.Options
         /// <summary>
         ///     --date
         /// </summary>
-        public DateTime Date
+        public DateTime? Date
         {
-            get => this.date.Value ?? new DateTime();
+            get => this.date.Value;
             set => this.SetField(ref this.date.Value, value);
         }
 
         /// <summary>
         ///     --dateafter
         /// </summary>
-        public DateTime DateAfter
+        public DateTime? DateAfter
         {
-            get => this.dateAfter.Value ?? new DateTime();
+            get => this.dateAfter.Value;
             set => this.SetField(ref this.dateAfter.Value, value);
         }
 
         /// <summary>
         ///     --datebefore
         /// </summary>
-        public DateTime DateBefore
+        public DateTime? DateBefore
         {
-            get => this.dateBefore.Value ?? new DateTime();
+            get => this.dateBefore.Value;
             set => this.SetField(ref this.dateBefore.Value, value);
         }
 
