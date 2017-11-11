@@ -35,8 +35,6 @@ namespace NYoutubeDL.Options
 
         [Option] internal readonly BoolOption forceIpv6 = new BoolOption("-6");
 
-        [Option] internal readonly StringOption geoVerificationProxy = new StringOption("--geo-verification-proxy");
-
         [Option] internal readonly StringOption proxy = new StringOption("--proxy");
 
         [Option] internal readonly IntOption socketTimeout = new IntOption("--socket-timeout");
@@ -59,15 +57,6 @@ namespace NYoutubeDL.Options
         {
             get => this.forceIpv6.Value ?? false;
             set => this.SetField(ref this.forceIpv6.Value, value);
-        }
-
-        /// <summary>
-        ///     --geo-verification-proxy
-        /// </summary>
-        public string GeoVerificationProxy
-        {
-            get => this.geoVerificationProxy.Value;
-            set => this.SetField(ref this.geoVerificationProxy.Value, value);
         }
 
         /// <summary>

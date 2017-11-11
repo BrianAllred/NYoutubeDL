@@ -43,6 +43,8 @@ namespace NYoutubeDL.Options
 
         public General GeneralOptions { get; private set; } = new General();
 
+        public GeoRestriction GeoRestrictionOptions { get; private set; } = new GeoRestriction();
+
         public Network NetworkOptions { get; private set; } = new Network();
 
         public PostProcessing PostProcessingOptions { get; private set; } = new PostProcessing();
@@ -66,6 +68,7 @@ namespace NYoutubeDL.Options
             this.DownloadOptions = new Download();
             this.FilesystemOptions = new Filesystem();
             this.GeneralOptions = new General();
+            this.GeoRestrictionOptions = new GeoRestriction();
             this.NetworkOptions = new Network();
             this.PostProcessingOptions = new PostProcessing();
             this.SubtitleOptions = new Subtitle();
@@ -99,6 +102,7 @@ namespace NYoutubeDL.Options
                                 this.DownloadOptions.ToCliParameters() +
                                 this.FilesystemOptions.ToCliParameters() +
                                 this.GeneralOptions.ToCliParameters() +
+                                this.GeoRestrictionOptions.ToCliParameters() +
                                 this.NetworkOptions.ToCliParameters() +
                                 this.PostProcessingOptions.ToCliParameters() +
                                 this.SubtitleOptions.ToCliParameters() +

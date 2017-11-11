@@ -38,7 +38,7 @@ namespace NYoutubeDL.Options
 
         private readonly List<string> headers = new List<string>();
 
-        [Option] internal readonly IntOption maxSleepInternval = new IntOption("--max-sleep-interval");
+        [Option] internal readonly IntOption maxSleepInterval = new IntOption("--max-sleep-interval");
 
         [Option] internal readonly BoolOption noCheckCertificate = new BoolOption("--no-check-certificate");
 
@@ -73,8 +73,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public int MaxSleepInterval
         {
-            get => this.maxSleepInternval.Value ?? -1;
-            set => this.SetField(ref this.maxSleepInternval.Value, value);
+            get => this.maxSleepInterval.Value ?? -1;
+            set => this.SetField(ref this.maxSleepInterval.Value, value);
         }
 
         /// <summary>

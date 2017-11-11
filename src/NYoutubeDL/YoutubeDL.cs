@@ -205,6 +205,15 @@ namespace NYoutubeDL
             infoYdl.Options.VerbositySimulationOptions.DumpSingleJson = true;
             infoYdl.Options.VerbositySimulationOptions.Simulate = true;
             infoYdl.Options.GeneralOptions.FlatPlaylist = true;
+            infoYdl.Options.GeneralOptions.IgnoreErrors = true;
+
+            // Use provided authentication in case the video is restricted
+            infoYdl.Options.AuthenticationOptions.Username = this.Options.AuthenticationOptions.Username;
+            infoYdl.Options.AuthenticationOptions.Password = this.Options.AuthenticationOptions.Password;
+            infoYdl.Options.AuthenticationOptions.NetRc = this.Options.AuthenticationOptions.NetRc;
+            infoYdl.Options.AuthenticationOptions.VideoPassword = this.Options.AuthenticationOptions.VideoPassword;
+            infoYdl.Options.AuthenticationOptions.TwoFactor = this.Options.AuthenticationOptions.TwoFactor;
+
             infoYdl.StandardOutputEvent += (sender, output) => { infos.Add(DownloadInfo.CreateDownloadInfo(output)); };
             infoYdl.StandardErrorEvent += (sender, errorOutput) =>
             {

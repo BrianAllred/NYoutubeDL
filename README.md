@@ -12,7 +12,7 @@ See the [main page](https://rg3.github.io/youtube-dl/) for youtube-dl for more i
 
 * For DotNet Core apps, edit your project.json dependencies
 
-        "NYoutubeDL": "0.5.1"
+        "NYoutubeDL": "0.6.0"
 
 * Manually [download](https://www.nuget.org/packages/NYoutubeDL/) nupkg from NuGet Gallery.
 
