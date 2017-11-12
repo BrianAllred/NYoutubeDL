@@ -168,8 +168,8 @@ namespace NYoutubeDL
 
             if (!this.isInfoProcess && this.Info != null)
             {
-                this.StandardOutputEvent += this.Info.ParseOutput;
-                this.StandardErrorEvent += this.Info.ParseError;
+                this.StandardOutputEvent += (sender, output) => this.Info.ParseOutput(sender, output.Trim());
+                this.StandardErrorEvent += (sender, output) => this.Info.ParseError(sender, output.Trim());
             }
 
             this.process.Start();
@@ -270,22 +270,6 @@ namespace NYoutubeDL
                 this.stdErrorTokenSource.Dispose();
             }
             catch (ObjectDisposedException)
-            {
-            }
-
-            try
-            {
-                if (this.process != null)
-                {
-                    if (!this.process.HasExited)
-                    {
-                        this.process.Kill();
-                    }
-
-                    this.process.Dispose();
-                }
-            }
-            catch (InvalidOperationException)
             {
             }
         }
