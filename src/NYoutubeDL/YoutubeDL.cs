@@ -130,6 +130,12 @@ namespace NYoutubeDL
         public string YoutubeDlPath { get; set; } = new FileInfo("youtube-dl").GetFullPath();
 
         /// <summary>
+        ///     Whether this youtubedl client should retrieve all info
+        ///     NOTE: For large playlists / many videos, this will be excruciatingly SLOW!
+        /// </summary>
+        public bool RetrieveAllInfo { get; set; }
+
+        /// <summary>
         ///     Convert class into parameters to pass to youtube-dl process, then create and run process.
         ///     Also handle output from process.
         /// </summary>
@@ -204,7 +210,7 @@ namespace NYoutubeDL
             YoutubeDL infoYdl = new YoutubeDL(this.YoutubeDlPath) { VideoUrl = this.VideoUrl, isInfoProcess = true };
             infoYdl.Options.VerbositySimulationOptions.DumpSingleJson = true;
             infoYdl.Options.VerbositySimulationOptions.Simulate = true;
-            infoYdl.Options.GeneralOptions.FlatPlaylist = true;
+            infoYdl.Options.GeneralOptions.FlatPlaylist = !this.RetrieveAllInfo;
             infoYdl.Options.GeneralOptions.IgnoreErrors = true;
 
             // Use provided authentication in case the video is restricted
@@ -215,22 +221,11 @@ namespace NYoutubeDL
             infoYdl.Options.AuthenticationOptions.TwoFactor = this.Options.AuthenticationOptions.TwoFactor;
 
             infoYdl.StandardOutputEvent += (sender, output) => { infos.Add(DownloadInfo.CreateDownloadInfo(output)); };
-            infoYdl.StandardErrorEvent += (sender, errorOutput) =>
-            {
-                if (errorOutput.StartsWith("ERROR:"))
-                {
-                    encounteredError = true;
-                }
-            };
+
             infoYdl.Download(true).WaitForExit();
 
             while (infoYdl.ProcessRunning || infos.Count == 0)
             {
-                if (encounteredError)
-                {
-                    return null;
-                }
-
                 Thread.Sleep(1);
             }
 

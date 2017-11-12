@@ -44,8 +44,7 @@ namespace NYoutubeDL.Models
         {
             foreach (DownloadInfo info in infos)
             {
-                VideoDownloadInfo videoInfo = info as VideoDownloadInfo;
-                if (videoInfo != null)
+                if (info is VideoDownloadInfo videoInfo)
                 {
                     if (!this.videos.ContainsKey(videoInfo.Id))
                     {
@@ -56,8 +55,7 @@ namespace NYoutubeDL.Models
                     continue;
                 }
 
-                PlaylistDownloadInfo playlistInfo = info as PlaylistDownloadInfo;
-                if (playlistInfo != null)
+                if (info is PlaylistDownloadInfo playlistInfo)
                 {
                     this.Playlists.Add(playlistInfo);
                     foreach (VideoDownloadInfo vInfo in playlistInfo.Videos)

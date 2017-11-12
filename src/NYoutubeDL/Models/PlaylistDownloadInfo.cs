@@ -23,6 +23,7 @@ namespace NYoutubeDL.Models
     #region Using
 
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Text.RegularExpressions;
 
     #endregion

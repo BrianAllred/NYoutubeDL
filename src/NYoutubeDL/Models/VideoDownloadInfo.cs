@@ -33,6 +33,12 @@ namespace NYoutubeDL.Models
     {
         public VideoDownloadInfo(VideoInfo info)
         {
+            if (info == null)
+            {
+                this.Title = "Video deleted or otherwise unreachable";
+                return;
+            }
+
             this.Abr = info.abr;
             this.Acodec = info.acodec;
             this.AgeLimit = info.age_limit;
