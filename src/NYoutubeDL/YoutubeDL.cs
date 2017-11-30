@@ -205,7 +205,6 @@ namespace NYoutubeDL
             }
 
             List<DownloadInfo> infos = new List<DownloadInfo>();
-            bool encounteredError = false;
 
             YoutubeDL infoYdl = new YoutubeDL(this.YoutubeDlPath) { VideoUrl = this.VideoUrl, isInfoProcess = true };
             infoYdl.Options.VerbositySimulationOptions.DumpSingleJson = true;
