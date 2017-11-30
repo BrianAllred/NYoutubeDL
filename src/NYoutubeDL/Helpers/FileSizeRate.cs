@@ -57,7 +57,7 @@ namespace NYoutubeDL.Helpers
         {
             this.SizeRate = double.Parse(sizeRate.Substring(0, sizeRate.Length - 1));
             this.Unit =
-                (Enums.ByteUnit) Enum.Parse(typeof(Enums.ByteUnit), sizeRate[sizeRate.Length - 1].ToString(), true);
+                (Enums.ByteUnit) Enum.Parse(typeof(Enums.ByteUnit), sizeRate[sizeRate.Length - 1].ToString().ToUpper(), true);
         }
 
         /// <summary>
