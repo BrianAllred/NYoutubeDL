@@ -1,4 +1,4 @@
-﻿// Copyright 2017 Brian Allred
+﻿// Copyright 2018 Brian Allred
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -31,7 +31,7 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class Download : OptionSection
     {
-        [Option] internal readonly BoolOption abortOnUnvailableFragment =
+        [Option] internal readonly BoolOption abortOnUnavailableFragment =
             new BoolOption("--abort-on-unavailable-fragment");
 
         [Option] internal readonly FileSizeRateOption bufferSize = new FileSizeRateOption("--buffer-size");
@@ -48,6 +48,8 @@ namespace NYoutubeDL.Options
         [Option] internal readonly BoolOption hlsPreferNative = new BoolOption("--hls-prefer-native");
 
         [Option] internal readonly BoolOption hlsUseMpegts = new BoolOption("--hls-use-mpegts");
+
+        [Option] internal readonly FileSizeRateOption httpChunkSize = new FileSizeRateOption("--http-chunk-size");
 
         [Option] internal readonly FileSizeRateOption limitRate = new FileSizeRateOption("-r");
 
@@ -68,8 +70,8 @@ namespace NYoutubeDL.Options
         /// </summary>
         public bool AbortOnUnavailableFragment
         {
-            get => this.abortOnUnvailableFragment.Value ?? false;
-            set => this.SetField(ref this.abortOnUnvailableFragment.Value, value);
+            get => this.abortOnUnavailableFragment.Value ?? false;
+            set => this.SetField(ref this.abortOnUnavailableFragment.Value, value);
         }
 
         /// <summary>
@@ -198,6 +200,15 @@ namespace NYoutubeDL.Options
         {
             get => this.xattrSetFilesize.Value ?? false;
             set => this.SetField(ref this.xattrSetFilesize.Value, value);
+        }
+
+        /// <summary>
+        ///     --http-chunk-size
+        /// </summary>
+        public FileSizeRate HttpChunkSize
+        {
+            get => this.httpChunkSize.Value;
+            set => this.SetField(ref this.httpChunkSize.Value, value);
         }
     }
 }

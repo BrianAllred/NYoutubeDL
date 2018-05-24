@@ -36,6 +36,8 @@ namespace NYoutubeDL.Options
 
         [Option] internal readonly BoolOption noGeoBypass = new BoolOption("--no-geo-bypass");
 
+        [Option] internal readonly StringOption geoBypassIpBlock = new StringOption("--geo-bypass-ip-block");
+
         /// <summary>
         ///     --geo-verification-proxy
         /// </summary>
@@ -70,6 +72,15 @@ namespace NYoutubeDL.Options
         {
             get => this.geoBypassCountry.Value;
             set => this.SetField(ref this.geoBypassCountry.Value, value);
+        }
+
+        /// <summary>
+        ///     --geo-bypass-ip-block
+        /// </summary>
+        public string GeoBypassIpBlock
+        {
+            get => this.geoBypassIpBlock.Value;
+            set => this.SetField(ref this.geoBypassIpBlock.Value, value);
         }
     }
 }

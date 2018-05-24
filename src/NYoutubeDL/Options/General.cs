@@ -1,4 +1,4 @@
-﻿// Copyright 2017 Brian Allred
+﻿// Copyright 2018 Brian Allred
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -58,6 +58,8 @@ namespace NYoutubeDL.Options
         [Option] internal readonly BoolOption noMarkWatched = new BoolOption("--no-mark-watched");
 
         [Option] internal readonly BoolOption update = new BoolOption("-U");
+
+        [Option] internal readonly BoolOption version = new BoolOption("--version");
 
         /// <summary>
         ///     --abort-on-error
@@ -183,6 +185,15 @@ namespace NYoutubeDL.Options
         {
             get => this.update.Value ?? false;
             set => this.SetField(ref this.update.Value, value);
+        }
+
+        /// <summary>
+        ///     --version
+        /// </summary>
+        public bool Version
+        {
+            get => this.version.Value ?? false;
+            set => this.SetField(ref this.version.Value, value);
         }
     }
 }
