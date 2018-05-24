@@ -6,13 +6,11 @@ A simple youtube-dl library for C#.
 See the [main page](https://rg3.github.io/youtube-dl/) for youtube-dl for more information.
 
 ### Getting the package
+* Search for `NYoutubeDL` in you project's Nuget Manager and click install.
+
 * In the Nuget package manager console, run
 
         PM> Install-Package NYoutubeDL
-
-* For DotNet Core apps, edit your project.json dependencies
-
-        "NYoutubeDL": "0.6.3"
 
 * Manually [download](https://www.nuget.org/packages/NYoutubeDL/) nupkg from NuGet Gallery.
 
