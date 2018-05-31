@@ -1,4 +1,4 @@
-﻿// Copyright 2017 Brian Allred
+﻿// Copyright 2018 Brian Allred
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -23,10 +23,11 @@ namespace NYoutubeDL.Helpers
     #region Using
 
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Runtime.InteropServices;
-    using Newtonsoft.Json;
-    using Options;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     #endregion
 
@@ -83,13 +84,38 @@ namespace NYoutubeDL.Helpers
                     }
                 }
             }
-            
+
             return null;
         }
 
         internal static string RemoveExtraWhitespace(this string str)
         {
             return string.Join(" ", str.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+        }
+
+        /// <summary>
+        ///     Waits asynchronously for the process to exit.
+        /// </summary>
+        /// <param name="process">The process to wait for cancellation.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token. If invoked, the task will return
+        ///     immediately as canceled.
+        /// </param>
+        /// <returns>
+        ///     A Task representing waiting for the process to end.
+        /// </returns>
+        internal static Task WaitForExitAsync(this Process process,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var tcs = new TaskCompletionSource<object>();
+            process.EnableRaisingEvents = true;
+            process.Exited += (sender, args) => tcs.TrySetResult(null);
+            if (cancellationToken != default(CancellationToken))
+            {
+                cancellationToken.Register(tcs.SetCanceled);
+            }
+
+            return tcs.Task;
         }
     }
 }

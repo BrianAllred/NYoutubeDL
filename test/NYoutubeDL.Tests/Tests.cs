@@ -1,4 +1,4 @@
-﻿// Copyright 2017 Brian Allred
+﻿// Copyright 2018 Brian Allred
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -41,7 +41,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.PostProcessingOptions.ExtractAudio = true;
 
-            Assert.True(ydlClient.PrepareDownload().Contains(extractAudioOptionString));
+            Assert.True(ydlClient.PrepareDownload().Result.Contains(extractAudioOptionString));
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.VideoSelectionOptions.Date = new DateTime(2017, 02, 01);
 
-            Assert.True(ydlClient.PrepareDownload().Contains(dateDateTimeOption));
+            Assert.True(ydlClient.PrepareDownload().Result.Contains(dateDateTimeOption));
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.PostProcessingOptions.AudioFormat = Enums.AudioFormat.mp3;
 
-            Assert.True(ydlClient.PrepareDownload().Contains(audioFormatEnumOption));
+            Assert.True(ydlClient.PrepareDownload().Result.Contains(audioFormatEnumOption));
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.DownloadOptions.BufferSize = new FileSizeRate(5.5, Enums.ByteUnit.M);
 
-            Assert.True(ydlClient.PrepareDownload().Contains(bufferSizeFileSizeRateOption));
+            Assert.True(ydlClient.PrepareDownload().Result.Contains(bufferSizeFileSizeRateOption));
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.DownloadOptions.BufferSize = new FileSizeRate("5.5M");
 
-            Assert.True(ydlClient.PrepareDownload().Contains(bufferSizeFileSizeRateOption));
+            Assert.True(ydlClient.PrepareDownload().Result.Contains(bufferSizeFileSizeRateOption));
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.NetworkOptions.SocketTimeout = 5;
 
-            Assert.True(ydlClient.PrepareDownload().Contains(socketTimeoutIntOption));
+            Assert.True(ydlClient.PrepareDownload().Result.Contains(socketTimeoutIntOption));
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.DownloadOptions.Retries = -1;
 
-            Assert.True(ydlClient.PrepareDownload().Contains(retriesIntOption));
+            Assert.True(ydlClient.PrepareDownload().Result.Contains(retriesIntOption));
         }
 
         [Fact]
@@ -116,7 +116,8 @@ namespace NYoutubeDL.Tests
             YoutubeDL ydlClient = new YoutubeDL();
 
             ydlClient.GetDownloadInfo(
-                @"https://www.youtube.com/watch?v=dQw4w9WgXcQ https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-");
+                    @"https://www.youtube.com/watch?v=dQw4w9WgXcQ https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-").
+                Wait();
 
             MultiDownloadInfo info = ydlClient.Info as MultiDownloadInfo;
             Assert.NotEqual(info, null);
@@ -127,7 +128,8 @@ namespace NYoutubeDL.Tests
         {
             YoutubeDL ydlClient = new YoutubeDL();
 
-            ydlClient.GetDownloadInfo(@"https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-");
+            ydlClient.GetDownloadInfo(@"https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-").
+                Wait();
 
             PlaylistDownloadInfo info = ydlClient.Info as PlaylistDownloadInfo;
             Assert.NotEqual(info, null);
@@ -138,21 +140,26 @@ namespace NYoutubeDL.Tests
         {
             YoutubeDL ydlClient = new YoutubeDL();
 
-            ydlClient.GetDownloadInfo(@"https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+            ydlClient.GetDownloadInfo(@"https://www.youtube.com/watch?v=dQw4w9WgXcQ").Wait();
 
             VideoDownloadInfo info = ydlClient.Info as VideoDownloadInfo;
             Assert.NotEqual(info, null);
         }
 
         [Fact]
-        public void TestStringOption()
+        public void TestOptionDeserializer()
         {
             YoutubeDL ydlClient = new YoutubeDL();
-            const string usernameStringOption = " -u testUser ";
+            const string optionsString =
+                "{\"DownloadOptions\": {\"fragmentRetries\": -1,\"retries\": -1},\"PostProcessingOptions\": {\"audioFormat\": 0,\"audioQuality\": \"0\"},\"VideoFormatOptions\": {\"format\": 7}}";
 
-            ydlClient.Options.AuthenticationOptions.Username = "testUser";
+            ydlClient.Options = Options.Deserialize(optionsString);
 
-            Assert.True(ydlClient.PrepareDownload().Contains(usernameStringOption));
+            Assert.Equal(ydlClient.Options.DownloadOptions.FragmentRetries, -1);
+            Assert.Equal(ydlClient.Options.DownloadOptions.Retries, -1);
+            Assert.Equal(ydlClient.Options.VideoFormatOptions.Format, Enums.VideoFormat.best);
+            Assert.Equal(ydlClient.Options.PostProcessingOptions.AudioFormat, Enums.AudioFormat.best);
+            Assert.Equal(ydlClient.Options.PostProcessingOptions.AudioQuality, "0");
         }
 
         [Fact]
@@ -174,19 +181,14 @@ namespace NYoutubeDL.Tests
         }
 
         [Fact]
-        public void TestOptionDeserializer()
+        public void TestStringOption()
         {
             YoutubeDL ydlClient = new YoutubeDL();
-            const string optionsString =
-                "{\"DownloadOptions\": {\"fragmentRetries\": -1,\"retries\": -1},\"PostProcessingOptions\": {\"audioFormat\": 0,\"audioQuality\": \"0\"},\"VideoFormatOptions\": {\"format\": 7}}";
+            const string usernameStringOption = " -u testUser ";
 
-            ydlClient.Options  = Options.Deserialize(optionsString);
+            ydlClient.Options.AuthenticationOptions.Username = "testUser";
 
-            Assert.Equal(ydlClient.Options.DownloadOptions.FragmentRetries, -1);
-            Assert.Equal(ydlClient.Options.DownloadOptions.Retries, -1);
-            Assert.Equal(ydlClient.Options.VideoFormatOptions.Format, Enums.VideoFormat.best);
-            Assert.Equal(ydlClient.Options.PostProcessingOptions.AudioFormat, Enums.AudioFormat.best);
-            Assert.Equal(ydlClient.Options.PostProcessingOptions.AudioQuality, "0");
+            Assert.True(ydlClient.PrepareDownload().Result.Contains(usernameStringOption));
         }
     }
 }

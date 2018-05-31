@@ -1,4 +1,4 @@
-﻿// Copyright 2017 Brian Allred
+﻿// Copyright 2018 Brian Allred
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -23,7 +23,6 @@ namespace NYoutubeDL.Sample
     #region Using
 
     using System;
-    using System.IO;
     using Helpers;
     using Options;
 
@@ -47,7 +46,7 @@ namespace NYoutubeDL.Sample
             ydlClient.StandardErrorEvent += (sender, error) => Console.WriteLine(error);
             ydlClient.StandardOutputEvent += (sender, output) => Console.WriteLine(output);
 
-            ydlClient.Download("https://www.youtube.com/watch?v=dQw4w9WgXcQ").WaitForExit();
+            ydlClient.Download("https://www.youtube.com/watch?v=dQw4w9WgXcQ").Wait();
         }
     }
 }

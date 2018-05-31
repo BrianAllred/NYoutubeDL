@@ -1,4 +1,4 @@
-﻿// Copyright 2017 Brian Allred
+﻿// Copyright 2018 Brian Allred
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -27,6 +27,7 @@ namespace NYoutubeDL
     using System.Diagnostics;
     using System.IO;
     using System.Threading;
+    using System.Threading.Tasks;
     using Helpers;
     using Models;
 
@@ -136,6 +137,12 @@ namespace NYoutubeDL
         public bool RetrieveAllInfo { get; set; }
 
         /// <summary>
+        ///     The youtube-dl process
+        /// </summary>
+        [Obsolete]
+        public Process DownloadProcess => this.process;
+
+        /// <summary>
         ///     Convert class into parameters to pass to youtube-dl process, then create and run process.
         ///     Also handle output from process.
         /// </summary>
@@ -145,11 +152,11 @@ namespace NYoutubeDL
         /// <returns>
         ///     Process created.
         /// </returns>
-        public Process Download(bool prepareDownload = false)
+        public async Task Download(bool prepareDownload = false)
         {
             if (prepareDownload)
             {
-                this.PrepareDownload();
+                await this.PrepareDownload();
             }
 
             this.process = new Process { StartInfo = this.processStartInfo, EnableRaisingEvents = true };
@@ -174,7 +181,7 @@ namespace NYoutubeDL
 
             this.process.Start();
 
-            return this.process;
+            await this.process.WaitForExitAsync();
         }
 
         /// <summary>
@@ -185,10 +192,10 @@ namespace NYoutubeDL
         /// <returns>
         ///     Process created.
         /// </returns>
-        public Process Download(string videoUrl)
+        public async Task Download(string videoUrl)
         {
             this.VideoUrl = videoUrl;
-            return this.Download(true);
+            await this.Download(true);
         }
 
         /// <summary>
@@ -197,7 +204,7 @@ namespace NYoutubeDL
         /// <returns>
         ///     Object representing the information of the video/playlist
         /// </returns>
-        public DownloadInfo GetDownloadInfo()
+        public async Task<DownloadInfo> GetDownloadInfo()
         {
             if (string.IsNullOrEmpty(this.VideoUrl))
             {
@@ -221,7 +228,7 @@ namespace NYoutubeDL
 
             infoYdl.StandardOutputEvent += (sender, output) => { infos.Add(DownloadInfo.CreateDownloadInfo(output)); };
 
-            infoYdl.Download(true).WaitForExit();
+            await infoYdl.Download(true);
 
             while (infoYdl.ProcessRunning || infos.Count == 0)
             {
@@ -242,10 +249,11 @@ namespace NYoutubeDL
         /// <returns>
         ///     Object representing the information of the video/playlist
         /// </returns>
-        public DownloadInfo GetDownloadInfo(string url)
+        public async Task<DownloadInfo> GetDownloadInfo(string url)
         {
             this.VideoUrl = url;
-            return this.GetDownloadInfo();
+            DownloadInfo info = await this.GetDownloadInfo();
+            return info;
         }
 
         /// <summary>
@@ -279,7 +287,7 @@ namespace NYoutubeDL
         /// <returns>
         ///     The string of arguments built from the options
         /// </returns>
-        public string PrepareDownload()
+        public async Task<string> PrepareDownload()
         {
             string arguments = this.Options.ToCliParameters() + " " + this.VideoUrl;
 
@@ -305,7 +313,7 @@ namespace NYoutubeDL
 
             if (!this.isInfoProcess)
             {
-                this.Info = this.GetDownloadInfo() ?? new DownloadInfo();
+                this.Info = await this.GetDownloadInfo() ?? new DownloadInfo();
             }
 
             this.RunCommand = this.processStartInfo.FileName + " " + this.processStartInfo.Arguments;
