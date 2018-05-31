@@ -23,13 +23,13 @@ namespace NYoutubeDL
     #region Using
 
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
     using Helpers;
     using Models;
+    using Services;
 
     #endregion
 
@@ -42,30 +42,29 @@ namespace NYoutubeDL
     /// </summary>
     public class YoutubeDL
     {
-        /// <summary>
-        ///     Whether this is an information gathering process
-        /// </summary>
-        private bool isInfoProcess;
+        private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
         ///     The youtube-dl process
         /// </summary>
-        private Process process;
+        internal Process process;
 
         /// <summary>
         ///     The process's information
         /// </summary>
-        private ProcessStartInfo processStartInfo;
+        internal ProcessStartInfo processStartInfo;
 
         /// <summary>
         ///     Cancellation token used to stop the thread processing youtube-dl's standard error output.
         /// </summary>
-        private CancellationTokenSource stdErrorTokenSource;
+        internal CancellationTokenSource stdErrorTokenSource;
+
+        internal EventHandler<string> stdOutputEvent;
 
         /// <summary>
         ///     Cancellation token used to stop the thread processing youtube-dl's standard console output.
         /// </summary>
-        private CancellationTokenSource stdOutputTokenSource;
+        internal CancellationTokenSource stdOutputTokenSource;
 
         /// <summary>
         ///     Creates a new YoutubeDL client
@@ -88,7 +87,7 @@ namespace NYoutubeDL
         /// <summary>
         ///     Information about the download
         /// </summary>
-        public DownloadInfo Info { get; private set; }
+        public DownloadInfo Info { get; internal set; }
 
         /// <summary>
         ///     The options to pass to youtube-dl
@@ -118,7 +117,7 @@ namespace NYoutubeDL
         ///     Gets the complete command that was run by Download().
         /// </summary>
         /// <value>The run command.</value>
-        public string RunCommand { get; private set; }
+        public string RunCommand { get; internal set; }
 
         /// <summary>
         ///     URL of video to download
@@ -137,48 +136,14 @@ namespace NYoutubeDL
         public bool RetrieveAllInfo { get; set; }
 
         /// <summary>
-        ///     The youtube-dl process
-        /// </summary>
-        [Obsolete]
-        public Process DownloadProcess => this.process;
-
-        /// <summary>
         ///     Convert class into parameters to pass to youtube-dl process, then create and run process.
         ///     Also handle output from process.
         /// </summary>
-        /// <param name="prepareDownload">
-        ///     Whether we need to prepare the download.
-        /// </param>
-        public async Task Download(bool prepareDownload = false)
+        public async Task DownloadAsync()
         {
-            if (prepareDownload)
-            {
-                await this.PrepareDownload();
-            }
-
-            this.process = new Process { StartInfo = this.processStartInfo, EnableRaisingEvents = true };
-
-            this.stdOutputTokenSource = new CancellationTokenSource();
-            this.stdErrorTokenSource = new CancellationTokenSource();
-
-            this.process.Exited += (sender, args) => this.KillProcess();
-
-            // Note that synchronous calls are needed in order to process the output line by line.
-            // Asynchronous output reading results in batches of output lines coming in all at once.
-            // The following two threads convert synchronous output reads into asynchronous events.
-
-            ThreadPool.QueueUserWorkItem(this.StandardOutput, this.stdOutputTokenSource.Token);
-            ThreadPool.QueueUserWorkItem(this.StandardError, this.stdErrorTokenSource.Token);
-
-            if (!this.isInfoProcess && this.Info != null)
-            {
-                this.StandardOutputEvent += (sender, output) => this.Info.ParseOutput(sender, output.Trim());
-                this.StandardErrorEvent += (sender, output) => this.Info.ParseError(sender, output.Trim());
-            }
-
-            this.process.Start();
-
-            await this.process.WaitForExitAsync();
+            await this.semaphore.WaitAsync();
+            await DownloadService.DownloadAsync(this);
+            this.semaphore.Release();
         }
 
         /// <summary>
@@ -186,10 +151,34 @@ namespace NYoutubeDL
         ///     Also handle output from process.
         /// </summary>
         /// <param name="videoUrl">URL of video to download</param>
-        public async Task Download(string videoUrl)
+        public async Task DownloadAsync(string videoUrl)
         {
-            this.VideoUrl = videoUrl;
-            await this.Download(true);
+            await this.semaphore.WaitAsync();
+            await DownloadService.DownloadAsync(this, videoUrl);
+            this.semaphore.Release();
+        }
+
+        /// <summary>
+        ///     Convert class into parameters to pass to youtube-dl process, then create and run process.
+        ///     Also handle output from process.
+        /// </summary>
+        public void Download()
+        {
+            this.semaphore.Wait();
+            DownloadService.Download(this);
+            this.semaphore.Release();
+        }
+
+        /// <summary>
+        ///     Convert class into parameters to pass to youtube-dl process, then create and run process.
+        ///     Also handle output from process.
+        /// </summary>
+        /// <param name="videoUrl">URL of video to download</param>
+        public void Download(string videoUrl)
+        {
+            this.semaphore.Wait();
+            DownloadService.Download(this, videoUrl);
+            this.semaphore.Release();
         }
 
         /// <summary>
@@ -198,40 +187,12 @@ namespace NYoutubeDL
         /// <returns>
         ///     Object representing the information of the video/playlist
         /// </returns>
-        public async Task<DownloadInfo> GetDownloadInfo()
+        public async Task<DownloadInfo> GetDownloadInfoAsync()
         {
-            if (string.IsNullOrEmpty(this.VideoUrl))
-            {
-                return null;
-            }
-
-            List<DownloadInfo> infos = new List<DownloadInfo>();
-
-            YoutubeDL infoYdl = new YoutubeDL(this.YoutubeDlPath) { VideoUrl = this.VideoUrl, isInfoProcess = true };
-            infoYdl.Options.VerbositySimulationOptions.DumpSingleJson = true;
-            infoYdl.Options.VerbositySimulationOptions.Simulate = true;
-            infoYdl.Options.GeneralOptions.FlatPlaylist = !this.RetrieveAllInfo;
-            infoYdl.Options.GeneralOptions.IgnoreErrors = true;
-
-            // Use provided authentication in case the video is restricted
-            infoYdl.Options.AuthenticationOptions.Username = this.Options.AuthenticationOptions.Username;
-            infoYdl.Options.AuthenticationOptions.Password = this.Options.AuthenticationOptions.Password;
-            infoYdl.Options.AuthenticationOptions.NetRc = this.Options.AuthenticationOptions.NetRc;
-            infoYdl.Options.AuthenticationOptions.VideoPassword = this.Options.AuthenticationOptions.VideoPassword;
-            infoYdl.Options.AuthenticationOptions.TwoFactor = this.Options.AuthenticationOptions.TwoFactor;
-
-            infoYdl.StandardOutputEvent += (sender, output) => { infos.Add(DownloadInfo.CreateDownloadInfo(output)); };
-
-            await infoYdl.Download(true);
-
-            while (infoYdl.ProcessRunning || infos.Count == 0)
-            {
-                Thread.Sleep(1);
-            }
-
-            this.Info = infos.Count > 1 ? new MultiDownloadInfo(infos) : infos[0];
-
-            return this.Info;
+            await this.semaphore.WaitAsync();
+            DownloadInfo info = await InfoService.GetDownloadInfoAsync(this);
+            this.semaphore.Release();
+            return info;
         }
 
         /// <summary>
@@ -243,10 +204,42 @@ namespace NYoutubeDL
         /// <returns>
         ///     Object representing the information of the video/playlist
         /// </returns>
-        public async Task<DownloadInfo> GetDownloadInfo(string url)
+        public async Task<DownloadInfo> GetDownloadInfoAsync(string url)
         {
-            this.VideoUrl = url;
-            DownloadInfo info = await this.GetDownloadInfo();
+            await this.semaphore.WaitAsync();
+            DownloadInfo info = await InfoService.GetDownloadInfoAsync(this, url);
+            this.semaphore.Release();
+            return info;
+        }
+
+        /// <summary>
+        ///     Get information about the video/playlist before downloading
+        /// </summary>
+        /// <returns>
+        ///     Object representing the information of the video/playlist
+        /// </returns>
+        public DownloadInfo GetDownloadInfo()
+        {
+            this.semaphore.Wait();
+            DownloadInfo info = InfoService.GetDownloadInfo(this);
+            this.semaphore.Release();
+            return info;
+        }
+
+        /// <summary>
+        ///     Get information about the video/playlist before downloading
+        /// </summary>
+        /// <param name="url">
+        ///     Video/playlist to retrieve information about
+        /// </param>
+        /// <returns>
+        ///     Object representing the information of the video/playlist
+        /// </returns>
+        public DownloadInfo GetDownloadInfo(string url)
+        {
+            this.semaphore.Wait();
+            DownloadInfo info = InfoService.GetDownloadInfo(this, url);
+            this.semaphore.Release();
             return info;
         }
 
@@ -281,38 +274,26 @@ namespace NYoutubeDL
         /// <returns>
         ///     The string of arguments built from the options
         /// </returns>
-        public async Task<string> PrepareDownload()
+        public async Task<string> PrepareDownloadAsync()
         {
-            string arguments = this.Options.ToCliParameters() + " " + this.VideoUrl;
+            await this.semaphore.WaitAsync();
+            string args = await PreparationService.PrepareDownloadAsync(this);
+            this.semaphore.Release();
+            return args;
+        }
 
-            this.processStartInfo = new ProcessStartInfo
-            {
-                FileName = this.YoutubeDlPath,
-                Arguments = arguments,
-                CreateNoWindow = true,
-                RedirectStandardError = true,
-                RedirectStandardOutput = true,
-                UseShellExecute = false
-            };
-
-            if (string.IsNullOrEmpty(this.processStartInfo.FileName))
-            {
-                throw new FileNotFoundException("youtube-dl not found on path!");
-            }
-
-            if (!File.Exists(this.processStartInfo.FileName))
-            {
-                throw new FileNotFoundException($"{this.processStartInfo.FileName} not found!");
-            }
-
-            if (!this.isInfoProcess)
-            {
-                this.Info = await this.GetDownloadInfo() ?? new DownloadInfo();
-            }
-
-            this.RunCommand = this.processStartInfo.FileName + " " + this.processStartInfo.Arguments;
-
-            return this.RunCommand;
+        /// <summary>
+        ///     Prepares the arguments to pass into downloader
+        /// </summary>
+        /// <returns>
+        ///     The string of arguments built from the options
+        /// </returns>
+        public string PrepareDownload()
+        {
+            this.semaphore.Wait();
+            string args = PreparationService.PrepareDownload(this);
+            this.semaphore.Release();
+            return args;
         }
 
         /// <summary>
@@ -321,7 +302,7 @@ namespace NYoutubeDL
         /// <param name="tokenObj">
         ///     Cancellation token
         /// </param>
-        private void StandardError(object tokenObj)
+        internal void StandardError(object tokenObj)
         {
             CancellationToken token = (CancellationToken) tokenObj;
 
@@ -355,7 +336,7 @@ namespace NYoutubeDL
         /// <param name="tokenObj">
         ///     Cancellation token
         /// </param>
-        private void StandardOutput(object tokenObj)
+        internal void StandardOutput(object tokenObj)
         {
             CancellationToken token = (CancellationToken) tokenObj;
 
@@ -368,7 +349,7 @@ namespace NYoutubeDL
                         string output;
                         if (!string.IsNullOrEmpty(output = this.process.StandardOutput.ReadLine()))
                         {
-                            this.StandardOutputEvent?.Invoke(this, output);
+                            this.stdOutputEvent?.Invoke(this, output);
                         }
                     }
                 }
@@ -381,6 +362,10 @@ namespace NYoutubeDL
         /// <summary>
         ///     Occurs when standard output is received.
         /// </summary>
-        public event EventHandler<string> StandardOutputEvent;
+        public event EventHandler<string> StandardOutputEvent
+        {
+            add => this.stdOutputEvent += value;
+            remove => this.stdOutputEvent -= value;
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace NYoutubeDL.Sample
             ydlClient.StandardErrorEvent += (sender, error) => Console.WriteLine(error);
             ydlClient.StandardOutputEvent += (sender, output) => Console.WriteLine(output);
 
-            ydlClient.Download("https://www.youtube.com/watch?v=dQw4w9WgXcQ").Wait();
+            ydlClient.Download("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
         }
     }
 }

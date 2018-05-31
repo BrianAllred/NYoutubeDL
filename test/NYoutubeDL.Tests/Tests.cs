@@ -41,7 +41,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.PostProcessingOptions.ExtractAudio = true;
 
-            Assert.True(ydlClient.PrepareDownload().Result.Contains(extractAudioOptionString));
+            Assert.True(ydlClient.PrepareDownload().Contains(extractAudioOptionString));
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.VideoSelectionOptions.Date = new DateTime(2017, 02, 01);
 
-            Assert.True(ydlClient.PrepareDownload().Result.Contains(dateDateTimeOption));
+            Assert.True(ydlClient.PrepareDownload().Contains(dateDateTimeOption));
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.PostProcessingOptions.AudioFormat = Enums.AudioFormat.mp3;
 
-            Assert.True(ydlClient.PrepareDownload().Result.Contains(audioFormatEnumOption));
+            Assert.True(ydlClient.PrepareDownload().Contains(audioFormatEnumOption));
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.DownloadOptions.BufferSize = new FileSizeRate(5.5, Enums.ByteUnit.M);
 
-            Assert.True(ydlClient.PrepareDownload().Result.Contains(bufferSizeFileSizeRateOption));
+            Assert.True(ydlClient.PrepareDownload().Contains(bufferSizeFileSizeRateOption));
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.DownloadOptions.BufferSize = new FileSizeRate("5.5M");
 
-            Assert.True(ydlClient.PrepareDownload().Result.Contains(bufferSizeFileSizeRateOption));
+            Assert.True(ydlClient.PrepareDownload().Contains(bufferSizeFileSizeRateOption));
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.NetworkOptions.SocketTimeout = 5;
 
-            Assert.True(ydlClient.PrepareDownload().Result.Contains(socketTimeoutIntOption));
+            Assert.True(ydlClient.PrepareDownload().Contains(socketTimeoutIntOption));
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.DownloadOptions.Retries = -1;
 
-            Assert.True(ydlClient.PrepareDownload().Result.Contains(retriesIntOption));
+            Assert.True(ydlClient.PrepareDownload().Contains(retriesIntOption));
         }
 
         [Fact]
@@ -115,9 +115,7 @@ namespace NYoutubeDL.Tests
         {
             YoutubeDL ydlClient = new YoutubeDL();
 
-            ydlClient.GetDownloadInfo(
-                    @"https://www.youtube.com/watch?v=dQw4w9WgXcQ https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-").
-                Wait();
+            ydlClient.GetDownloadInfo(@"https://www.youtube.com/watch?v=dQw4w9WgXcQ https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-");
 
             MultiDownloadInfo info = ydlClient.Info as MultiDownloadInfo;
             Assert.NotEqual(info, null);
@@ -128,8 +126,7 @@ namespace NYoutubeDL.Tests
         {
             YoutubeDL ydlClient = new YoutubeDL();
 
-            ydlClient.GetDownloadInfo(@"https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-").
-                Wait();
+            ydlClient.GetDownloadInfo(@"https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-");
 
             PlaylistDownloadInfo info = ydlClient.Info as PlaylistDownloadInfo;
             Assert.NotEqual(info, null);
@@ -140,7 +137,7 @@ namespace NYoutubeDL.Tests
         {
             YoutubeDL ydlClient = new YoutubeDL();
 
-            ydlClient.GetDownloadInfo(@"https://www.youtube.com/watch?v=dQw4w9WgXcQ").Wait();
+            ydlClient.GetDownloadInfo(@"https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 
             VideoDownloadInfo info = ydlClient.Info as VideoDownloadInfo;
             Assert.NotEqual(info, null);
@@ -188,7 +185,7 @@ namespace NYoutubeDL.Tests
 
             ydlClient.Options.AuthenticationOptions.Username = "testUser";
 
-            Assert.True(ydlClient.PrepareDownload().Result.Contains(usernameStringOption));
+            Assert.True(ydlClient.PrepareDownload().Contains(usernameStringOption));
         }
     }
 }

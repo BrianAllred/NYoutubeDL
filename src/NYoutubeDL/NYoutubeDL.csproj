@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.8.0</Version>
+    <Version>0.9.0</Version>
     <Authors>Brian Allred</Authors>
     <Company />
     <Product />
@@ -13,8 +13,8 @@
     <PackageProjectUrl>http://github.com/brianallred/nyoutubedl</PackageProjectUrl>
     <PackageTags>youtube-dl</PackageTags>
     <NeutralLanguage></NeutralLanguage>
-    <AssemblyVersion>0.8.0.0</AssemblyVersion>
-    <FileVersion>0.8.0.0</FileVersion>
+    <AssemblyVersion>0.9.0.0</AssemblyVersion>
+    <FileVersion>0.9.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

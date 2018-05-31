@@ -50,17 +50,15 @@ See the [documentation](https://github.com/rg3/youtube-dl/blob/master/README.md#
 6. Start the download:
         
         // Prepare the download (in case you need to validate the command before starting the download)
-        string commandToRun = await youtubeDl.PrepareDownload();
+        string commandToRun = await youtubeDl.PrepareDownloadAsync();
         // Alternatively
-        string commandToRun = youtubeDl.PrepareDownload().Result;
+        string commandToRun = youtubeDl.PrepareDownload();
 
          // Just let it run
-        youtubeDl.Download();
+        youtubeDl.DownloadAsync();
 
         // Wait for it
-        await youtubeDl.Download();
-        // Or
-        youtubeDl.Download().Wait();
+        youtubeDl.Download();
 
         // Or provide video url
         youtubeDl.Download("http://videosite.com/videoUrl");
