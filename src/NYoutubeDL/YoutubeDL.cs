@@ -149,9 +149,6 @@ namespace NYoutubeDL
         /// <param name="prepareDownload">
         ///     Whether we need to prepare the download.
         /// </param>
-        /// <returns>
-        ///     Process created.
-        /// </returns>
         public async Task Download(bool prepareDownload = false)
         {
             if (prepareDownload)
@@ -189,9 +186,6 @@ namespace NYoutubeDL
         ///     Also handle output from process.
         /// </summary>
         /// <param name="videoUrl">URL of video to download</param>
-        /// <returns>
-        ///     Process created.
-        /// </returns>
         public async Task Download(string videoUrl)
         {
             this.VideoUrl = videoUrl;
